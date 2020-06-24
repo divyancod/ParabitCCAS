@@ -64,6 +64,7 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
                 comboboxmodelstate.addElement(pbtempdashboard.empdata.getEmpstate());
                 distcombomodel.addElement(pbtempdashboard.empdata.getEmpDist());
                 setCity(pbtempdashboard.empdata.getEmpstate(),pbtempdashboard.empdata.getEmpDist());
+                getAdditionaldataCity();
                 break;
             case 4:
                 comboboxmodelstate.addElement(pbtempdashboard.empdata.getEmpstate());
@@ -75,6 +76,7 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
         }
         statescombo.addItemListener(this);
         distcombo.addItemListener(this);
+        citycombo.addItemListener(this);
         setTotalAreaData();
     }
     @Override
@@ -85,6 +87,9 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
         }else if(ie.getSource()==distcombo)
         {
             getAdditionaldataDist();
+        }else if(ie.getSource()==citycombo)
+        {
+            getAdditionaldataCity();
         }
     }
    
@@ -123,11 +128,12 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
     {
         try{
             //String query="select DISTINCT state from states";
-            String query="SELECT DISTINCT STATE FROM states LEFT JOIN pbtemployeetable ON states.state=pbtemployeetable.AreaState where pbtemployeetable.AreaState IS NULL";
+           // String query="SELECT DISTINCT STATE FROM states LEFT JOIN pbtemployeetable ON states.state=pbtemployeetable.AreaState where pbtemployeetable.AreaState IS NULL";
+            String query="SELECT DISTINCT states FROM pbtstates LEFT JOIN pbtemployeetable ON pbtstates.states=pbtemployeetable.AreaState where pbtemployeetable.AreaState IS NULL";
             db.rs2=db.stm.executeQuery(query);
             while(db.rs2.next())
             {
-                comboboxmodelstate.addElement(db.rs2.getString("state"));
+                comboboxmodelstate.addElement(db.rs2.getString("states"));
             }
         }catch(Exception e)
         {
@@ -140,7 +146,8 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
         try
         {
             //String query="select DISTINCT district from states where state='"+state+"'";
-            String query="SELECT DISTINCT district FROM states LEFT JOIN pbtemployeetable ON states.district=pbtemployeetable.Areadist where pbtemployeetable.AreaDist IS NULL and states.state='"+state+"'";
+            //String query="SELECT DISTINCT district FROM states LEFT JOIN pbtemployeetable ON states.district=pbtemployeetable.Areadist where pbtemployeetable.AreaDist IS NULL and states.state='"+state+"'";
+           String query="SELECT DISTINCT district FROM pbtstates LEFT JOIN pbtemployeetable ON pbtstates.district=pbtemployeetable.Areadist where pbtemployeetable.AreaDist IS NULL and pbtstates.states='"+state+"'";
             db.rs3=db.stm.executeQuery(query);
             while(db.rs3.next())
             {
@@ -156,16 +163,18 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
         try
         {
             //String query="select DISTINCT tehsil from states where state='"+state+"' and district='"+dist+"'";
-            String query="SELECT DISTINCT tehsil FROM states LEFT JOIN pbtemployeetable ON states.tehsil=pbtemployeetable.areacity where pbtemployeetable.AreaCity IS NULL and states.state='"+state+"' and states.district='"+dist+"'";
+            //String query="SELECT DISTINCT tehsil FROM states LEFT JOIN pbtemployeetable ON states.tehsil=pbtemployeetable.areacity where pbtemployeetable.AreaCity IS NULL and states.state='"+state+"' and states.district='"+dist+"'";
+            String query="SELECT DISTINCT SubDist FROM pbtstates LEFT JOIN pbtemployeetable ON pbtstates.subdist=pbtemployeetable.areacity where pbtemployeetable.AreaCity IS NULL and pbtstates.states='"+state+"' and pbtstates.district='"+dist+"'";
+            System.out.println(query);
             db.rs4=db.stm.executeQuery(query);
             while(db.rs4.next())
             {
-                citycombomodel.addElement(db.rs4.getString("tehsil"));
+                citycombomodel.addElement(db.rs4.getString("subDist"));
             }
             
         }catch(Exception e)
         {
-            
+            e.printStackTrace();
         }
     }
     String geid;
@@ -217,7 +226,7 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
     private void getAdditionalData()
     {
         state=statescombo.getSelectedItem().toString();
-        String query="select count(distinct district) as listdistrict from states where state='"+state+"'";
+        String query="select count(distinct district) as listdistrict,sum(tpopulation) as areatpop from pbtstates where states='"+state+"'";
         System.out.println(query);
         try{
         db.rs3=db.stm.executeQuery(query);
@@ -225,8 +234,9 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
         {
            //System.out.println(db.rs3.getString("listdistrict"));
            totaldist.setText("Total Districts : "+db.rs3.getString("listdistrict"));
+           areatpop.setText("Area Population : "+db.rs3.getString("areatpop"));
         }
-        query="select count(distinct tehsil) as city from states where state='"+state+"'";
+        query="select count(distinct subdist) as city from pbtstates where states='"+state+"'";
         db.rs3=db.stm.executeQuery(query);
         if(db.rs3.next())
         {
@@ -244,36 +254,56 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
         state=pbtempdashboard.empdata.getEmpstate();
         dist=distcombo.getSelectedItem().toString();
         totaldist.setVisible(false);
-        String query="select count(DISTINCT tehsil) as city from states where state='"+state+"' and district='"+dist+"'";
+        String query="select count(DISTINCT subdist) as city,sum(tpopulation) as areatpop from pbtstates where states='"+state+"' and district='"+dist+"'";
         System.out.println(query);
         try
         {
             db.rs3=db.stm.executeQuery(query);
             db.rs3.next();
             totalcity.setText("Total Cities : "+db.rs3.getString("city"));
+            areatpop.setText("Area Population : "+db.rs3.getString("areatpop"));
             
         }catch(Exception e)
         {
             e.printStackTrace();
         }
     }
+    private void getAdditionaldataCity()
+    {
+        state=pbtempdashboard.empdata.getEmpstate();
+        dist=pbtempdashboard.empdata.getEmpDist();
+        city=citycombo.getSelectedItem().toString();
+        String query="select sum(tpopulation) as areatpop from pbtstates where states='"+state+"' and district='"+dist+"' and subdist='"+city+"'";
+        System.out.println(query);
+        try
+        {
+            db.rs3=db.stm.executeQuery(query);
+            db.rs3.next();
+            areatpop.setText("Area Population : "+db.rs3.getString("areatpop"));
+            
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+    }
     private void setTotalAreaData()
     {
-        String query="select count(DISTINCT state) as state, COUNT(DISTINCT district) as dist, COUNT(DISTINCT tehsil) as city from states";
+        String query="select count(DISTINCT states) as state, COUNT(DISTINCT district) as dist, COUNT(DISTINCT subdist) as city, sum(TPopulation) as tpop  from pbtstates";
         int grade=pbtempdashboard.empdata.getEmpgrade();    
         switch (grade) {
             case 2:
-                query=query+" where state='"+pbtempdashboard.empdata.getEmpstate()+"'";
+                query=query+" where states='"+pbtempdashboard.empdata.getEmpstate()+"'";
                 break;
             case 3:
                 totaldist.setVisible(false);
                 totalcity.setVisible(false);
-                query=query+" where state='"+pbtempdashboard.empdata.getEmpstate()+"' and district='"+pbtempdashboard.empdata.getEmpDist()+"'";
+                query=query+" where states='"+pbtempdashboard.empdata.getEmpstate()+"' and district='"+pbtempdashboard.empdata.getEmpDist()+"'";
                 break;
             case 4:
                 totaldist.setVisible(false);
                 totalcity.setVisible(false);
-                query=query+" where state='"+pbtempdashboard.empdata.getEmpstate()+"' and district='"+pbtempdashboard.empdata.getEmpDist()+"' and tehsil='"+pbtempdashboard.empdata.getEmpCity()+"'";
+                query=query+" where states='"+pbtempdashboard.empdata.getEmpstate()+"' and district='"+pbtempdashboard.empdata.getEmpDist()+"' and subdist='"+pbtempdashboard.empdata.getEmpCity()+"'";
                 break;
             default:
                 break;
@@ -287,6 +317,7 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
             tstates.setText("Total States : "+db.rs5.getString("state"));
             tdists.setText("Total Districts : "+db.rs5.getString("dist"));
             tcities.setText("Total Cities : "+db.rs5.getString("city"));
+            tpop.setText("Total Population : "+db.rs5.getString("tpop"));
         }catch(Exception e)
         {
             e.printStackTrace();
@@ -316,6 +347,8 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
         tstates = new javax.swing.JLabel();
         tdists = new javax.swing.JLabel();
         tcities = new javax.swing.JLabel();
+        tpop = new javax.swing.JLabel();
+        areatpop = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -389,14 +422,14 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
 
         tcities.setText("Total Cities :");
 
+        tpop.setText("Total Population :");
+
+        areatpop.setText("Selected Area Total Population");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(545, 545, 545)
-                .addComponent(jLabel2)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -406,14 +439,22 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(tcities)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(totaldist))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(tstates)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tpop)
+                                    .addComponent(jLabel8)
+                                    .addComponent(tcities))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(areatpop)
+                                .addGap(161, 161, 161)
+                                .addComponent(totaldist))
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(statescombo, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(55, 55, 55)
                                 .addComponent(jLabel4)))
@@ -429,8 +470,10 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
                         .addGap(93, 93, 93))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tdists)
-                            .addComponent(jLabel8))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(515, 515, 515)
+                                .addComponent(jLabel2))
+                            .addComponent(tdists))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -438,9 +481,11 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
                 .addComponent(jLabel8)
-                .addGap(14, 14, 14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tpop)
+                .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(statescombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(distcombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -454,7 +499,8 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(totaldist)
-                            .addComponent(totalcity)))
+                            .addComponent(totalcity)
+                            .addComponent(areatpop)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addComponent(tdists)
@@ -517,6 +563,7 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel areatpop;
     private javax.swing.JComboBox<String> citycombo;
     private javax.swing.JComboBox<String> distcombo;
     private javax.swing.JLabel jLabel2;
@@ -531,6 +578,7 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
     private javax.swing.JLabel tdists;
     private javax.swing.JLabel totalcity;
     private javax.swing.JLabel totaldist;
+    private javax.swing.JLabel tpop;
     private javax.swing.JLabel tstates;
     // End of variables declaration//GEN-END:variables
 
