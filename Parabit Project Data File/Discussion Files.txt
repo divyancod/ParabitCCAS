@@ -1,0 +1,19 @@
+Job Seek Rule - Rule just like NSA Law India for working for month
+CWorkCat - Seperate table (fixing code like 1.economic activity 2.Non economic act 3.Both) thats why varchar 1
+workingsector - list will be visible In database we send data as 123 134 as (1 and 2 and 3)
+natureofwork-- depends on working sector
+workexp
+specilizationdescribtion
+specilizationexperence
+--------------------------------------------------
+distance caculator converting distance
+age calculator from age
+occupation pannel
+bmi calculator
+--------------------------------------------------
+logic in designing of NRI people
+--------------------------------------------------
+addition of new fuel if fuel doesn't exisits in our list.
+
+--------------------------------------------------------
+happiness factor - stem cell of people
