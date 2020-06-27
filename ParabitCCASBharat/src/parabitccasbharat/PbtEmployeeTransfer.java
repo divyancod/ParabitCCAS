@@ -9,6 +9,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -80,7 +84,7 @@ public class PbtEmployeeTransfer extends javax.swing.JDialog implements MouseLis
     private void dismissEmployee(String ceid)
     {
         String dceid=pbtempdashboard.empdata.getEmpid();
-        String query="update pbtemployeetable set areacity=NULL,areastate=NULL,areadist=NULL,status=0,percommt='Dismissed by "+dceid+"' where ceid='"+ceid+"'";
+        String query="update pbtemployeetable set areacity=NULL,areastate=NULL,areadist=NULL,status=-1,percommt='Dismissed by "+dceid+"' where ceid='"+ceid+"'";
         try
         {
             db.stm.execute(query);
@@ -114,7 +118,8 @@ public class PbtEmployeeTransfer extends javax.swing.JDialog implements MouseLis
     }
     private void swapEmployeeData(int row)
     {
-        String query="update pbtemployeetable set areacity='"+tablemodel.getValueAt(row,3)+"',areadist='"+tablemodel.getValueAt(row,4)+"',areastate='"+tablemodel.getValueAt(row,5)+"' where ceid='"+emptransferdata.getEmpid()+"'";
+        String percomment="Transferred";
+        String query="update pbtemployeetable set percommt='"+percomment+"',note='"+tablemodel.getValueAt(row,1)+"',areacity='"+tablemodel.getValueAt(row,3)+"',areadist='"+tablemodel.getValueAt(row,4)+"',areastate='"+tablemodel.getValueAt(row,5)+"' where ceid='"+emptransferdata.getEmpid()+"'";
         System.out.println(query);
         try
         {
@@ -123,7 +128,7 @@ public class PbtEmployeeTransfer extends javax.swing.JDialog implements MouseLis
         {
             e.printStackTrace();
         }
-        query="update pbtemployeetable set areacity='"+emptransferdata.getEmpCity()+"',areadist='"+emptransferdata.getEmpDist()+"',areastate='"+emptransferdata.getEmpstate()+"' where ceid='"+tablemodel.getValueAt(row,1)+"'";
+        query="update pbtemployeetable set crepempid='R"+emptransferdata.getEmpid()+"' where crepempid='"+emptransferdata.getEmpid()+"'";
         System.out.println(query);
         try
         {
@@ -132,6 +137,45 @@ public class PbtEmployeeTransfer extends javax.swing.JDialog implements MouseLis
         {
             e.printStackTrace();
         }
+        query="update pbtemployeetable set percommt='"+percomment+"',note='"+emptransferdata.getEmpid()+"',areacity='"+emptransferdata.getEmpCity()+"',areadist='"+emptransferdata.getEmpDist()+"',areastate='"+emptransferdata.getEmpstate()+"' where ceid='"+tablemodel.getValueAt(row,1)+"'";
+        System.out.println(query);
+        try
+        {
+            db.stm.execute(query);
+            query="update pbtemployeetable set crepempid='R"+tablemodel.getValueAt(row,1)+"' where crepempid='"+tablemodel.getValueAt(row,1)+"'";
+            System.out.println(query);
+             db.stm.execute(query);
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        /*query="update pbtemployeetable set crepempid='R"+tablemodel.getValueAt(row,1)+"' where crepempid='"+tablemodel.getValueAt(row,1)+"'";
+        System.out.println(query);
+        try
+        {
+            db.stm.execute(query);
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }*/
+        
+        //-----notification to employee--------------
+        String senderceid=pbtempdashboard.empdata.getEmpid();
+        String recievercied=emptransferdata.getEmpid();
+        String msg="ALL THE BEST. Your Transfer process is finsihed please check all the employees list and working.";
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println(sdf.format(cal.getTime()));
+        String time=sdf.format(cal.getTime());
+        String notify="insert into pbtnotification values ('"+senderceid+"','"+recievercied+"','"+time+"','"+msg+"','0','',NULL,'1'),('"+senderceid+"','"+tablemodel.getValueAt(row,1)+"','"+time+"','"+msg+"','0','',NULL,'1')";
+        try
+        {
+            db.stm.execute(notify);
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        System.out.println(notify);
     }
     
     /**

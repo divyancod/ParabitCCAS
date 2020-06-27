@@ -28,6 +28,7 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
     String s2,s3,s4,s5,s6,s7,s8,s9,s10;
     int s1;
     PbtEmpDashBoard pbtempdashboard;
+    boolean flag;
     public PbtNewAppoint(PbtEmpDashBoard pbtempdashboard) {
         super(pbtempdashboard,true);
         initComponents();
@@ -41,6 +42,7 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
         citycombomodel=(DefaultComboBoxModel)citycombo.getModel();
         tablemodel=(DefaultTableModel)table.getModel();
         setTable();
+        flag=true;
         table.addMouseListener(this);
         /*String states[]={"Andaman and Nicobar Islands","Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chandigarh","Chhattisgarh","Dadra and Nagar Haveli and Daman and Diu","Delhi",
                                             "Goa","Gujarat","Haryana","Himachal Pradesh","Jammu and Kashmir","Jharkhand","Karnataka","Kerala","Ladakh","Lakshadweep","Madhya Pradesh",
@@ -126,14 +128,25 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
     }
     private void setState()
     {
+        comboboxmodelstate.addElement("Select State");
         try{
             //String query="select DISTINCT state from states";
            // String query="SELECT DISTINCT STATE FROM states LEFT JOIN pbtemployeetable ON states.state=pbtemployeetable.AreaState where pbtemployeetable.AreaState IS NULL";
             String query="SELECT DISTINCT states FROM pbtstates LEFT JOIN pbtemployeetable ON pbtstates.states=pbtemployeetable.AreaState where pbtemployeetable.AreaState IS NULL";
             db.rs2=db.stm.executeQuery(query);
-            while(db.rs2.next())
+            if(db.rs2.next()==false)
+            {
+                flag=false;
+                System.out.println("false");
+                comboboxmodelstate.addElement("NO State Left");
+                statescombo.setEnabled(false);
+            }else{
+                flag=true;
+                comboboxmodelstate.addElement(db.rs2.getString("states"));
+           while(db.rs2.next())
             {
                 comboboxmodelstate.addElement(db.rs2.getString("states"));
+            }
             }
         }catch(Exception e)
         {
@@ -143,6 +156,7 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
     }
     private void setDist(String state)
     {
+        distcombomodel.addElement("Select District");
         try
         {
             //String query="select DISTINCT district from states where state='"+state+"'";
@@ -160,6 +174,7 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
     }
     private void setCity(String state,String dist)
     {
+        citycombomodel.addElement("Select City");
         try
         {
             //String query="select DISTINCT tehsil from states where state='"+state+"' and district='"+dist+"'";
@@ -189,7 +204,7 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
                 dist="All the district of State";
                 city="All the cities of District";
                 query="update pbtemployeetable set areacity='"+city+"',areadist='"+dist+"',crepempid='"+pbtempdashboard.empdata.getEmpid()+"',areastate='"+state+"',status='1' where geid='"+geid+"'";
-                setState();
+                //setState();/---------error by me
                 comboboxmodelstate.removeElement(state);
                 break;
             case 2:
@@ -587,7 +602,20 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
         int row = table.rowAtPoint(e.getPoint());
         System.out.println(e.getClickCount());
         int col = table.columnAtPoint(e.getPoint());
-        if (row >= 0 && col >= 0) {
+        if(statescombo.getSelectedItem().equals("Select State"))
+            flag=false;
+        else if(distcombo.getSelectedItem()==null && citycombo.getSelectedItem()==null)
+            flag=true;
+        else if(distcombo.getSelectedItem().equals("Select District"))
+            flag=false;
+        else if(citycombo.getSelectedItem()==null)
+            flag=true;
+        else if(citycombo.getSelectedItem().equals("Select City"))
+            flag=false;
+        else
+            flag=true;
+        
+        if (row >= 0 && col >= 0 && flag) {
             String gcid=(String)tablemodel.getValueAt(row,1);
             String finaldist=distcombo.getSelectedItem()+"";
             String finalcity=citycombo.getSelectedItem()+"";

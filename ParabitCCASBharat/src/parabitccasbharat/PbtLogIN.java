@@ -5,6 +5,8 @@
  */
 package parabitccasbharat;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -48,6 +50,34 @@ public class PbtLogIN extends javax.swing.JFrame {
         {
             System.out.println("error in fetchalldata() "+e);
         }
+    }
+    
+    private void crepChange(String note)
+    {
+        String query="update pbtemployeetable set crepempid='"+empdata.getEmpid()+"' where crepempid='R"+note+"'";
+        System.out.println(query);
+       try
+       {
+           db1.stm.execute(query);
+           query="update pbtemployeetable set percommt='Trasnferred with "+note+"',note=NULL where ceid='"+empdata.getEmpid()+"'";
+           db1.stm.execute(query);
+       }catch(Exception e)
+       {
+           e.printStackTrace();
+       }
+       
+      /* String msg="Your senior manager have been changed to "+empdata.getEmpname();
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time=sdf.format(cal.getTime());
+       String notify="insert into pbtnotification values ('"+empdata.getEmpid()+"','"+note+"','"+time+"','"+msg+"','0','',NULL,'1')";
+       try
+       {
+        db1.stm.execute(notify);
+       }catch(Exception e)
+       {
+           e.printStackTrace();
+       }*/
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -220,6 +250,11 @@ public class PbtLogIN extends javax.swing.JFrame {
         if(db1.rs1.next())
         {
             fetchAllData();
+            String note=db1.rs1.getString("note");
+            if(note!=null)
+            {
+                crepChange(note);
+            }
             setVisible(false);
             totp.setEnabled(false);
             btnlogin.setEnabled(false);
