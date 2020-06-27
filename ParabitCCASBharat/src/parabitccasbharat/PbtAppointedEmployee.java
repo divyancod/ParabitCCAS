@@ -33,7 +33,7 @@ public class PbtAppointedEmployee extends javax.swing.JDialog {
         setTable();
     }
     
-        private void setTable()
+    private void setTable()
     {
         tablemodel.setRowCount(0);
         try

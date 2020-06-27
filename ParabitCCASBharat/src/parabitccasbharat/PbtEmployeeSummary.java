@@ -41,6 +41,7 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
     }
     private void setTable()
     {
+        String te1="";
         int i=1;
         maintablemodel.setRowCount(0);
         String query="select * from pbtemployeetable where crepempid='"+pbtempdashboard.empdata.getEmpid()+"' and status='1'";
@@ -51,6 +52,7 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
             {
                 Object ob[]={i++,db.rs1.getString("areastate"),db.rs1.getString("areadist"),db.rs1.getString("areacity"),db.rs1.getString("empname"),
                             db.rs1.getString("empmob"),0,0,0};
+                te1=db.rs1.getString("areastate")+"-"+db.rs1.getString("areadist")+"-"+db.rs1.getString("areacity");
                 ceid.add(db.rs1.getString("ceid"));
                 maintablemodel.addRow(ob);
             }
@@ -59,6 +61,7 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
         {
             e.printStackTrace();
         } 
+        t1.setText(te1);
         
     }
     private void setSecondTable(int id)
@@ -95,6 +98,10 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
         secondtable = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         maintable = new javax.swing.JTable();
+        t1 = new javax.swing.JLabel();
+        a1 = new javax.swing.JLabel();
+        t2 = new javax.swing.JLabel();
+        a2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -132,6 +139,14 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
             maintable.getColumnModel().getColumn(0).setMaxWidth(40);
         }
 
+        t1.setText("PCO working under you");
+
+        a1.setText("AREA");
+
+        t2.setText("charge");
+
+        a2.setText("ARea");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -140,15 +155,34 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1126, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1209, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(t1)
+                                .addGap(278, 278, 278)
+                                .addComponent(a1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(t2)
+                                .addGap(371, 371, 371)
+                                .addComponent(a2)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(a1)
+                    .addComponent(t1))
                 .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(t2)
+                    .addComponent(a2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -199,10 +233,14 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel a1;
+    private javax.swing.JLabel a2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable maintable;
     private javax.swing.JTable secondtable;
+    private javax.swing.JLabel t1;
+    private javax.swing.JLabel t2;
     // End of variables declaration//GEN-END:variables
 @Override
 public void mouseClicked(MouseEvent m)

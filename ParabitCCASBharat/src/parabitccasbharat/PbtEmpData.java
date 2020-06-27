@@ -36,6 +36,46 @@ public class PbtEmpData {
         return empcity;
     }
 
+    public void setEmpname(String empname) {
+        this.empname = empname;
+    }
+
+    public void setEmpdesig(String empdesig) {
+        this.empdesig = empdesig;
+    }
+
+    public void setEmpgrade(int empgrade) {
+        this.empgrade = empgrade;
+    }
+
+    public void setEmpemail(String empemail) {
+        this.empemail = empemail;
+    }
+
+    public void setEmpcomputerno(String empcomputerno) {
+        this.empcomputerno = empcomputerno;
+    }
+
+    public void setEmpid(String empid) {
+        this.empid = empid;
+    }
+
+    public void setEmpstate(String empstate) {
+        this.empstate = empstate;
+    }
+
+    public void setEmpdist(String empdist) {
+        this.empdist = empdist;
+    }
+
+    public void setEmpcity(String empcity) {
+        this.empcity = empcity;
+    }
+    
+    public PbtEmpData()
+    {
+        
+    }
     public PbtEmpData(String empname, String empdesig, int empgrade, String empemail, String empcomputerno,String empid,String empstate,String empdist,String empcity) {
         this.empname = empname;
         this.empdesig = empdesig;

@@ -47,7 +47,12 @@ public class PbtManageEmployee extends javax.swing.JDialog {
             }
         });
 
-        jButton2.setText("Transfer Employee");
+        jButton2.setText("Transfer/Dismiss Employee");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Appointed Employee List");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -113,6 +118,13 @@ public class PbtManageEmployee extends javax.swing.JDialog {
         setVisible(true);
         
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        PbtEmployeeTransfer nob=new PbtEmployeeTransfer(pbtempdashboard,true,1);
+        setVisible(false);
+        nob.setVisible(true);
+        setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
