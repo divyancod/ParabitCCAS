@@ -9,6 +9,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -197,33 +199,36 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
     private void hireEmployee()
     {
         state=statescombo.getSelectedItem().toString();
+        System.out.println(state);
         int grade=pbtempdashboard.empdata.getEmpgrade();
         String query="";
+        String ceid=(grade+1)+geid;
         switch(grade){
             case 1: 
                 dist="All the district of State";
                 city="All the cities of District";
-                query="update pbtemployeetable set areacity='"+city+"',areadist='"+dist+"',crepempid='"+pbtempdashboard.empdata.getEmpid()+"',areastate='"+state+"',status='1' where geid='"+geid+"'";
+                
+                query="update pbtemployeetable set ceid='"+ceid+"',areacity='"+city+"',areadist='"+dist+"',crepempid='"+pbtempdashboard.empdata.getEmpid()+"',areastate='"+state+"',status='1' where geid='"+geid+"'";
                 //setState();/---------error by me
                 comboboxmodelstate.removeElement(state);
                 break;
             case 2:
                 city="All the cities of District";
                 dist=distcombo.getSelectedItem().toString();
-                query="update pbtemployeetable set areacity='"+city+"',areadist='"+dist+"',crepempid='"+pbtempdashboard.empdata.getEmpid()+"',areastate='"+state+"',status='1' where geid='"+geid+"'";
+                query="update pbtemployeetable set ceid='"+ceid+"',areacity='"+city+"',areadist='"+dist+"',crepempid='"+pbtempdashboard.empdata.getEmpid()+"',areastate='"+state+"',status='1' where geid='"+geid+"'";
                 distcombomodel.removeElement(dist);
                 break;
             case 3:
                 city=citycombo.getSelectedItem().toString();
                 dist=distcombo.getSelectedItem().toString();
-                query="update pbtemployeetable set areacity='"+city+"',areadist='"+dist+"',crepempid='"+pbtempdashboard.empdata.getEmpid()+"',areastate='"+state+"',status='1' where geid='"+geid+"'";
+                query="update pbtemployeetable set ceid='"+ceid+"',areacity='"+city+"',areadist='"+dist+"',crepempid='"+pbtempdashboard.empdata.getEmpid()+"',areastate='"+state+"',status='1' where geid='"+geid+"'";
                 citycombomodel.removeElement(city);
                 break;
             case 4:
                 state=statescombo.getSelectedItem().toString();
                 dist=distcombo.getSelectedItem().toString();
                 city=citycombo.getSelectedItem().toString();
-                query="update pbtemployeetable set areacity='"+city+"',areadist='"+dist+"',crepempid='"+pbtempdashboard.empdata.getEmpid()+"',areastate='"+state+"',status='1' where geid='"+geid+"'";
+                query="update pbtemployeetable set ceid='"+ceid+"',areacity='"+city+"',areadist='"+dist+"',crepempid='"+pbtempdashboard.empdata.getEmpid()+"',areastate='"+state+"',status='1' where geid='"+geid+"'";
                 break;
             default:
                 break;     
@@ -236,7 +241,7 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
         e.printStackTrace();
         }
         setTable();
-        
+        sendInternalNotification(ceid);
     }
     private void getAdditionalData()
     {
@@ -333,6 +338,23 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
             tdists.setText("Total Districts : "+db.rs5.getString("dist"));
             tcities.setText("Total Cities : "+db.rs5.getString("city"));
             tpop.setText("Total Population : "+db.rs5.getString("tpop"));
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
+    private void sendInternalNotification(String recieverceid)
+    {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time=sdf.format(cal.getTime());
+        String msg="Welcome to PARABIT CCAS. Kindly Visit proceed to employee hiring and working";
+        String senderceid=pbtempdashboard.empdata.getEmpid();
+        String notify="insert into pbtnotification values ('"+senderceid+"','"+recieverceid+"','"+time+"','"+msg+"','0','',NULL,'1')";
+        try
+        {
+            db.stm.execute(notify);
         }catch(Exception e)
         {
             e.printStackTrace();
