@@ -82,15 +82,15 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="9" rowCount="4">
-                <Column editable="true" title="Sno" type="java.lang.Object"/>
-                <Column editable="true" title="State" type="java.lang.Object"/>
-                <Column editable="true" title="District" type="java.lang.Object"/>
-                <Column editable="true" title="City" type="java.lang.Object"/>
-                <Column editable="true" title="EmployeeName" type="java.lang.Object"/>
-                <Column editable="true" title="Mobile Number" type="java.lang.Object"/>
-                <Column editable="true" title="Work Alloted" type="java.lang.Object"/>
-                <Column editable="true" title="Work Perfomed" type="java.lang.Object"/>
-                <Column editable="true" title="Work Pending" type="java.lang.Object"/>
+                <Column editable="false" title="Sno" type="java.lang.Object"/>
+                <Column editable="false" title="State" type="java.lang.Object"/>
+                <Column editable="false" title="District" type="java.lang.Object"/>
+                <Column editable="false" title="City" type="java.lang.Object"/>
+                <Column editable="false" title="EmployeeName" type="java.lang.Object"/>
+                <Column editable="false" title="Mobile Number" type="java.lang.Object"/>
+                <Column editable="false" title="Work Alloted" type="java.lang.Object"/>
+                <Column editable="false" title="Work Perfomed" type="java.lang.Object"/>
+                <Column editable="false" title="Work Pending" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -160,17 +160,18 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="9" rowCount="4">
-                <Column editable="true" title="Sno" type="java.lang.Object"/>
-                <Column editable="true" title="State" type="java.lang.Object"/>
-                <Column editable="true" title="District" type="java.lang.Object"/>
-                <Column editable="true" title="City" type="java.lang.Object"/>
-                <Column editable="true" title="EmployeeName" type="java.lang.Object"/>
-                <Column editable="true" title="Mobile Number" type="java.lang.Object"/>
-                <Column editable="true" title="Work Alloted" type="java.lang.Object"/>
-                <Column editable="true" title="Work Performed" type="java.lang.Object"/>
-                <Column editable="true" title="Work Pending" type="java.lang.Object"/>
+                <Column editable="false" title="Sno" type="java.lang.Object"/>
+                <Column editable="false" title="State" type="java.lang.Object"/>
+                <Column editable="false" title="District" type="java.lang.Object"/>
+                <Column editable="false" title="City" type="java.lang.Object"/>
+                <Column editable="false" title="EmployeeName" type="java.lang.Object"/>
+                <Column editable="false" title="Mobile Number" type="java.lang.Object"/>
+                <Column editable="false" title="Work Alloted" type="java.lang.Object"/>
+                <Column editable="false" title="Work Performed" type="java.lang.Object"/>
+                <Column editable="false" title="Work Pending" type="java.lang.Object"/>
               </Table>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
                 <Column maxWidth="40" minWidth="40" prefWidth="-1" resizable="true">

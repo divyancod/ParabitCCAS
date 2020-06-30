@@ -113,7 +113,7 @@ public class PbtManageEmployee extends javax.swing.JDialog {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
         setVisible(false);
-        PbtAppointedEmployee ob=new PbtAppointedEmployee(pbtempdashboard,true);
+        PbtAppointedEmployee ob=new PbtAppointedEmployee(pbtempdashboard,true,1);
         ob.setVisible(true);
         setVisible(true);
         

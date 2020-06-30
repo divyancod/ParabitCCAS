@@ -5,14 +5,10 @@
  */
 package parabitccasbharat;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -81,7 +77,7 @@ public class PbtEmployeeTransfer extends javax.swing.JDialog implements MouseLis
         }
     }
     
-    private void dismissEmployee(String ceid)
+    private void dismissEmployee(String ceid,PbtEmpData transferdata)
     {
         String dceid=pbtempdashboard.empdata.getEmpid();
         String query="update pbtemployeetable set areacity=NULL,areastate=NULL,areadist=NULL,status=-1,percommt='Dismissed by "+dceid+"' where ceid='"+ceid+"'";
@@ -89,6 +85,8 @@ public class PbtEmployeeTransfer extends javax.swing.JDialog implements MouseLis
         {
             db.stm.execute(query);
             setTable();
+            query="update pbtemployeetable set crepempid='D"+dceid+"' where crepempid='"+ceid+"'";
+            db.stm.execute(query);
         }catch(Exception e)
         {
             e.printStackTrace();
@@ -96,6 +94,7 @@ public class PbtEmployeeTransfer extends javax.swing.JDialog implements MouseLis
         JOptionPane.showMessageDialog(null,"Please Proceed for new hiring");
         setVisible(false);
         PbtNewAppoint nob=new PbtNewAppoint(pbtempdashboard);
+        //nob.setDismissedEmployee(ceid,transferdata);
         nob.setVisible(true);
         setTable();
         setVisible(true);
@@ -254,6 +253,12 @@ public class PbtEmployeeTransfer extends javax.swing.JDialog implements MouseLis
         String name=(String)tablemodel.getValueAt(row,2);
         if(row>=0 && framestatus ==1)
         {
+                PbtEmpData transferdata=new PbtEmpData();
+                transferdata.setEmpid(ceid);
+                transferdata.setEmpname(name);
+                transferdata.setEmpcity((String)tablemodel.getValueAt(row,3));
+                transferdata.setEmpdist((String)tablemodel.getValueAt(row,4));
+                transferdata.setEmpstate((String)tablemodel.getValueAt(row,5));
             String[] listoptions = {"Transfer Employee", "Dismiss Employee"}; 
             int option = JOptionPane.showOptionDialog(this,"Currently selected "+name, 
                "Select Operation",            
@@ -265,16 +270,10 @@ public class PbtEmployeeTransfer extends javax.swing.JDialog implements MouseLis
             );
             if(option==0)
             {
-                PbtEmpData transferdata=new PbtEmpData();
-                transferdata.setEmpid(ceid);
-                transferdata.setEmpname(name);
-                transferdata.setEmpcity((String)tablemodel.getValueAt(row,3));
-                transferdata.setEmpdist((String)tablemodel.getValueAt(row,4));
-                transferdata.setEmpstate((String)tablemodel.getValueAt(row,5));
                 swapEmployeeFrame(row,transferdata);
             }else if(option==1)
             {
-                dismissEmployee(ceid);
+                dismissEmployee(ceid,transferdata);
             }
             setTable();
         }else if(row>=0 && framestatus==2)

@@ -5,13 +5,16 @@
  */
 package parabitccasbharat;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Asus
  */
-public class PbtAppointedEmployee extends javax.swing.JDialog {
+public class PbtAppointedEmployee extends javax.swing.JDialog implements MouseListener {
 
     /**
      * Creates new form PbtAppointedEmployee
@@ -21,15 +24,18 @@ public class PbtAppointedEmployee extends javax.swing.JDialog {
     ParabitDBC db;
     String s2,s3,s4,s5,s6,s7,s8,s9,s10;
     int s1;
-    public PbtAppointedEmployee(PbtEmpDashBoard parent, boolean modal) {
+    int framecheck;
+    public PbtAppointedEmployee(PbtEmpDashBoard parent, boolean modal,int framecheck) {
         super(parent, modal);
         initComponents();
         setTitle("Appointed Employees");
         this.pbtempdashboard=parent;
         db=new ParabitDBC();
         setLocationRelativeTo(null);
+        this.framecheck=framecheck;
         tablemodel=(DefaultTableModel)table.getModel();
         System.out.println(pbtempdashboard.empdata.getEmpid());
+        table.addMouseListener(this);
         setTable();
     }
     
@@ -187,4 +193,42 @@ public class PbtAppointedEmployee extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+       int row=table.rowAtPoint(e.getPoint());
+        System.out.println(tablemodel.getValueAt(row, 2));
+       if(framecheck==2)
+       {
+           int opt=JOptionPane.showConfirmDialog(this, "Do you want to send message to "+tablemodel.getValueAt(row, 2));
+           if(opt==0)
+           {
+               PbtMessageFrame nob=new PbtMessageFrame(pbtempdashboard,true,2);
+               nob.setName(tablemodel.getValueAt(row, 1).toString(),tablemodel.getValueAt(row, 2).toString());
+               nob.setLocationRelativeTo(null);
+               nob.setVisible(true);
+           }
+           
+       }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        
+    }
 }

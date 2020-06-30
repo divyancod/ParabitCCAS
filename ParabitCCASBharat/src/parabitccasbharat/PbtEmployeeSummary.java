@@ -22,8 +22,9 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
     PbtEmpDashBoard pbtempdashboard;
     DefaultTableModel maintablemodel,secondtablemodel;
     ParabitDBC db;
-    ArrayList<String> ceid;
-    public PbtEmployeeSummary(PbtEmpDashBoard parent, boolean modal) {
+    ArrayList<String> ceid,juniorceid;
+    int framecount;
+    public PbtEmployeeSummary(PbtEmpDashBoard parent, boolean modal,int framecount) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
@@ -35,9 +36,12 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
         maintablemodel=(DefaultTableModel)maintable.getModel();
         secondtablemodel=(DefaultTableModel)secondtable.getModel();
         ceid=new ArrayList<String>();
+        juniorceid=new ArrayList<String>();
         setTable();
+        this.framecount=framecount;
         secondtable.setVisible(false);
         maintable.addMouseListener(this);
+        secondtable.addMouseListener(this);
     }
     private void setTable()
     {
@@ -68,6 +72,7 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
     {
         int counter=1;
         secondtablemodel.setRowCount(0);
+        juniorceid.clear();
         String query="select * from pbtemployeetable where crepempid='"+ceid.get(id)+"' and status='1'";
         try
         {
@@ -76,6 +81,7 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
             {
                 Object ob[]={counter++,db.rs2.getString("areastate"),db.rs2.getString("areadist"),db.rs2.getString("areacity"),db.rs2.getString("empname"),
                            db.rs2.getString("empmob"),0,0,0};
+                juniorceid.add(db.rs2.getString("ceid"));
                 secondtablemodel.addRow(ob);
             }
         }catch(Exception e)
@@ -115,7 +121,15 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
             new String [] {
                 "Sno", "State", "District", "City", "EmployeeName", "Mobile Number", "Work Alloted", "Work Perfomed", "Work Pending"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(secondtable);
         if (secondtable.getColumnModel().getColumnCount() > 0) {
             secondtable.getColumnModel().getColumn(0).setMinWidth(40);
@@ -132,7 +146,16 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
             new String [] {
                 "Sno", "State", "District", "City", "EmployeeName", "Mobile Number", "Work Alloted", "Work Performed", "Work Pending"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        maintable.setToolTipText("");
         jScrollPane2.setViewportView(maintable);
         if (maintable.getColumnModel().getColumnCount() > 0) {
             maintable.getColumnModel().getColumn(0).setMinWidth(40);
@@ -195,41 +218,6 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PbtEmployeeSummary.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PbtEmployeeSummary.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PbtEmployeeSummary.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PbtEmployeeSummary.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                PbtEmployeeSummary dialog = new PbtEmployeeSummary(new PbtEmpDashBoard(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -245,12 +233,31 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
 @Override
 public void mouseClicked(MouseEvent m)
 {
-    int row=0;
-    if(m.getSource()==maintable)
+    int count=m.getClickCount();
+    int row;
+    if(m.getSource()==maintable && count==1)
     {
        row=maintable.rowAtPoint(m.getPoint()); 
        setSecondTable(row);
     }
+    if(m.getSource()==maintable && count==2 && framecount==2)
+    {
+        row=maintable.rowAtPoint(m.getPoint()); 
+        System.out.print("hello");
+        PbtMessageFrame nob=new PbtMessageFrame(pbtempdashboard, true,1);
+        nob.setName(ceid.get(row), secondtablemodel.getValueAt(row, 4).toString());
+        nob.setLocationRelativeTo(null);
+        nob.setVisible(true);
+    }
+    if(m.getSource()==secondtable && framecount==2)
+    {
+        row=secondtable.rowAtPoint(m.getPoint()); 
+        PbtMessageFrame nob=new PbtMessageFrame(pbtempdashboard, true,1);
+        nob.setName(juniorceid.get(row), secondtablemodel.getValueAt(row, 4).toString());
+        nob.setLocationRelativeTo(null);
+        nob.setVisible(true);
+    }
+    
 }
 @Override
 public void mousePressed(MouseEvent m){}

@@ -93,6 +93,11 @@ public class PbtEmpDashBoard extends javax.swing.JFrame {
         btn2.setText("Work Assignment");
 
         btn3.setText("Notifications");
+        btn3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn3ActionPerformed(evt);
+            }
+        });
 
         btn4.setText("Employee Summary");
         btn4.addActionListener(new java.awt.event.ActionListener() {
@@ -242,10 +247,17 @@ public class PbtEmpDashBoard extends javax.swing.JFrame {
     private void btn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4ActionPerformed
 
         setVisible(false);
-        PbtEmployeeSummary nob=new PbtEmployeeSummary(this,true);
+        PbtEmployeeSummary nob=new PbtEmployeeSummary(this,true,1);
         nob.setVisible(true);
         setVisible(true);
     }//GEN-LAST:event_btn4ActionPerformed
+
+    private void btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3ActionPerformed
+        setVisible(false);
+        PbtNotification nob=new PbtNotification(this,true);
+        nob.setVisible(true);
+        setVisible(true);
+    }//GEN-LAST:event_btn3ActionPerformed
 
     /**
      * @param args the command line arguments

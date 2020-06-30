@@ -31,6 +31,7 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
     int s1;
     PbtEmpDashBoard pbtempdashboard;
     boolean flag;
+    String transferceid;
     public PbtNewAppoint(PbtEmpDashBoard pbtempdashboard) {
         super(pbtempdashboard,true);
         initComponents();
@@ -134,7 +135,8 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
         try{
             //String query="select DISTINCT state from states";
            // String query="SELECT DISTINCT STATE FROM states LEFT JOIN pbtemployeetable ON states.state=pbtemployeetable.AreaState where pbtemployeetable.AreaState IS NULL";
-            String query="SELECT DISTINCT states FROM pbtstates LEFT JOIN pbtemployeetable ON pbtstates.states=pbtemployeetable.AreaState where pbtemployeetable.AreaState IS NULL";
+            //String query="SELECT DISTINCT states FROM pbtstates LEFT JOIN pbtemployeetable ON pbtstates.states=pbtemployeetable.AreaState where pbtemployeetable.AreaState IS NULL";
+            String query="SELECT DISTINCT States FROM `pbtstates`WHERE States NOT IN (SELECT DISTINCT Areastate FROM `pbtemployeetable` WHERE Status = 1 and Grade='2')";
             db.rs2=db.stm.executeQuery(query);
             if(db.rs2.next()==false)
             {
@@ -163,7 +165,8 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
         {
             //String query="select DISTINCT district from states where state='"+state+"'";
             //String query="SELECT DISTINCT district FROM states LEFT JOIN pbtemployeetable ON states.district=pbtemployeetable.Areadist where pbtemployeetable.AreaDist IS NULL and states.state='"+state+"'";
-           String query="SELECT DISTINCT district FROM pbtstates LEFT JOIN pbtemployeetable ON pbtstates.district=pbtemployeetable.Areadist where pbtemployeetable.AreaDist IS NULL and pbtstates.states='"+state+"'";
+          // String query="SELECT DISTINCT district FROM pbtstates LEFT JOIN pbtemployeetable ON pbtstates.district=pbtemployeetable.Areadist where pbtemployeetable.AreaDist IS NULL and pbtstates.states='"+state+"'";
+            String query="SELECT DISTINCT District FROM `pbtstates`WHERE District NOT IN (SELECT DISTINCT AreaDist FROM `pbtemployeetable` WHERE Status = 1 and AreaState = '"+state+"' and Grade = 3) AND States = '"+state+"'";
             db.rs3=db.stm.executeQuery(query);
             while(db.rs3.next())
             {
@@ -181,7 +184,8 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
         {
             //String query="select DISTINCT tehsil from states where state='"+state+"' and district='"+dist+"'";
             //String query="SELECT DISTINCT tehsil FROM states LEFT JOIN pbtemployeetable ON states.tehsil=pbtemployeetable.areacity where pbtemployeetable.AreaCity IS NULL and states.state='"+state+"' and states.district='"+dist+"'";
-            String query="SELECT DISTINCT SubDist FROM pbtstates LEFT JOIN pbtemployeetable ON pbtstates.subdist=pbtemployeetable.areacity where pbtemployeetable.AreaCity IS NULL and pbtstates.states='"+state+"' and pbtstates.district='"+dist+"'";
+           // String query="SELECT DISTINCT SubDist FROM pbtstates LEFT JOIN pbtemployeetable ON pbtstates.subdist=pbtemployeetable.areacity where pbtemployeetable.AreaCity IS NULL and pbtstates.states='"+state+"' and pbtstates.district='"+dist+"'";
+            String query="SELECT DISTINCT SubDist FROM pbtstates where SubDist NOT IN( select DISTINCT areacity from pbtemployeetable where Areastate='"+state+"' and grade='4' and areadist='"+dist+"') and States='"+state+"' and District='"+dist+"'";
             System.out.println(query);
             db.rs4=db.stm.executeQuery(query);
             while(db.rs4.next())
@@ -203,6 +207,7 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
         int grade=pbtempdashboard.empdata.getEmpgrade();
         String query="";
         String ceid=(grade+1)+geid;
+        String junupdtquery="update pbtemployeetable set crepempid='"+ceid+"' where crepempid='D"+pbtempdashboard.empdata.getEmpid()+"' and areastate='"+state+"'";
         switch(grade){
             case 1: 
                 dist="All the district of State";
@@ -236,6 +241,13 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
         System.out.println(query);
         try{
         db.stm.executeUpdate(query);
+        System.out.println(junupdtquery);
+        db.stm.execute(junupdtquery);
+        //if(framecount==2)
+        //{
+            query="update pbtemployeetable set crepempid='"+ceid+"' where crepempid='"+transferceid+"'";
+            db.stm.executeUpdate(query);
+        //}
         }catch(Exception e)
         {
         e.printStackTrace();
@@ -246,6 +258,19 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
     private void getAdditionalData()
     {
         state=statescombo.getSelectedItem().toString();
+        if(state.equals("Select State"))
+        {
+            //totaldist.setText("Total Districts : 0");
+            //areatpop.setText("Area Population : 0");
+            //totalcity.setText("Total Cities : 0");
+            totaldist.setVisible(false);
+            areatpop.setVisible(false);
+            totalcity.setVisible(false);
+            return;
+        }
+            totaldist.setVisible(true);
+            areatpop.setVisible(true);
+            totalcity.setVisible(true);
         String query="select count(distinct district) as listdistrict,sum(tpopulation) as areatpop from pbtstates where states='"+state+"'";
         System.out.println(query);
         try{
@@ -360,6 +385,15 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
             e.printStackTrace();
         }
     }
+    /*public void setDismissedEmployee(String ceid,PbtEmpData transferdata)
+    {
+        transferceid=ceid;
+        statescombo.removeAllItems();
+        statescombo.addItem(transferdata.getEmpstate());
+        distcombo.removeAllItems();
+        distcombo.addItem(transferdata.getEmpDist());
+        getAdditionalData();
+    }*/
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

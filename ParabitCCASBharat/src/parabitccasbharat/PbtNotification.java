@@ -17,10 +17,13 @@ public class PbtNotification extends javax.swing.JDialog {
      * Creates new form PbtNotification
      */
     ParabitDBC db;
-    public PbtNotification(java.awt.Frame parent, boolean modal) {
+    PbtEmpDashBoard pbtempdashboard;
+    public PbtNotification(PbtEmpDashBoard parent, boolean modal) {
         super(parent, modal);      
         initComponents();
+        setLocationRelativeTo(null);
         db=new ParabitDBC();
+        this.pbtempdashboard=parent;
         getNotifications();
     }
     private void getNotifications()
@@ -30,7 +33,7 @@ public class PbtNotification extends javax.swing.JDialog {
         ob.setRowCount(0);
         try
         {
-            String query="select * from pbtnotification"; //where recieverceid='"+empdata.getEmpid()+"'";
+            String query="select * from pbtnotification where recieverceid='"+pbtempdashboard.empdata.getEmpid()+"' or senderceid='"+pbtempdashboard.empdata.getEmpid()+"'";
             db.rs1=db.stm.executeQuery(query);
             while(db.rs1.next())
             {
@@ -53,32 +56,39 @@ public class PbtNotification extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        r1 = new javax.swing.JRadioButton();
+        r2 = new javax.swing.JRadioButton();
+        r3 = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         notification = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jRadioButton1.setText("Individual Message");
+        buttonGroup2.add(r1);
+        r1.setText("Individual Message");
+        r1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                r1ActionPerformed(evt);
+            }
+        });
 
-        jRadioButton2.setText("Lower Chain Message");
+        buttonGroup2.add(r2);
+        r2.setText("Lower Chain Message");
+        r2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                r2ActionPerformed(evt);
+            }
+        });
 
-        jRadioButton3.setText("Common Notification");
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
-
-        jButton1.setText("Send Notification");
-
-        jButton2.setText("Clear");
+        buttonGroup2.add(r3);
+        r3.setText("Common Notification");
+        r3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                r3ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Send Notification Area");
 
@@ -102,29 +112,28 @@ public class PbtNotification extends javax.swing.JDialog {
             }
         });
         jScrollPane3.setViewportView(notification);
+        if (notification.getColumnModel().getColumnCount() > 0) {
+            notification.getColumnModel().getColumn(0).setMinWidth(80);
+            notification.getColumnModel().getColumn(0).setMaxWidth(85);
+            notification.getColumnModel().getColumn(1).setMinWidth(150);
+            notification.getColumnModel().getColumn(1).setMaxWidth(160);
+            notification.getColumnModel().getColumn(2).setMinWidth(160);
+            notification.getColumnModel().getColumn(2).setMaxWidth(170);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(77, 77, 77)
-                .addComponent(jButton1)
-                .addGap(172, 172, 172))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(171, 171, 171)
-                        .addComponent(jRadioButton1)
-                        .addGap(158, 158, 158)
-                        .addComponent(jRadioButton2)
-                        .addGap(198, 198, 198)
-                        .addComponent(jRadioButton3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(69, 69, 69)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(r1)
+                        .addGap(180, 180, 180)
+                        .addComponent(r2)
+                        .addGap(206, 206, 206)
+                        .addComponent(r3))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,79 +144,56 @@ public class PbtNotification extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(54, 54, 54)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel1)
-                .addGap(25, 25, 25)
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton3))
-                .addGap(37, 37, 37)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(123, Short.MAX_VALUE))
+                    .addComponent(r1)
+                    .addComponent(r2)
+                    .addComponent(r3))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void r1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_r1ActionPerformed
+        setVisible(false);
+        PbtEmployeeSummary nob=new PbtEmployeeSummary(pbtempdashboard, true,2);
+        nob.setVisible(true);
+        setVisible(true);
+    }//GEN-LAST:event_r1ActionPerformed
+
+    private void r2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_r2ActionPerformed
+        setVisible(false);
+        PbtAppointedEmployee nob=new PbtAppointedEmployee(pbtempdashboard, true,2);
+        nob.setVisible(true);
+        setVisible(true);
+    }//GEN-LAST:event_r2ActionPerformed
+
+    private void r3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_r3ActionPerformed
+        PbtMessageFrame nob=new PbtMessageFrame(pbtempdashboard, true, 3);
+        nob.setLocationRelativeTo(null);
+        nob.setName("common","common");
+        nob.setVisible(true);
+    }//GEN-LAST:event_r3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PbtNotification.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PbtNotification.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PbtNotification.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PbtNotification.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                PbtNotification dialog = new PbtNotification(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+      
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTable notification;
+    private javax.swing.JRadioButton r1;
+    private javax.swing.JRadioButton r2;
+    private javax.swing.JRadioButton r3;
     // End of variables declaration//GEN-END:variables
 }
