@@ -20,6 +20,15 @@ public class PbtEmpData {
     private String empstate;
     private String empdist;
     private String empcity;
+    private String empcrepempid;
+
+    public String getEmpcrepempid() {
+        return empcrepempid;
+    }
+
+    public void setEmpcrepempid(String empcrepempid) {
+        this.empcrepempid = empcrepempid;
+    }
     
     public String getEmpDist()
     {

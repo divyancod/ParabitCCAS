@@ -46,6 +46,7 @@ public class PbtLogIN extends javax.swing.JFrame {
             String empdist=db1.rs1.getString("areadist");
             String empcity=db1.rs1.getString("areacity");
             empdata=new PbtEmpData(empname,empdesig,grade,empemail,empcomputerno,empid,empstate,empdist,empcity);
+            empdata.setEmpcrepempid(db1.rs1.getString("crepempid"));
         }catch(Exception e)
         {
             System.out.println("error in fetchalldata() "+e);
@@ -210,7 +211,7 @@ public class PbtLogIN extends javax.swing.JFrame {
         db1.rs1=db1.stm.executeQuery(query);
         if(db1.rs1.next())
         {
-            if(db1.rs1.getString("status").equals("0"))
+            if(db1.rs1.getString("status").equals("0") ||db1.rs1.getString("status").equals("-1"))
             {
                 JOptionPane.showMessageDialog(null,"You are not allowed to login kindly contact your senior","Access Denied",JOptionPane.ERROR_MESSAGE,null);
                 return;

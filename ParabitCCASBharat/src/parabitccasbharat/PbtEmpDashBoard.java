@@ -32,14 +32,15 @@ public class PbtEmpDashBoard extends javax.swing.JFrame {
         notification.setEnabled(false);
     }
 
-    private void getNotifications()
+    /*private void getNotifications()
     {
         DefaultTableModel ob=new DefaultTableModel();
         ob=(DefaultTableModel)notification.getModel();
         ob.setRowCount(0);
         try
         {
-            String query="select * from pbtnotification where recieverceid='"+empdata.getEmpid()+"'";
+            //String query="select * from pbtnotification where recieverceid='"+empdata.getEmpid()+"'";
+            String query="SELECT * FROM `pbtnotification` WHERE NotType='3' or RecieverCeId='"+empdata.getEmpid()+"' or RecieverCeId='"+empdata.getEmpcrepempid()+"' and NotType='2'";
             db.rs1=db.stm.executeQuery(query);
             while(db.rs1.next())
             {
@@ -49,15 +50,76 @@ public class PbtEmpDashBoard extends javax.swing.JFrame {
         }catch(Exception e)
         {
             System.out.println("Error in notification fetch"+e);
+        }  
+    }*/
+        private void getNotifications()
+    {
+        DefaultTableModel ob=new DefaultTableModel();
+        ob=(DefaultTableModel)notification.getModel();
+        ob.setRowCount(0);
+        String currentempid=empdata.getEmpid();
+        try
+        {
+            //String query="select * from pbtnotification where recieverceid='"+pbtempdashboard.empdata.getEmpid()+"' or senderceid='"+pbtempdashboard.empdata.getEmpid()+"'";
+            String query="select * from pbtnotification where RecieverCeId='"+currentempid+"'";
+            int grade=empdata.getEmpgrade();
+            switch(grade)
+            {
+                case 2: query=query+"or SenderCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and NotType='3'";
+                        break;
+    //select * from pbtnotification where RecieverCeId='31658' or SenderCeId=(select crepempid from pbtemployeetable where ceid='31658') and NotType='2' or SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='31658')) and NotType='3'
+                case 3: query=query+"or SenderCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and (NotType='2' or NotType='3') or SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"')) and NotType='3'";
+                        break;
+                case 4: query=query+"or (SenderCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"')) and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"'))) and (NotType='3'))";
+    //select * from pbtnotification where RecieverCeId='41687' or (SenderCeId=(select crepempid from pbtemployeetable where ceid='41687') and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='41687')) and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='41687'))) and (NotType='3'))                    
+                        break;  
+            }
+            query=query+" ORDER BY time DESC";
+            String type="";
+            String status="";
+            String sender="";
+            System.out.println(query);
+            db.rs1=db.stm.executeQuery(query);
+            while(db.rs1.next())
+            {
+                char senderchar=db.rs1.getString("senderceid").charAt(0);
+                switch (senderchar) {
+                    case '1':
+                        sender="Census Commissioner";
+                        break;
+                    case '2':
+                        if(db.rs1.getString("senderceid").equals("200"))
+                            sender="Home Ministry";
+                        else
+                            sender="Director of Census Operations";
+                        break;
+                    case '3':
+                        sender="Principle Charge Officer";
+                        break;
+                    default:
+                        sender="Charge Officer";
+                        break;
+                }
+                type=db.rs1.getString("NotType");
+                if(type.equals("1"))
+                    type="Individual";
+                else if(type.equals("2"))
+                    type="Lower Chain";
+                else if(type.equals("3"))
+                    type="General";
+                if(db.rs1.getString("senderceid").equals(currentempid))
+                    status="Sent";
+                else
+                    status="Received";
+             Object obj[]={db.rs1.getString("notid"),sender,status,db.rs1.getString("time"),db.rs1.getString("Message"),type};
+             ob.addRow(obj);
+            }   
+        }catch(Exception e)
+        {
+            System.out.println("Error in notification fetch"+e);
         }
         
     }
-    PbtEmpDashBoard()
-    {
-        initComponents();
-        //getNotifications();
-    }
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -78,7 +140,7 @@ public class PbtEmpDashBoard extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         btnlogout = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
         notification = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -125,32 +187,24 @@ public class PbtEmpDashBoard extends javax.swing.JFrame {
 
         notification.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Notification ID", "SenderCEID", "Time", "Message"
+                "Notification ID", "SenderCEID", "Status", "Time", "Message", "Type"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, true, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(notification);
-        if (notification.getColumnModel().getColumnCount() > 0) {
-            notification.getColumnModel().getColumn(0).setMinWidth(120);
-            notification.getColumnModel().getColumn(0).setMaxWidth(130);
-            notification.getColumnModel().getColumn(1).setMinWidth(160);
-            notification.getColumnModel().getColumn(1).setMaxWidth(170);
-            notification.getColumnModel().getColumn(2).setMinWidth(220);
-            notification.getColumnModel().getColumn(2).setMaxWidth(220);
-        }
+        jScrollPane3.setViewportView(notification);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -193,7 +247,7 @@ public class PbtEmpDashBoard extends javax.swing.JFrame {
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2)
+                .addComponent(jScrollPane3)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -219,9 +273,9 @@ public class PbtEmpDashBoard extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -287,11 +341,6 @@ public class PbtEmpDashBoard extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-               new PbtEmpDashBoard().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -304,7 +353,7 @@ public class PbtEmpDashBoard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable notification;
     private javax.swing.JLabel tfname;
