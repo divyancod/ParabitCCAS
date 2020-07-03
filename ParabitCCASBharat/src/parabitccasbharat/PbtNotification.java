@@ -59,10 +59,12 @@ public class PbtNotification extends javax.swing.JDialog implements ItemListener
                 case 2: query=query+"or SenderCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and NotType='3'";
                         break;
     //select * from pbtnotification where RecieverCeId='31658' or SenderCeId=(select crepempid from pbtemployeetable where ceid='31658') and NotType='2' or SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='31658')) and NotType='3'
-                case 3: query=query+"or SenderCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and (NotType='2' or NotType='3') or SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"')) and NotType='3'";
-                        break;
-                case 4: query=query+"or (SenderCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"')) and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"'))) and (NotType='3'))";
-    //select * from pbtnotification where RecieverCeId='41687' or (SenderCeId=(select crepempid from pbtemployeetable where ceid='41687') and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='41687')) and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='41687'))) and (NotType='3'))                    
+                case 3: //query=query+"or SenderCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and (NotType='2' or NotType='3') or SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"')) and NotType='3'";
+                        query=query+"or SenderCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and (NotType='2' or NotType='3') or (RecieverCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and NotType='2') or SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"')) and NotType='3'";
+                         break;
+                case 4: //query=query+"or (SenderCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"')) and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"'))) and (NotType='3'))";
+                          query=query+" or (SenderCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and (NotType='2' or NotType='3')) or (RecieverCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"')) and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"')) and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"'))) and (NotType='3'))";
+   //select * from pbtnotification where RecieverCeId='41687' or (SenderCeId=(select crepempid from pbtemployeetable where ceid='41687') and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='41687')) and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='41687'))) and (NotType='3'))                    
                         break;  
             }
             query=query+" ORDER BY time DESC";
@@ -74,19 +76,25 @@ public class PbtNotification extends javax.swing.JDialog implements ItemListener
             while(db.rs1.next())
             {
                 char senderchar=db.rs1.getString("senderceid").charAt(0);
-                if(senderchar=='1')
-                    sender="Census Commissioner";
-                else if(senderchar=='2')
-                {
-                    if(db.rs1.getString("senderceid").equals("200"))
-                        sender="Home Ministry";
-                    else
-                        sender="Director of Census Operations";
+                switch (senderchar) {
+                    case '1':
+                        sender="Census Commissioner";
+                        break;
+                    case '2':
+                        if(db.rs1.getString("senderceid").equals("200"))
+                            sender="Home Ministry";
+                        else
+                            sender="Director of Census Operations";
+                        break;
+                    case '3':
+                        sender="Principle Charge Officer";
+                        break;
+                    case '4':
+                        sender="Charge Officer";
+                        break;
+                    default:
+                        sender="SYSTEM ADMIN";
                 }
-                else if(senderchar=='3')
-                    sender="Principle Charge Officer";
-                else
-                    sender="Charge Officer";
                 type=db.rs1.getString("NotType");
                 if(type.equals("1"))
                     type="Individual";
@@ -97,7 +105,7 @@ public class PbtNotification extends javax.swing.JDialog implements ItemListener
                 if(db.rs1.getString("senderceid").equals(currentempid))
                     status="Sent to "+db.rs1.getString("RecieverCeId");
                 else
-                    status="Received from "+db.rs1.getString("RecieverCeId");
+                    status="Received from "+db.rs1.getString("SenderCeid");
              Object obj[]={db.rs1.getString("notid"),sender,status,db.rs1.getString("time"),db.rs1.getString("Message"),type};
              ob.addRow(obj);
             }   
@@ -281,6 +289,7 @@ public class PbtNotification extends javax.swing.JDialog implements ItemListener
         setVisible(false);
         PbtEmployeeSummary nob=new PbtEmployeeSummary(pbtempdashboard, true,2);
         nob.setVisible(true);
+        getNotifications();
         setVisible(true);
     }//GEN-LAST:event_r1ActionPerformed
 
@@ -288,6 +297,7 @@ public class PbtNotification extends javax.swing.JDialog implements ItemListener
         setVisible(false);
         PbtAppointedEmployee nob=new PbtAppointedEmployee(pbtempdashboard, true,2);
         nob.setVisible(true);
+        getNotifications();
         setVisible(true);
     }//GEN-LAST:event_r2ActionPerformed
 
@@ -296,6 +306,7 @@ public class PbtNotification extends javax.swing.JDialog implements ItemListener
         nob.setLocationRelativeTo(null);
         nob.setName("common","common");
         nob.setVisible(true);
+        getNotifications();
     }//GEN-LAST:event_r3ActionPerformed
 
     private void seniorcomboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seniorcomboActionPerformed

@@ -278,8 +278,8 @@ public class PbtEmployeeTransfer extends javax.swing.JDialog implements MouseLis
             setTable();
         }else if(row>=0 && framestatus==2)
         {
-            String s="You are about to swap work area of "+emptransferdata.getEmpname()+" with "+name;
-           int opt= JOptionPane.showConfirmDialog(null,s);
+            String s="You are about to transfer "+emptransferdata.getEmpname()+" with "+name+" \nAre you sure?";
+           int opt= JOptionPane.showConfirmDialog(null,s,"Confirm Transfer",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
            if(opt==0)
            {
            swapEmployeeData(row);

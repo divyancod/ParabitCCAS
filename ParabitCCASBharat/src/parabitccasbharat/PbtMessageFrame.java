@@ -49,11 +49,11 @@ public class PbtMessageFrame extends javax.swing.JDialog {
         }else{
         String senderceid=pbtempdashboard.empdata.getEmpid();
         if(framecheck==1)
-            notify="insert into pbtnotification values ('"+senderceid+"','"+ceid+"','"+time+"','"+msg+"',NULL,'',NULL,'1')";
+            notify="insert into pbtnotification values ('"+senderceid+"','"+ceid+"',now(),'"+msg+"',NULL,'',NULL,'1')";
         else if(framecheck==2)
-            notify="insert into pbtnotification values ('"+senderceid+"','"+ceid+"','"+time+"','"+msg+"',NULL,'',NULL,'2')";
+            notify="insert into pbtnotification values ('"+senderceid+"','"+ceid+"',now(),'"+msg+"',NULL,'',NULL,'2')";
         else if(framecheck==3)
-            notify="insert into pbtnotification values ('"+senderceid+"','"+"Common"+"','"+time+"','"+msg+"',NULL,'',NULL,'3')";
+            notify="insert into pbtnotification values ('"+senderceid+"','"+"Common"+"',now(),'"+msg+"',NULL,'',NULL,'3')";
         try
         {
             db.stm.execute(notify);

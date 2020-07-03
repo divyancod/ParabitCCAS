@@ -245,7 +245,7 @@ public void mouseClicked(MouseEvent m)
         row=maintable.rowAtPoint(m.getPoint()); 
         System.out.print("hello");
         PbtMessageFrame nob=new PbtMessageFrame(pbtempdashboard, true,1);
-        nob.setName(ceid.get(row), secondtablemodel.getValueAt(row, 4).toString());
+        nob.setName(ceid.get(row), maintablemodel.getValueAt(row, 4).toString());
         nob.setLocationRelativeTo(null);
         nob.setVisible(true);
     }

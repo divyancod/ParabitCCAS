@@ -5,6 +5,9 @@
  */
 package parabitccasbharat;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -14,64 +17,42 @@ import javax.swing.table.TableModel;
  *
  * @author Asus
  */
-public class PbtEmpDashBoard extends javax.swing.JFrame {
+public class PbtEmpDashBoard extends javax.swing.JFrame implements MouseListener{
 
     /**
      * Creates new form PbtEmpDashBoard
      */
     PbtEmpData empdata;
     ParabitDBC db;
+    DefaultTableModel ob;
     public PbtEmpDashBoard(PbtEmpData empdata) {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Employee Dashboard");
         this.empdata=empdata;
+        ob=new DefaultTableModel();
+        ob=(DefaultTableModel)notification.getModel();
         tfname.setText(empdata.getEmpname());
         db=new ParabitDBC();
         getNotifications();
-        notification.setEnabled(false);
+        notification.addMouseListener(this);
     }
 
-    /*private void getNotifications()
-    {
-        DefaultTableModel ob=new DefaultTableModel();
-        ob=(DefaultTableModel)notification.getModel();
-        ob.setRowCount(0);
-        try
-        {
-            //String query="select * from pbtnotification where recieverceid='"+empdata.getEmpid()+"'";
-            String query="SELECT * FROM `pbtnotification` WHERE NotType='3' or RecieverCeId='"+empdata.getEmpid()+"' or RecieverCeId='"+empdata.getEmpcrepempid()+"' and NotType='2'";
-            db.rs1=db.stm.executeQuery(query);
-            while(db.rs1.next())
-            {
-             Object obj[]={db.rs1.getString("notid"),db.rs1.getString("senderceid"),db.rs1.getString("time"),db.rs1.getString("Message")};
-             ob.addRow(obj);
-            }   
-        }catch(Exception e)
-        {
-            System.out.println("Error in notification fetch"+e);
-        }  
-    }*/
         private void getNotifications()
     {
-        DefaultTableModel ob=new DefaultTableModel();
-        ob=(DefaultTableModel)notification.getModel();
         ob.setRowCount(0);
         String currentempid=empdata.getEmpid();
         try
         {
-            //String query="select * from pbtnotification where recieverceid='"+pbtempdashboard.empdata.getEmpid()+"' or senderceid='"+pbtempdashboard.empdata.getEmpid()+"'";
             String query="select * from pbtnotification where RecieverCeId='"+currentempid+"'";
             int grade=empdata.getEmpgrade();
             switch(grade)
             {
                 case 2: query=query+"or SenderCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and NotType='3'";
                         break;
-    //select * from pbtnotification where RecieverCeId='31658' or SenderCeId=(select crepempid from pbtemployeetable where ceid='31658') and NotType='2' or SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='31658')) and NotType='3'
-                case 3: query=query+"or SenderCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and (NotType='2' or NotType='3') or SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"')) and NotType='3'";
-                        break;
-                case 4: query=query+"or (SenderCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"')) and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"'))) and (NotType='3'))";
-    //select * from pbtnotification where RecieverCeId='41687' or (SenderCeId=(select crepempid from pbtemployeetable where ceid='41687') and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='41687')) and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='41687'))) and (NotType='3'))                    
+                case 3: query=query+"or SenderCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and (NotType='2' or NotType='3') or (RecieverCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and NotType='2') or SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"')) and NotType='3'";
+                         break;
+                case 4: query=query+" or (SenderCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and (NotType='2' or NotType='3')) or (RecieverCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"')) and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"')) and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"'))) and (NotType='3'))";
                         break;  
             }
             query=query+" ORDER BY time DESC";
@@ -96,21 +77,28 @@ public class PbtEmpDashBoard extends javax.swing.JFrame {
                     case '3':
                         sender="Principle Charge Officer";
                         break;
-                    default:
+                    case '4':
                         sender="Charge Officer";
                         break;
+                    default:
+                        sender="SYSTEM ADMIN";
                 }
                 type=db.rs1.getString("NotType");
                 if(type.equals("1"))
                     type="Individual";
                 else if(type.equals("2"))
+                {
                     type="Lower Chain";
+                }
                 else if(type.equals("3"))
+                {
                     type="General";
+                }
                 if(db.rs1.getString("senderceid").equals(currentempid))
-                    status="Sent";
+                    status="Sent to "+db.rs1.getString("RecieverCeId");
                 else
-                    status="Received";
+                    status="Received from "+db.rs1.getString("SenderCeid");
+       
              Object obj[]={db.rs1.getString("notid"),sender,status,db.rs1.getString("time"),db.rs1.getString("Message"),type};
              ob.addRow(obj);
             }   
@@ -358,4 +346,30 @@ public class PbtEmpDashBoard extends javax.swing.JFrame {
     private javax.swing.JTable notification;
     private javax.swing.JLabel tfname;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(e.getSource()==notification)
+        {
+            int row=notification.rowAtPoint(e.getPoint());
+            String msg="From : "+ob.getValueAt(row,1)+"\n"+ob.getValueAt(row, 4);
+            JOptionPane.showMessageDialog(null,msg);
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
 }
