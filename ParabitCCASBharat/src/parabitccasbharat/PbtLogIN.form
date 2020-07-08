@@ -117,6 +117,9 @@
     <Component class="javax.swing.JTextField" name="tempid">
     </Component>
     <Component class="javax.swing.JTextField" name="temppass">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="hello@123"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lotp">
       <Properties>
@@ -124,6 +127,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="totp">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="1601"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnok">
       <Properties>

@@ -106,7 +106,11 @@ public class PbtLogIN extends javax.swing.JFrame {
 
         jLabel2.setText("Employee Password : ");
 
+        temppass.setText("hello@123");
+
         lotp.setText("OTP : ");
+
+        totp.setText("1601");
 
         btnok.setText("Submit");
         btnok.addActionListener(new java.awt.event.ActionListener() {

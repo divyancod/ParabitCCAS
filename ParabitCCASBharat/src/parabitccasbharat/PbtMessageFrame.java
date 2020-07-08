@@ -22,6 +22,7 @@ public class PbtMessageFrame extends javax.swing.JDialog {
     PbtEmpDashBoard pbtempdashboard;
     ParabitDBC db;
     int framecheck;//1--- individual 2--lower chain
+    String enddate;
     public PbtMessageFrame(PbtEmpDashBoard parent, boolean modal,int framecheck) {
         super(parent, modal);
         initComponents();
@@ -29,6 +30,11 @@ public class PbtMessageFrame extends javax.swing.JDialog {
         this.pbtempdashboard=parent;
         this.framecheck=framecheck;
         db=new ParabitDBC();
+        if(framecheck==1){
+            datechooser.setVisible(false);
+            datechooserlabel.setVisible(false);
+        }
+        messagearea.requestFocus();
     }
 
     public void setName(String ceid,String name)
@@ -38,10 +44,25 @@ public class PbtMessageFrame extends javax.swing.JDialog {
     }
     private void sendNotification()
     {
-        Calendar cal = Calendar.getInstance();
+        if(framecheck==2 || framecheck==3){
+        if(datechooser.getDate()==null){
+              JOptionPane.showMessageDialog(null,"Please select end date of this notification.","End Date",JOptionPane.ERROR_MESSAGE);
+              return;
+          }else
+          {
+                Calendar cal = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String time=sdf.format(cal.getTime());
+                enddate=sdf.format(datechooser.getDate());
+                int flag=enddate.compareTo(time);
+                if(flag<0){
+                    JOptionPane.showMessageDialog(null,"Notification can't be issued in back date.","End Date",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+          }
+        }
+        enddate=enddate+" 23:59:59";
         String notify="";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String time=sdf.format(cal.getTime());
         String msg=messagearea.getText().trim();
         if(msg.isEmpty())
         {
@@ -49,13 +70,14 @@ public class PbtMessageFrame extends javax.swing.JDialog {
         }else{
         String senderceid=pbtempdashboard.empdata.getEmpid();
         if(framecheck==1)
-            notify="insert into pbtnotification values ('"+senderceid+"','"+ceid+"',now(),'"+msg+"',NULL,'',NULL,'1')";
+            notify="insert into pbtnotification values ('"+senderceid+"','"+ceid+"',now(),'"+msg+"',0,NULL,NULL,'1')";
         else if(framecheck==2)
-            notify="insert into pbtnotification values ('"+senderceid+"','"+ceid+"',now(),'"+msg+"',NULL,'',NULL,'2')";
+            notify="insert into pbtnotification values ('"+senderceid+"','"+ceid+"',now(),'"+msg+"',0,'"+enddate+"',NULL,'2')";
         else if(framecheck==3)
-            notify="insert into pbtnotification values ('"+senderceid+"','"+"Common"+"',now(),'"+msg+"',NULL,'',NULL,'3')";
+            notify="insert into pbtnotification values ('"+senderceid+"','"+"Common"+"',now(),'"+msg+"',0,'"+enddate+"',NULL,'3')";
         try
         {
+            System.out.println(notify);
             db.stm.execute(notify);
         }catch(Exception e)
         {
@@ -80,6 +102,8 @@ public class PbtMessageFrame extends javax.swing.JDialog {
         namelabel = new javax.swing.JLabel();
         sendbtn = new javax.swing.JButton();
         clearbtn = new javax.swing.JButton();
+        datechooser = new com.toedter.calendar.JDateChooser();
+        datechooserlabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -103,6 +127,8 @@ public class PbtMessageFrame extends javax.swing.JDialog {
             }
         });
 
+        datechooserlabel.setText("Select End Date :");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,7 +139,10 @@ public class PbtMessageFrame extends javax.swing.JDialog {
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(namelabel)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(datechooserlabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(datechooser, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(596, Short.MAX_VALUE)
@@ -125,8 +154,12 @@ public class PbtMessageFrame extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(namelabel)
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(namelabel)
+                        .addComponent(datechooserlabel))
+                    .addComponent(datechooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
@@ -169,6 +202,8 @@ public class PbtMessageFrame extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton clearbtn;
+    private com.toedter.calendar.JDateChooser datechooser;
+    private javax.swing.JLabel datechooserlabel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea messagearea;
     private javax.swing.JLabel namelabel;

@@ -7,6 +7,9 @@ package parabitccasbharat;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -25,14 +28,17 @@ public class PbtEmpDashBoard extends javax.swing.JFrame implements MouseListener
     PbtEmpData empdata;
     ParabitDBC db;
     DefaultTableModel ob;
+    ArrayList<Integer> nottype;
     public PbtEmpDashBoard(PbtEmpData empdata) {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Employee Dashboard");
         this.empdata=empdata;
         ob=new DefaultTableModel();
+        nottype=new ArrayList<Integer>();
         ob=(DefaultTableModel)notification.getModel();
-        tfname.setText(empdata.getEmpname());
+        tfname.setText(empdata.getEmpname()+"("+empdata.getEmpid()+")");
+        post.setText(empdata.getEmpdesig()+" :");
         db=new ParabitDBC();
         getNotifications();
         notification.addMouseListener(this);
@@ -41,10 +47,13 @@ public class PbtEmpDashBoard extends javax.swing.JFrame implements MouseListener
         private void getNotifications()
     {
         ob.setRowCount(0);
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currenttime=sdf.format(cal.getTime());
         String currentempid=empdata.getEmpid();
         try
         {
-            String query="select * from pbtnotification where RecieverCeId='"+currentempid+"'";
+            String query="select * from pbtnotification where (RecieverCeId='"+currentempid+"'";
             int grade=empdata.getEmpgrade();
             switch(grade)
             {
@@ -55,7 +64,7 @@ public class PbtEmpDashBoard extends javax.swing.JFrame implements MouseListener
                 case 4: query=query+" or (SenderCeId=(select crepempid from pbtemployeetable where ceid='"+currentempid+"') and (NotType='2' or NotType='3')) or (RecieverCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"')) and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"')) and (NotType='2' or NotType='3')) or (SenderCeId=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid=(select crepempid from pbtemployeetable where ceid='"+currentempid+"'))) and (NotType='3'))";
                         break;  
             }
-            query=query+" ORDER BY time DESC";
+            query=query+") and msgstatus=0 ORDER BY time DESC";
             String type="";
             String status="";
             String sender="";
@@ -84,15 +93,22 @@ public class PbtEmpDashBoard extends javax.swing.JFrame implements MouseListener
                         sender="SYSTEM ADMIN";
                 }
                 type=db.rs1.getString("NotType");
+                nottype.add(Integer.parseInt(type));
                 if(type.equals("1"))
                     type="Individual";
                 else if(type.equals("2"))
                 {
                     type="Lower Chain";
+                    String readby=db.rs1.getString("readtime");
+                    if(readby.compareTo(currenttime)<0)
+                        continue;
                 }
                 else if(type.equals("3"))
                 {
                     type="General";
+                    String readby=db.rs1.getString("readtime");
+                    if(readby.compareTo(currenttime)<0)
+                        continue;
                 }
                 if(db.rs1.getString("senderceid").equals(currentempid))
                     status="Sent to "+db.rs1.getString("RecieverCeId");
@@ -104,7 +120,7 @@ public class PbtEmpDashBoard extends javax.swing.JFrame implements MouseListener
             }   
         }catch(Exception e)
         {
-            System.out.println("Error in notification fetch"+e);
+           e.printStackTrace();
         }
         
     }
@@ -122,7 +138,7 @@ public class PbtEmpDashBoard extends javax.swing.JFrame implements MouseListener
         btn3 = new javax.swing.JButton();
         btn4 = new javax.swing.JButton();
         btn5 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        post = new javax.swing.JLabel();
         tfname = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -141,6 +157,11 @@ public class PbtEmpDashBoard extends javax.swing.JFrame implements MouseListener
         });
 
         btn2.setText("Work Assignment");
+        btn2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn2ActionPerformed(evt);
+            }
+        });
 
         btn3.setText("Notifications");
         btn3.addActionListener(new java.awt.event.ActionListener() {
@@ -158,7 +179,7 @@ public class PbtEmpDashBoard extends javax.swing.JFrame implements MouseListener
 
         btn5.setText("Census Summary");
 
-        jLabel1.setText("Username : ");
+        post.setText("Currently Logged in as :");
 
         tfname.setText("Mr.Name");
 
@@ -202,7 +223,7 @@ public class PbtEmpDashBoard extends javax.swing.JFrame implements MouseListener
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(36, 36, 36)
-                        .addComponent(jLabel1)
+                        .addComponent(post)
                         .addGap(18, 18, 18)
                         .addComponent(tfname)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -245,7 +266,7 @@ public class PbtEmpDashBoard extends javax.swing.JFrame implements MouseListener
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(post)
                     .addComponent(tfname)
                     .addComponent(btnlogout))
                 .addGap(97, 97, 97)
@@ -301,6 +322,27 @@ public class PbtEmpDashBoard extends javax.swing.JFrame implements MouseListener
         setVisible(true);
     }//GEN-LAST:event_btn3ActionPerformed
 
+    private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
+        setVisible(false);
+        PbtWorkAssignmentScreen nob=new PbtWorkAssignmentScreen(this,true);
+        nob.setLocationRelativeTo(null);
+        nob.setVisible(true);
+        setVisible(true);
+    }//GEN-LAST:event_btn2ActionPerformed
+
+    private void updateReadMsg(String notid)
+    {
+        String query="update pbtnotification set msgstatus='1',readtime=now() where notid='"+notid+"'";
+        System.out.println(query);
+        try
+        {
+            db.stm.execute(query);
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        getNotifications();
+    }
     /**
      * @param args the command line arguments
      */
@@ -338,12 +380,12 @@ public class PbtEmpDashBoard extends javax.swing.JFrame implements MouseListener
     private javax.swing.JButton btn4;
     private javax.swing.JButton btn5;
     private javax.swing.JButton btnlogout;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable notification;
+    private javax.swing.JLabel post;
     private javax.swing.JLabel tfname;
     // End of variables declaration//GEN-END:variables
 
@@ -354,6 +396,11 @@ public class PbtEmpDashBoard extends javax.swing.JFrame implements MouseListener
             int row=notification.rowAtPoint(e.getPoint());
             String msg="From : "+ob.getValueAt(row,1)+"\n"+ob.getValueAt(row, 4);
             JOptionPane.showMessageDialog(null,msg);
+            if(nottype.get(row)==1)
+            {
+                System.out.println("helllo"+" --- "+ob.getValueAt(row,0));
+                updateReadMsg(ob.getValueAt(row,0).toString());
+            }
         }
     }
 

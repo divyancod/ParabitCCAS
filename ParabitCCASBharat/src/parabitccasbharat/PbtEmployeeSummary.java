@@ -8,6 +8,7 @@ package parabitccasbharat;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -90,7 +91,10 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
         }
         secondtable.setVisible(true);
     }
-
+    private void swapModel()
+    {
+        System.out.println("helo");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -249,13 +253,17 @@ public void mouseClicked(MouseEvent m)
         nob.setLocationRelativeTo(null);
         nob.setVisible(true);
     }
-    if(m.getSource()==secondtable && framecount==2)
+    if(m.getSource()==secondtable && framecount==2 & count==2)
     {
         row=secondtable.rowAtPoint(m.getPoint()); 
         PbtMessageFrame nob=new PbtMessageFrame(pbtempdashboard, true,1);
         nob.setName(juniorceid.get(row), secondtablemodel.getValueAt(row, 4).toString());
         nob.setLocationRelativeTo(null);
         nob.setVisible(true);
+    }
+    else if(m.getSource()==secondtable && framecount==2 && count==1)
+    {
+        swapModel();
     }
     
 }

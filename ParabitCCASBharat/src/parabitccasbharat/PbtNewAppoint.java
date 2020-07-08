@@ -113,17 +113,12 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
             {
                 s2=db.rs1.getString("GEID");
                 s3=db.rs1.getString("EmpName");
-                s4=db.rs1.getString("areacity");
-                s5=db.rs1.getString("areadist");
-                s6=db.rs1.getString("areastate");
-                s7=db.rs1.getString("pin");
                 s8=db.rs1.getString("workexp");
                 s9=db.rs1.getString("workexpcensus");
                 s10=db.rs1.getString("empmob");
-                Object ob[]={s1++,s2,s3,s4,s5,s6,s7,s8,s9,s10};
+                Object ob[]={s1++,s2,s3,s8,s9,s10};
                 tablemodel.addRow(ob);
-            }
-            
+            }     
         }catch(Exception e)
         {
             System.out.println(e);
@@ -376,7 +371,7 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
         String time=sdf.format(cal.getTime());
         String msg="Welcome to PARABIT CCAS. Kindly Visit proceed to employee hiring and working";
         String senderceid=pbtempdashboard.empdata.getEmpid();
-        String notify="insert into pbtnotification values ('"+senderceid+"','"+recieverceid+"','"+time+"','"+msg+"','0','',NULL,'1')";
+        String notify="insert into pbtnotification values ('"+senderceid+"','"+recieverceid+"',now(),'"+msg+"','0',NULL,NULL,'1')";
         try
         {
             db.stm.execute(notify);
@@ -427,13 +422,13 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "SNo", "GEID", "EmpName", "City", "District", "State", "PIN", "Work Exp", "Work Exp Census", "Mobile Number"
+                "SNo", "GEID", "EmpName", "Work Exp", "Work Exp Census", "Mobile Number"
             }
         ));
         jScrollPane1.setViewportView(table);
@@ -442,16 +437,8 @@ public class PbtNewAppoint extends javax.swing.JDialog implements MouseListener,
             table.getColumnModel().getColumn(0).setMaxWidth(35);
             table.getColumnModel().getColumn(1).setMinWidth(90);
             table.getColumnModel().getColumn(1).setMaxWidth(95);
-            table.getColumnModel().getColumn(3).setMinWidth(100);
-            table.getColumnModel().getColumn(3).setMaxWidth(105);
-            table.getColumnModel().getColumn(4).setMinWidth(100);
-            table.getColumnModel().getColumn(4).setMaxWidth(105);
-            table.getColumnModel().getColumn(5).setMinWidth(100);
-            table.getColumnModel().getColumn(5).setMaxWidth(105);
-            table.getColumnModel().getColumn(6).setMinWidth(70);
-            table.getColumnModel().getColumn(6).setMaxWidth(75);
-            table.getColumnModel().getColumn(9).setMinWidth(120);
-            table.getColumnModel().getColumn(9).setMaxWidth(125);
+            table.getColumnModel().getColumn(5).setMinWidth(120);
+            table.getColumnModel().getColumn(5).setMaxWidth(125);
         }
 
         statescombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
