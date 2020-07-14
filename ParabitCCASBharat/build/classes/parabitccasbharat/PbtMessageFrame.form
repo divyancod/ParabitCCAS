@@ -107,6 +107,11 @@
       </Events>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="datechooser">
+      <Properties>
+        <Property name="minSelectableDate" type="java.util.Date" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="new Date(System.currentTimeMillis())" type="code"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="datechooserlabel">
       <Properties>

@@ -18,7 +18,7 @@ import java.sql.Statement;
 public class ParabitDBC {
     
     Connection con;
-    Statement stm;
+    Statement stm,stm1;
     ResultSet rs1,rs2,rs3,rs4,rs5; 
     ParabitDBC()
     {
@@ -27,6 +27,7 @@ public class ParabitDBC {
             Class.forName("com.mysql.jdbc.Driver");
             con=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/parabitccasbharat","root","");
             stm=con.createStatement();
+            stm1=con.createStatement();
             
         }catch(Exception e)
         {

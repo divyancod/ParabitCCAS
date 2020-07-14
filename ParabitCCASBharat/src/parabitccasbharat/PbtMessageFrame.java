@@ -7,6 +7,7 @@ package parabitccasbharat;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 /**
@@ -126,6 +127,8 @@ public class PbtMessageFrame extends javax.swing.JDialog {
                 clearbtnActionPerformed(evt);
             }
         });
+
+        datechooser.setMinSelectableDate(new Date(System.currentTimeMillis()));
 
         datechooserlabel.setText("Select End Date :");
 

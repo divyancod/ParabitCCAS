@@ -43,14 +43,19 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="enumrequired" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="237" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                      <Component id="popperenum" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="118" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="populationtf" min="-2" pref="131" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="remainpop" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jDateChooser1" min="-2" pref="176" max="-2" attributes="0"/>
+                      <Component id="startdate" min="-2" pref="176" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
@@ -85,8 +90,10 @@
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="enumrequired" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="popperenum" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="remainpop" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jDateChooser1" min="-2" max="-2" attributes="0"/>
+                  <Component id="startdate" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="347" max="-2" attributes="0"/>
@@ -108,7 +115,7 @@
         <Component class="javax.swing.JTable" name="areatable">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="9" rowCount="4">
+              <Table columnCount="10" rowCount="4">
                 <Column editable="true" title="District Code" type="java.lang.Object"/>
                 <Column editable="true" title="SubDistCode" type="java.lang.Object"/>
                 <Column editable="true" title="Town_Vill" type="java.lang.Object"/>
@@ -116,12 +123,18 @@
                 <Column editable="true" title="Name" type="java.lang.Object"/>
                 <Column editable="true" title="Level" type="java.lang.Object"/>
                 <Column editable="true" title="Rural/Urban" type="java.lang.Object"/>
-                <Column editable="true" title="Total Household" type="java.lang.Object"/>
                 <Column editable="true" title="Total Population" type="java.lang.Object"/>
+                <Column editable="true" title="Remaining Population" type="java.lang.Object"/>
+                <Column editable="true" title="Currently Alloting" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
@@ -195,8 +208,8 @@
                 <Column editable="true" title="State" type="java.lang.Object"/>
                 <Column editable="true" title="PIN" type="java.lang.Object"/>
                 <Column editable="true" title="Emp Designation" type="java.lang.Object"/>
-                <Column editable="true" title="Work Exp Census" type="java.lang.Object"/>
                 <Column editable="true" title="Mobile Number" type="java.lang.Object"/>
+                <Column editable="true" title="Population Alloted" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -315,7 +328,12 @@
         <Property name="text" type="java.lang.String" value="Select Work Start Date :"/>
       </Properties>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+    <Component class="com.toedter.calendar.JDateChooser" name="startdate">
+      <Properties>
+        <Property name="minSelectableDate" type="java.util.Date" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="new Date(System.currentTimeMillis())" type="code"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="assignbtn">
       <Properties>
@@ -324,6 +342,16 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="assignbtnActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="popperenum">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Population per Enumerator"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="remainpop">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Population Remaining :"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
