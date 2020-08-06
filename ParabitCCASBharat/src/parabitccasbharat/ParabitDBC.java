@@ -17,10 +17,10 @@ import java.sql.Statement;
  */
 public class ParabitDBC {
     
-    Connection con;
-    Statement stm,stm1;
-    ResultSet rs1,rs2,rs3,rs4,rs5; 
-    ParabitDBC()
+    public Connection con;
+    public Statement stm,stm1;
+    public ResultSet rs1,rs2,rs3,rs4,rs5; 
+    public ParabitDBC()
     {
         try
         {
@@ -34,10 +34,23 @@ public class ParabitDBC {
             System.out.println("Error in Database Connection"+e);
         }
     }
+    public ParabitDBC(String util)
+    {
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+            con=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/parabitutil","root","");
+            stm=con.createStatement();
+            stm1=con.createStatement();
+        }catch(Exception e)
+        {
+            System.out.println("Error in Database Connection"+e);
+        }
+    }
     
     public static void main(String args[])
     {
-        ParabitDBC ob=new ParabitDBC();
+        ParabitDBC ob=new ParabitDBC("util");
     }
     
 }

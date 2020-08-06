@@ -21,6 +21,35 @@ public class PbtEmpData {
     private String empdist;
     private String empcity;
     private String empcrepempid;
+    private String wardno;
+    private String townvillname;
+    private String townvillno;
+
+    public String getTownvillno() {
+        return townvillno;
+    }
+
+    public void setTownvillno(String townvillno) {
+        this.townvillno = townvillno;
+    }
+
+    
+    public String getWardno() {
+        return wardno;
+    }
+
+    public void setWardno(String wardno) {
+        this.wardno = wardno;
+    }
+
+    public String getTownvill() {
+        return townvillname;
+    }
+
+    public void setTownvill(String townvill) {
+        this.townvillname = townvill;
+    }
+    
 
     public String getEmpcrepempid() {
         return empcrepempid;

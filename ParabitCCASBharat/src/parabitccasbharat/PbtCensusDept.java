@@ -93,7 +93,10 @@ public class PbtCensusDept extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
-        // TODO add your handling code here:
+        PbtFieldSelection nob=new PbtFieldSelection(pbtlogin, true,empdata);
+        setVisible(false);
+        nob.setLocationRelativeTo(null);
+        nob.setVisible(true);
     }//GEN-LAST:event_btn2ActionPerformed
 
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
@@ -101,6 +104,7 @@ public class PbtCensusDept extends javax.swing.JDialog {
            PbtCensusOffice nob=new PbtCensusOffice(pbtlogin,true,empdata);
            setVisible(false);
            nob.setVisible(true);
+           
            //setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_btn1ActionPerformed
