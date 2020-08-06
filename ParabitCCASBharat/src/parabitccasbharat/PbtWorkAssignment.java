@@ -633,6 +633,7 @@ public class PbtWorkAssignment extends javax.swing.JDialog implements ItemListen
 
     @Override
     public void mousePressed(MouseEvent e) {
+        System.out.println("hello");
     }
 
     @Override
