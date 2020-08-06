@@ -5,6 +5,10 @@
  */
 package parabitccasbharat;
 
+import ParabitModel.PbtHHModel;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author Asus
@@ -15,12 +19,54 @@ public class PbtHHEducationDetails extends javax.swing.JDialog {
      * Creates new form PbtHHEducationDetails
      */
     PbtSingleMemberDashBoard dashBoard;
+    PbtHHModel hhmodel;
     public PbtHHEducationDetails(PbtSingleMemberDashBoard parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.dashBoard=parent;
+        hhmodel=parent.hhmodel;
+        setDispData();
+    }
+    
+    private void setDispData()
+    {
+        educationstatus.setText(hhmodel.getCEduStatus());
+        institutename.setText(hhmodel.getCInstNmCity());
+        institutetype.setText(hhmodel.getCInstType());
+        technicaldegree.setText(hhmodel.getTechDeg());
+        nontechdegree.setText(hhmodel.getNonTechDeg());
+        if(hhmodel.getLitStatus()!=null)
+        {
+            if(hhmodel.getLitStatus().equals("Y"))
+                l1.setSelected(true);
+            else
+                l2.setSelected(true);
+        }
+        if(hhmodel.getNccnss()!=null)
+        {
+            if(hhmodel.getNccnss().equals("Y"))
+                ncc1.setSelected(true);
+            else
+                ncc2.setSelected(true);
+        }
     }
 
+    private void setModelData()
+    {
+        hhmodel.setCEduStatus(educationstatus.getText());
+        hhmodel.setCInstNmCity(institutename.getText());
+        hhmodel.setCInstType(institutetype.getText());
+        hhmodel.setTechDeg(technicaldegree.getText());
+        hhmodel.setNonTechDeg(nontechdegree.getText());
+        if(l1.isSelected())
+            hhmodel.setLitStatus("Y");
+        else
+            hhmodel.setLitStatus("N");
+        if(ncc1.isSelected())
+            hhmodel.setNccnss("Y");
+        else
+            hhmodel.setNccnss("Y");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,22 +79,22 @@ public class PbtHHEducationDetails extends javax.swing.JDialog {
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        educationstatus = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        institutename = new javax.swing.JTextField();
+        institutetype = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        technicaldegree = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        nontechdegree = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        ncc1 = new javax.swing.JRadioButton();
+        ncc2 = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
+        l1 = new javax.swing.JRadioButton();
+        l2 = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -66,24 +112,24 @@ public class PbtHHEducationDetails extends javax.swing.JDialog {
 
         jLabel7.setText("NCC/NSS :");
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Yes");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(ncc1);
+        ncc1.setText("Yes");
+
+        buttonGroup1.add(ncc2);
+        ncc2.setText("No");
+
+        jButton1.setText("Save and Back");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("No");
+        buttonGroup2.add(l1);
+        l1.setText("Literate");
 
-        jButton1.setText("Save and Proceed");
-
-        buttonGroup2.add(jRadioButton3);
-        jRadioButton3.setText("Literate");
-
-        buttonGroup2.add(jRadioButton4);
-        jRadioButton4.setText("Illiterate");
+        buttonGroup2.add(l2);
+        l2.setText("Illiterate");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,19 +147,19 @@ public class PbtHHEducationDetails extends javax.swing.JDialog {
                     .addComponent(jLabel7))
                 .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nontechdegree, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(technicaldegree, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(institutetype, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(institutename, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(educationstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jRadioButton1)
+                        .addComponent(ncc1)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton2))
+                        .addComponent(ncc2))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jRadioButton3)
+                        .addComponent(l1)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton4)))
+                        .addComponent(l2)))
                 .addContainerGap(273, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -126,33 +172,33 @@ public class PbtHHEducationDetails extends javax.swing.JDialog {
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jRadioButton3)
-                    .addComponent(jRadioButton4))
+                    .addComponent(l1)
+                    .addComponent(l2))
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(educationstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(institutename, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(institutetype, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(technicaldegree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nontechdegree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2))
+                    .addComponent(ncc1)
+                    .addComponent(ncc2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
@@ -161,9 +207,19 @@ public class PbtHHEducationDetails extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       setModelData();
+        Map<Object,Object> data = new HashMap();
+        data.put("litstatus",hhmodel.getLitStatus());
+        data.put("cedustatus",hhmodel.getCEduStatus());
+        data.put("cinstnmcity",hhmodel.getCInstNmCity());
+        data.put("cinsttype",hhmodel.getCInstType());
+        data.put("techdeg",hhmodel.getTechDeg());
+        data.put("nontechdeg",hhmodel.getNonTechDeg());
+        data.put("nccnss",hhmodel.getNccnss());
+        hhmodel.myQuery(data);
+        this.dashBoard.hhmodel=hhmodel;
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -199,6 +255,9 @@ public class PbtHHEducationDetails extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JTextField educationstatus;
+    private javax.swing.JTextField institutename;
+    private javax.swing.JTextField institutetype;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -207,14 +266,11 @@ public class PbtHHEducationDetails extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JRadioButton l1;
+    private javax.swing.JRadioButton l2;
+    private javax.swing.JRadioButton ncc1;
+    private javax.swing.JRadioButton ncc2;
+    private javax.swing.JTextField nontechdegree;
+    private javax.swing.JTextField technicaldegree;
     // End of variables declaration//GEN-END:variables
 }

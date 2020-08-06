@@ -251,7 +251,7 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
 
         jLabel11.setText("No of Childern Survived :");
 
-        jButton1.setText("Save and Proceed");
+        jButton1.setText("Save and Back");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);

@@ -5,6 +5,10 @@
  */
 package parabitccasbharat;
 
+import ParabitModel.PbtHHModel;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author Asus
@@ -15,12 +19,46 @@ public class PbtHHBankDetails extends javax.swing.JDialog {
      * Creates new form PbtHHBankDetails
      */
     PbtSingleMemberDashBoard dashBoard;
+    PbtHHModel hhmodel;
     public PbtHHBankDetails(PbtSingleMemberDashBoard parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.dashBoard=parent;
+        this.hhmodel=parent.hhmodel;
+        setData();
     }
-
+    private void setData()
+    {
+        bankaccno.setText(hhmodel.getBankAccNo());
+        ifsc.setText(hhmodel.getIfsc());
+        if(hhmodel.getNetBank()!=null)
+        {
+            if(hhmodel.getNetBank().equals("Y"))
+                nb1.setSelected(true);
+            else
+                nb2.setSelected(true);
+        }
+        if(hhmodel.getMobBank()!=null)
+        {
+            if(hhmodel.getMobBank().equals("Y"))
+                ib1.setSelected(true);
+            else
+                ib2.setSelected(true);
+        }
+    }
+    private void setModelData()
+    {
+        hhmodel.setBankAccNo(bankaccno.getText());
+        hhmodel.setIfsc(ifsc.getText());
+        if(nb1.isSelected())
+            hhmodel.setNetBank("Y");
+        else
+            hhmodel.setNetBank("N");
+        if(ib1.isSelected())
+            hhmodel.setMobBank("Y");
+        else
+            hhmodel.setMobBank("N");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,16 +68,18 @@ public class PbtHHBankDetails extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        bankaccno = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        ifsc = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        nb1 = new javax.swing.JRadioButton();
+        nb2 = new javax.swing.JRadioButton();
         jLabel4 = new javax.swing.JLabel();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
+        ib1 = new javax.swing.JRadioButton();
+        ib2 = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -50,17 +90,26 @@ public class PbtHHBankDetails extends javax.swing.JDialog {
 
         jLabel3.setText("Net Banking :");
 
-        jRadioButton1.setText("Yes");
+        buttonGroup1.add(nb1);
+        nb1.setText("Yes");
 
-        jRadioButton2.setText("No");
+        buttonGroup1.add(nb2);
+        nb2.setText("No");
 
         jLabel4.setText("Internet Banking :");
 
-        jRadioButton3.setText("Yes");
+        buttonGroup2.add(ib1);
+        ib1.setText("Yes");
 
-        jRadioButton4.setText("No");
+        buttonGroup2.add(ib2);
+        ib2.setText("No");
 
         jButton1.setText("Save and Proceed");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -72,7 +121,7 @@ public class PbtHHBankDetails extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(39, 39, 39)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(bankaccno, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -81,14 +130,14 @@ public class PbtHHBankDetails extends javax.swing.JDialog {
                         .addGap(39, 39, 39)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jRadioButton1)
+                                .addComponent(nb1)
                                 .addGap(18, 18, 18)
-                                .addComponent(jRadioButton2))
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(nb2))
+                            .addComponent(ifsc, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jRadioButton3)
+                                .addComponent(ib1)
                                 .addGap(18, 18, 18)
-                                .addComponent(jRadioButton4)))))
+                                .addComponent(ib2)))))
                 .addContainerGap(313, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -101,21 +150,21 @@ public class PbtHHBankDetails extends javax.swing.JDialog {
                 .addGap(76, 76, 76)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bankaccno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ifsc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2))
+                    .addComponent(nb1)
+                    .addComponent(nb2))
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jRadioButton3)
-                    .addComponent(jRadioButton4))
+                    .addComponent(ib1)
+                    .addComponent(ib2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(108, 108, 108))
@@ -123,6 +172,17 @@ public class PbtHHBankDetails extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        setModelData();
+        Map<Object,Object> data=new HashMap();
+        data.put("bankaccno",hhmodel.getBankAccNo());
+        data.put("ifsc",hhmodel.getIfsc());
+        data.put("netbank",hhmodel.getNetBank());
+        data.put("mobbank",hhmodel.getMobBank());
+        hhmodel.myQuery(data);
+        dashBoard.hhmodel=hhmodel;
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -156,16 +216,18 @@ public class PbtHHBankDetails extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField bankaccno;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JRadioButton ib1;
+    private javax.swing.JRadioButton ib2;
+    private javax.swing.JTextField ifsc;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JRadioButton nb1;
+    private javax.swing.JRadioButton nb2;
     // End of variables declaration//GEN-END:variables
 }

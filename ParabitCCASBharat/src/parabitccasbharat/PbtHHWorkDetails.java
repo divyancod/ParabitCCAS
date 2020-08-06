@@ -5,6 +5,10 @@
  */
 package parabitccasbharat;
 
+import ParabitModel.PbtHHModel;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author Asus
@@ -15,13 +19,101 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
      * Creates new form PbtHHWorkDetails
      */
     PbtSingleMemberDashBoard dashBoard;
+    PbtHHModel hhmodel;
+    String modetrvldatabase;
     public PbtHHWorkDetails(PbtSingleMemberDashBoard parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.dashBoard=parent;
-        jTextField15.setEditable(false);
+        this.hhmodel=parent.hhmodel;
+        modeoftrvl.setEditable(false);
+        setData();
     }
+    
+    private void setData()
+    {
+        if(hhmodel.getCWorkStat()!=null)
+        {
+            if(hhmodel.getCWorkStat().equals("Y"))
+                cwstatus1.setSelected(true);
+            else
+                cwstatus2.setSelected(true);
+        }
+        if(hhmodel.getWorkCategory()==1)
+            wcat1.setSelected(true);
+        else if(hhmodel.getWorkCategory()==2)
+            wcat2.setSelected(true);
+        else if(hhmodel.getWorkCategory()==3)
+            wcat3.setSelected(true);
+        wsector.setText(hhmodel.getWorkingSector()+"");
+        wnature.setText(hhmodel.getNatureOfWork()+"");
+        icsno.setText(hhmodel.getIcsNo()+"");
+        occupation.setText(hhmodel.getOccupation());
+        income.setText(hhmodel.getIncome()+"");
+        modeoftrvl.setText(hhmodel.getModOfTravel());
+        workexp.setText(hhmodel.getWorkExp());
+        specdesc.setText(hhmodel.getSpecDescription());
+        if(hhmodel.getItr()!=null)
+        {
+            if(hhmodel.getItr().equals("Y"))
+                itr1.setSelected(true);
+            else
+                itr2.setSelected(true);
+        }
+        specexp.setText(hhmodel.getSpecExp());
+        profno.setText(hhmodel.getProfLicNo());
+        busslicno.setText(hhmodel.getBusiRegNo());
+        if(hhmodel.getJobSeek()!=null)
+        {
+            if(hhmodel.getJobSeek().equals("Y"))
+                jobseek1.setSelected(true);
+            else
+                jobseek2.setSelected(true);
+            distancefromwork.setText(hhmodel.getDistFrmWorkPlace()+"");
+        }
+        
 
+    }
+    
+    private void setModelData()
+    {
+        if(jobseek1.isSelected())
+            hhmodel.setJobSeek("Y");
+        else if(jobseek2.isSelected())
+            hhmodel.setJobSeek("N");
+        if(cwstatus1.isSelected())
+            hhmodel.setCWorkStat("Y");
+        else if(cwstatus2.isSelected())
+            hhmodel.setCWorkStat("N");
+        if(wcat1.isSelected())
+            hhmodel.setWorkCategory(1);
+        else if(wcat2.isSelected())
+            hhmodel.setWorkCategory(2);
+        else if(wcat3.isSelected())
+            hhmodel.setWorkCategory(3);
+        hhmodel.setWorkingSector(Long.parseLong(wsector.getText()));
+        hhmodel.setNatureOfWork(Long.parseLong(wnature.getText()));
+        hhmodel.setIcsNo(Long.parseLong(icsno.getText()));
+        hhmodel.setOccupation(occupation.getText());
+        hhmodel.setIncome(Long.parseLong(income.getText()));
+        hhmodel.setModOfTravel(modetrvldatabase);
+        hhmodel.setWorkExp(workexp.getText());
+        hhmodel.setSpecDescription(specdesc.getText());
+        if(itr1.isSelected())
+            hhmodel.setItr("Y");
+        else if(itr2.isSelected())
+            hhmodel.setItr("N");
+        hhmodel.setSpecExp(specdesc.getText());
+        hhmodel.setProfLicNo(profno.getText());
+        hhmodel.setBusiRegNo(busslicno.getText());
+        if(!distancefromwork.getText().isEmpty())
+            hhmodel.setDistFrmWorkPlace(Double.parseDouble(distancefromwork.getText()));
+    }
+    public void setModeOfTravel(String text,String database)
+    {
+        modeoftrvl.setText(text);
+        modetrvldatabase=database;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,42 +129,44 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
         workcat = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        workexp = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        specdesc = new javax.swing.JTextField();
+        specexp = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        wsector = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        wnature = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        profno = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
+        icsno = new javax.swing.JTextField();
+        busslicno = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
+        occupation = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jTextField13 = new javax.swing.JTextField();
+        itr1 = new javax.swing.JRadioButton();
+        itr2 = new javax.swing.JRadioButton();
+        income = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jTextField14 = new javax.swing.JTextField();
+        distancefromwork = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jTextField15 = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
-        jRadioButton5 = new javax.swing.JRadioButton();
-        jRadioButton6 = new javax.swing.JRadioButton();
-        jRadioButton7 = new javax.swing.JRadioButton();
-        jRadioButton8 = new javax.swing.JRadioButton();
-        jRadioButton9 = new javax.swing.JRadioButton();
+        jobseek1 = new javax.swing.JRadioButton();
+        jobseek2 = new javax.swing.JRadioButton();
+        wcat1 = new javax.swing.JRadioButton();
+        wcat2 = new javax.swing.JRadioButton();
+        wcat3 = new javax.swing.JRadioButton();
+        cwstatus1 = new javax.swing.JRadioButton();
+        cwstatus2 = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        modeoftrvl = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -100,11 +194,11 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
 
         jLabel12.setText("Occupation :");
 
-        itr.add(jRadioButton1);
-        jRadioButton1.setText("Yes");
+        itr.add(itr1);
+        itr1.setText("Yes");
 
-        itr.add(jRadioButton2);
-        jRadioButton2.setText("No");
+        itr.add(itr2);
+        itr2.setText("No");
 
         jLabel13.setText("Income :");
 
@@ -114,26 +208,26 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
 
         jLabel16.setText("Job Seek :");
 
-        jobseek.add(jRadioButton3);
-        jRadioButton3.setText("Yes");
+        jobseek.add(jobseek1);
+        jobseek1.setText("Yes");
 
-        jobseek.add(jRadioButton4);
-        jRadioButton4.setText("No");
+        jobseek.add(jobseek2);
+        jobseek2.setText("No");
 
-        workcat.add(jRadioButton5);
-        jRadioButton5.setText("Economic Activity");
+        workcat.add(wcat1);
+        wcat1.setText("Economic Activity");
 
-        workcat.add(jRadioButton6);
-        jRadioButton6.setText("Non Economic Activity");
+        workcat.add(wcat2);
+        wcat2.setText("Non Economic Activity");
 
-        workcat.add(jRadioButton7);
-        jRadioButton7.setText("Both ");
+        workcat.add(wcat3);
+        wcat3.setText("Both ");
 
-        workstatus.add(jRadioButton8);
-        jRadioButton8.setText("Working");
+        workstatus.add(cwstatus1);
+        cwstatus1.setText("Working");
 
-        workstatus.add(jRadioButton9);
-        jRadioButton9.setText("Not Working");
+        workstatus.add(cwstatus2);
+        cwstatus2.setText("Not Working");
 
         jButton1.setText("Select");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -141,6 +235,17 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        jButton2.setText("Save and Back");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        modeoftrvl.setColumns(20);
+        modeoftrvl.setRows(5);
+        jScrollPane1.setViewportView(modeoftrvl);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -152,9 +257,9 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
                         .addGap(44, 44, 44)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton8)
+                        .addComponent(cwstatus1)
                         .addGap(52, 52, 52)
-                        .addComponent(jRadioButton9))
+                        .addComponent(cwstatus2))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(75, 75, 75)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,31 +269,31 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel12)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(occupation, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel10)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(icsno, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel7)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(wnature, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel13)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(income, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel15)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel6)
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jRadioButton5)
-                                            .addComponent(jRadioButton6)
-                                            .addComponent(jRadioButton7)
-                                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(wcat1)
+                                            .addComponent(wcat2)
+                                            .addComponent(wcat3)
+                                            .addComponent(wsector, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton1)))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,43 +303,47 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(specdesc, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(specexp, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(profno, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(busslicno, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel14)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(distancefromwork, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(workexp, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel11)
                                 .addGap(18, 18, 18)
-                                .addComponent(jRadioButton1)
+                                .addComponent(itr1)
                                 .addGap(18, 18, 18)
-                                .addComponent(jRadioButton2)
+                                .addComponent(itr2)
                                 .addGap(97, 97, 97)))
                         .addContainerGap(112, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel16)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton3)
+                        .addComponent(jobseek1)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton4)
+                        .addComponent(jobseek2)
                         .addGap(203, 203, 203))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(146, 146, 146))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,77 +352,80 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(workexp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRadioButton8)
-                            .addComponent(jRadioButton9))
+                            .addComponent(cwstatus1)
+                            .addComponent(cwstatus2))
                         .addComponent(jLabel1)))
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jRadioButton5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton7)
-                        .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(51, 51, 51)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(51, 51, 51)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(50, 50, 50)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel12)
-                            .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel16)
-                                .addComponent(jRadioButton3)
-                                .addComponent(jRadioButton4)))
-                        .addGap(50, 50, 50)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel13)
-                            .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(49, 49, 49)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel15)
-                            .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(specdesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jRadioButton2))
+                            .addComponent(itr1)
+                            .addComponent(itr2))
                         .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(specexp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(51, 51, 51)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(profno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(51, 51, 51)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(busslicno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(125, 125, 125)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
-                            .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(137, Short.MAX_VALUE))
+                            .addComponent(distancefromwork, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(72, 72, 72))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(wcat1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(wcat2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(wcat3)
+                        .addGap(32, 32, 32)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(wsector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(51, 51, 51)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(wnature, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(51, 51, 51)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(icsno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(50, 50, 50)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel16)
+                                .addComponent(jobseek1)
+                                .addComponent(jobseek2))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel12)
+                                .addComponent(occupation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(50, 50, 50)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(income, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(49, 49, 49)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15)
+                            .addComponent(jButton1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
 
         pack();
@@ -324,7 +436,34 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
         PbtHHDialogModOfTrav nob=new PbtHHDialogModOfTrav(dashBoard, true);
         nob.setLocationRelativeTo(null);
         nob.setVisible(true);
+        System.out.println(nob.text+"");
+        setModeOfTravel(nob.text,nob.database);
+        nob.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        setModelData();
+        Map<Object,Object> data=new HashMap();
+       data.put("jobseek",hhmodel.getJobSeek());
+       data.put("cworkstat",hhmodel.getCWorkStat());
+       data.put("workcategory",hhmodel.getWorkCategory());
+       data.put("workingsector",hhmodel.getWorkingSector());
+       data.put("natureofwork",hhmodel.getNatureOfWork());
+       data.put("icsno",hhmodel.getIcsNo());
+       data.put("occupation",hhmodel.getOccupation());
+       data.put("workexp",hhmodel.getWorkExp());
+       data.put("specdescription",hhmodel.getSpecDescription());
+       data.put("specexp",hhmodel.getSpecExp());
+       data.put("proflicno",hhmodel.getProfLicNo());
+       data.put("busiregno",hhmodel.getBusiRegNo());
+       data.put("income",hhmodel.getIncome());
+       data.put("itr",hhmodel.getItr());
+       data.put("distfrmworkplcae",hhmodel.getDistFrmWorkPlace());
+       data.put("modoftravel",hhmodel.getModOfTravel());
+       hhmodel.myQuery(data);
+       dashBoard.hhmodel=hhmodel;
+               
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -358,8 +497,17 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField busslicno;
+    private javax.swing.JRadioButton cwstatus1;
+    private javax.swing.JRadioButton cwstatus2;
+    private javax.swing.JTextField distancefromwork;
+    private javax.swing.JTextField icsno;
+    private javax.swing.JTextField income;
     private javax.swing.ButtonGroup itr;
+    private javax.swing.JRadioButton itr1;
+    private javax.swing.JRadioButton itr2;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -376,29 +524,22 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JRadioButton jRadioButton5;
-    private javax.swing.JRadioButton jRadioButton6;
-    private javax.swing.JRadioButton jRadioButton7;
-    private javax.swing.JRadioButton jRadioButton8;
-    private javax.swing.JRadioButton jRadioButton9;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.ButtonGroup jobseek;
+    private javax.swing.JRadioButton jobseek1;
+    private javax.swing.JRadioButton jobseek2;
+    private javax.swing.JTextArea modeoftrvl;
+    private javax.swing.JTextField occupation;
+    private javax.swing.JTextField profno;
+    private javax.swing.JTextField specdesc;
+    private javax.swing.JTextField specexp;
+    private javax.swing.JRadioButton wcat1;
+    private javax.swing.JRadioButton wcat2;
+    private javax.swing.JRadioButton wcat3;
+    private javax.swing.JTextField wnature;
     private javax.swing.ButtonGroup workcat;
+    private javax.swing.JTextField workexp;
     private javax.swing.ButtonGroup workstatus;
+    private javax.swing.JTextField wsector;
     // End of variables declaration//GEN-END:variables
 }

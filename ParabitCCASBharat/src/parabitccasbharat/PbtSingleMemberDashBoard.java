@@ -137,6 +137,7 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         rationcardtype = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -208,14 +209,14 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
 
         other.setText("Other Details");
 
-        jButton8.setText("Save Details");
+        jButton8.setText("Back");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
             }
         });
 
-        jButton9.setText("Save And Proceed");
+        jButton9.setText("Save And Back");
 
         jLabel7.setText("Ration Card Type :");
 
@@ -223,6 +224,13 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Clear All Field");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -267,6 +275,8 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
                         .addComponent(scanbtn)
                         .addGap(18, 18, 18)
                         .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -345,7 +355,8 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(aadhartf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(scanbtn)
-                            .addComponent(jButton1))
+                            .addComponent(jButton1)
+                            .addComponent(jButton2))
                         .addGap(47, 47, 47)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel13)
@@ -469,6 +480,10 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
        
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        hhmodel=new PbtHHModel();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     private void setModelData()
     {
         hhmodel.setRCardNo(rationcardno.getText());
@@ -547,6 +562,7 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
     private javax.swing.JTextField fullnametf;
     private javax.swing.JTextField gasno;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;

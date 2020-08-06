@@ -1232,7 +1232,7 @@ public class PbtHHModel{
          System.out.println(query);
          try
          {
-             db.stm.execute(query);
+             //db.stm.execute(query);
          }catch(Exception e)
          {
              e.printStackTrace();
