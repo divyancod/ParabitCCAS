@@ -20,8 +20,75 @@ public class PbtHHDialogModOfTrav extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.dashBoard=parent;
+        setSelect();
     }
-
+    public void setSelect()
+    {
+        if(dashBoard.hhmodel.getModOfTravel()!=null)
+        {
+            String values[]=dashBoard.hhmodel.getModOfTravel().split(",");
+            for(int i=0;i<values.length;i++)
+            {
+                if(values[i].equals("1"))
+                    t1.setSelected(true);
+                if(values[i].equals("2"))
+                    t2.setSelected(true);
+                if(values[i].equals("3"))
+                    t3.setSelected(true);
+                if(values[i].equals("4"))
+                    t4.setSelected(true);
+                if(values[i].equals("5"))
+                    t5.setSelected(true);
+                if(values[i].equals("6"))
+                   t6.setSelected(true);
+                if(values[i].equals("7"))
+                    t7.setSelected(true);
+                if(values[i].equals("8"))
+                    t8.setSelected(true);
+                if(values[i].equals("9"))
+                    t9.setSelected(true);
+                if(values[i].equals("10"))
+                    t10.setSelected(true);
+                if(values[i].equals("11"))
+                    t11.setSelected(true);
+                if(values[i].equals("12"))
+                    t12.setSelected(true);
+            }
+        }
+    }
+    public String getModes(String mode)
+    {
+        String values[]=mode.split(",");
+        String value="";
+        for(int i=0;i<values.length;i++)
+        {
+            if(values[i].equals("1"))
+                value=value+t1.getText()+"\n";
+            if(values[i].equals("2"))
+                value=value+t2.getText()+"\n";
+            if(values[i].equals("3"))
+                value=value+t3.getText()+"\n";
+            if(values[i].equals("4"))
+                value=value+t4.getText()+"\n";
+            if(values[i].equals("5"))
+                value=value+t5.getText()+"\n";
+            if(values[i].equals("6"))
+                value=value+t6.getText()+"\n";
+            if(values[i].equals("7"))
+                value=value+t7.getText()+"\n";
+            if(values[i].equals("8"))
+                value=value+t8.getText()+"\n";
+            if(values[i].equals("9"))
+                value=value+t9.getText()+"\n";
+            if(values[i].equals("10"))
+                value=value+t10.getText()+"\n";
+            if(values[i].equals("11"))
+                value=value+t11.getText()+"\n";
+            if(values[i].equals("12"))
+                value=value+t12.getText()+"\n";
+        }
+        return value;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

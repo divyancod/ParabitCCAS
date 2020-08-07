@@ -46,7 +46,7 @@ public class PbtHHModel{
   private String gender;
   private java.sql.Date dob;
   private long age;
-  private long wt;
+  private double wt;
   private double ht;
   private String veg;
   private String homeFood;
@@ -416,11 +416,11 @@ public class PbtHHModel{
   }
 
 
-  public long getWt() {
+  public double getWt() {
     return wt;
   }
 
-  public void setWt(long wt) {
+  public void setWt(double wt) {
     this.wt = wt;
   }
 
@@ -1149,6 +1149,8 @@ public class PbtHHModel{
                     "    LEFT JOIN pbtgas gas on aadhar.ANo = gas.AadNo\n" +
                     "    LEFT JOIN pbtmarriage marriage on (aadhar.ANo = marriage.HbAadNo or aadhar.ANo = marriage.WfAadNo)\n" +
                     "    LEFT JOIN pbtpan pan on aadhar.ANo = pan.AdhrNO\n" +
+                    "    LEFT JOIN pbtbank bank on aadhar.ANo = bank.Ano\n"+
+                    "    LEFT JOIN pbtvid vid on aadhar.ANo = vid.Ano\n"+
                     "where aadhar.ano='"+adhrno+"'";
         try
         {
@@ -1187,6 +1189,9 @@ public class PbtHHModel{
                 {
                     aproMarriageAge=Integer.toString(ageCal(db.rs1.getDate("DOM")));
                 }
+                ifsc=db.rs1.getString("ifsccode");
+                bankAccNo=db.rs1.getString("bankaccno");
+                vid=db.rs1.getString("VID");
             } 
         }catch(Exception e)
         {
