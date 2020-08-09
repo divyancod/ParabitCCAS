@@ -107,7 +107,7 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
             hhmodel.setItr("Y");
         else if(itr2.isSelected())
             hhmodel.setItr("N");
-        hhmodel.setSpecExp(specdesc.getText());
+        hhmodel.setSpecExp(specexp.getText());
         hhmodel.setProfLicNo(profno.getText());
         hhmodel.setBusiRegNo(busslicno.getText());
         if(!distancefromwork.getText().isEmpty())
@@ -174,6 +174,7 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
         modeoftrvl = new javax.swing.JTextArea();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -267,6 +268,9 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
                 jButton4ActionPerformed(evt);
             }
         });
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel17.setText("Work Details");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -365,11 +369,17 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jobseek2)
                         .addGap(203, 203, 203))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(381, 381, 381)
+                .addComponent(jLabel17)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(68, 68, 68)
+                .addContainerGap()
+                .addComponent(jLabel17)
+                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
@@ -421,7 +431,7 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
                             .addComponent(jLabel15)
                             .addComponent(jButton1)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(19, Short.MAX_VALUE))
+                        .addContainerGap(39, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
@@ -482,10 +492,11 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
        data.put("busiregno",hhmodel.getBusiRegNo());
        data.put("income",hhmodel.getIncome());
        data.put("itr",hhmodel.getItr());
-       data.put("distfrmworkplcae",hhmodel.getDistFrmWorkPlace());
+       data.put("distfrmworkplace",hhmodel.getDistFrmWorkPlace());
        data.put("modoftravel",hhmodel.getModOfTravel());
        hhmodel.myQuery(data);
        dashBoard.hhmodel=hhmodel;
+       dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -555,6 +566,7 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

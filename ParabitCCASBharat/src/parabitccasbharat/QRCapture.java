@@ -43,7 +43,7 @@ public class QRCapture extends JFrame implements Closeable {
 		super();
 
 		setLayout(new FlowLayout());
-		setTitle("Capture");
+		setTitle("Capture Aadhar");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
 

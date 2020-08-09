@@ -1215,11 +1215,21 @@ public class PbtHHModel{
      }
      public void myQuery(Map<Object,Object> mymap)
      {
-        String query="update pbthousehold set values sno='1'";
+         ParabitDBC db=new ParabitDBC();
+        String query="update pbtcensus_household set hh_sno='1'";
         for (Map.Entry<Object, Object> entry : mymap.entrySet()){
+            if(entry.getValue()!=null)
             query=query+","+entry.getKey()+"='"+entry.getValue()+"'";
         }
+        query=query+" where uid='"+uid+"'";
          System.err.println(""+query);
+         try
+         {
+             db.stm.execute(query);
+         }catch(Exception e)
+         {
+             e.printStackTrace();
+         }
      }
      
      public void myInsert(Map<Object,Object> data)
@@ -1237,7 +1247,7 @@ public class PbtHHModel{
          System.out.println(query);
          try
          {
-             //db.stm.execute(query);
+             db.stm.execute(query);
          }catch(Exception e)
          {
              e.printStackTrace();

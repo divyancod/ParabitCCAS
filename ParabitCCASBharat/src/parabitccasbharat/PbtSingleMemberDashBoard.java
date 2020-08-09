@@ -215,6 +215,11 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
         });
 
         other.setText("Other Details");
+        other.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                otherActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("Back");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -517,6 +522,12 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         hhmodel=new PbtHHModel();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void otherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_otherActionPerformed
+        PbtHHOthersDetails nob=new PbtHHOthersDetails(this, true);
+        nob.setLocationRelativeTo(null);
+        nob.setVisible(true);
+    }//GEN-LAST:event_otherActionPerformed
 
     private void setModelData()
     {

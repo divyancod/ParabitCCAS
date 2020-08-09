@@ -5,6 +5,8 @@
  */
 package parabitccasbharat;
 
+import parabitmodel.PbtHLModel;
+
 /**
  *
  * @author Asus
@@ -15,11 +17,13 @@ public class PbtUseOfHouse extends javax.swing.JDialog {
      * Creates new form PbtUseOfHouse
      */
     PbtEnumDashBoard dashboard;
+    public PbtHLModel hlmodel;
     public PbtUseOfHouse(PbtEnumDashBoard parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.dashboard=parent;
         setTitle("Use Of House");
+        hlmodel=new PbtHLModel();
     }
 
     /**

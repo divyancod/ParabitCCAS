@@ -136,6 +136,7 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
         hhmodel.setYoga(yoga.getValue()+"");
         hhmodel.setSpiritual(spritual.getValue()+"");
         hhmodel.setRatYourHealth(rateofhealth.getValue());
+        hhmodel.setMeditation(meditation.getValue()+"");
     }
     private void calBMI()
     {
@@ -254,7 +255,6 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
 
         homefood.setMajorTickSpacing(1);
         homefood.setMaximum(5);
-        homefood.setMinimum(1);
         homefood.setMinorTickSpacing(1);
         homefood.setPaintLabels(true);
         homefood.setPaintTicks(true);
@@ -263,7 +263,6 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
 
         outsidefood.setMajorTickSpacing(1);
         outsidefood.setMaximum(5);
-        outsidefood.setMinimum(1);
         outsidefood.setMinorTickSpacing(1);
         outsidefood.setPaintLabels(true);
         outsidefood.setPaintTicks(true);
@@ -272,7 +271,6 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
 
         sleep.setMajorTickSpacing(1);
         sleep.setMaximum(5);
-        sleep.setMinimum(1);
         sleep.setMinorTickSpacing(1);
         sleep.setPaintLabels(true);
         sleep.setPaintTicks(true);
@@ -281,7 +279,6 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
 
         checkup.setMajorTickSpacing(1);
         checkup.setMaximum(5);
-        checkup.setMinimum(1);
         checkup.setMinorTickSpacing(1);
         checkup.setPaintLabels(true);
         checkup.setPaintTicks(true);
@@ -290,14 +287,12 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
 
         yoga.setMajorTickSpacing(1);
         yoga.setMaximum(5);
-        yoga.setMinimum(1);
         yoga.setMinorTickSpacing(1);
         yoga.setPaintLabels(true);
         yoga.setPaintTicks(true);
 
         spritual.setMajorTickSpacing(1);
         spritual.setMaximum(5);
-        spritual.setMinimum(1);
         spritual.setMinorTickSpacing(1);
         spritual.setPaintLabels(true);
         spritual.setPaintTicks(true);
@@ -306,7 +301,6 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
 
         meditation.setMajorTickSpacing(1);
         meditation.setMaximum(5);
-        meditation.setMinimum(1);
         meditation.setMinorTickSpacing(1);
         meditation.setPaintLabels(true);
         meditation.setPaintTicks(true);
@@ -317,7 +311,6 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
 
         rateofhealth.setMajorTickSpacing(1);
         rateofhealth.setMaximum(5);
-        rateofhealth.setMinimum(1);
         rateofhealth.setMinorTickSpacing(1);
         rateofhealth.setPaintLabels(true);
         rateofhealth.setPaintTicks(true);
@@ -530,11 +523,11 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
         data.put("veg", hhmodel.getVeg());
         data.put("homefood",hhmodel.getHomeFood());
         data.put("outsidefood",hhmodel.getOutsideFood());
-        data.put("sleepshrs",hhmodel.getSleepHrs());
-        data.put("healthcheckup",hhmodel.getHealthCheckup());
+        data.put("sleephrs",hhmodel.getSleepHrs());
+        data.put("health_checkup",hhmodel.getHealthCheckup());
         data.put("addiction",hhmodel.getAddiction());
         data.put("bmi",hhmodel.getBmi());
-        data.put("steamcellid",hhmodel.getStemCellId());
+        data.put("stem_cell_id",hhmodel.getStemCellId());
         data.put("bGroup",hhmodel.getBGroup());
         data.put("pwd",hhmodel.getPwd());
         data.put("chronicdisease",hhmodel.getChronicDisease());
@@ -545,6 +538,7 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
         data.put("ratyourhealth",hhmodel.getRatYourHealth());
         hhmodel.myQuery(data);
         dashBoard.hhmodel=hhmodel;
+        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

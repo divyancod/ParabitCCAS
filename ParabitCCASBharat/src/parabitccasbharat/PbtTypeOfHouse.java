@@ -7,6 +7,7 @@ package parabitccasbharat;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -31,11 +32,23 @@ public class PbtTypeOfHouse extends javax.swing.JDialog implements ActionListene
     }
     private void nextFrame()
     {
-        setVisible(false);
-        PbtHLTempData nob=new PbtHLTempData(dashboard, true);
-        nob.setLocationRelativeTo(null);
-        nob.setVisible(true);
-        setVisible(true);
+        int opt= JOptionPane.showConfirmDialog(null,"Do you want to perform census now?","Confirm",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+           if(opt==0)
+           {
+               PbtHLMemberListForm nob=new PbtHLMemberListForm(dashboard.empdata);
+               nob.setLocationRelativeTo(null);
+               nob.setVisible(true);
+               setVisible(false);
+           }
+           else if(opt==1)
+           {
+               setVisible(false);
+               PbtHLTempData nob=new PbtHLTempData(dashboard, true);
+               nob.setLocationRelativeTo(null);
+               nob.setVisible(true);
+               setVisible(true);
+           }
+        
     }
 
     /**
