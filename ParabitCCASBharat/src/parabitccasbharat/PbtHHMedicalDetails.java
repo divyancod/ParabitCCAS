@@ -6,6 +6,9 @@
 package parabitccasbharat;
 
 import ParabitModel.PbtHHModel;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.event.DocumentEvent;
@@ -15,7 +18,7 @@ import javax.swing.event.DocumentListener;
  *
  * @author Asus
  */
-public class PbtHHMedicalDetails extends javax.swing.JDialog {
+public class PbtHHMedicalDetails extends javax.swing.JDialog implements ItemListener{
 
     /**
      * Creates new form PbtHHMedicalDetails
@@ -29,6 +32,9 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
         this.hhmodel=parent.hhmodel;
         getModelData();
         nametf.setText(hhmodel.getName());
+        weightcombo.addItemListener(this);
+        heightcombo.addItemListener(this);
+        heightcombo.setSelectedIndex(1);
         weight.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -110,8 +116,19 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
 
     private void setModel()
     {
-        hhmodel.setWt(Double.parseDouble(weight.getText()));
-        hhmodel.setHt(Double.parseDouble(height.getText()));
+        float wt=Float.parseFloat(weight.getText());
+        Float ht=Float.parseFloat(height.getText());
+        DecimalFormat df2 = new DecimalFormat("#.##");
+        if(weightcombo.getSelectedIndex()==1)
+            wt=wt/1000;
+        else if(weightcombo.getSelectedIndex()==2)
+            wt=wt*0.4535f;;
+        hhmodel.setWt(Double.parseDouble(df2.format(wt)));
+        if(heightcombo.getSelectedIndex()==0)
+            ht=ht*0.3048f;
+        else if(heightcombo.getSelectedIndex()==1)
+            ht=ht*0.01f;
+        hhmodel.setHt(Double.parseDouble(df2.format(ht)));
         hhmodel.setBmi(Double.parseDouble(bmi.getText()));
         hhmodel.setStemCellId(steamcellid.getText());
         hhmodel.setBGroup(bloodgroup.getText());
@@ -142,15 +159,24 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
     {
         if(!height.getText().isEmpty() && !weight.getText().isEmpty())
         {
-            double hsqr;
-            double mass;
-            double bmi;
-            hsqr=Double.parseDouble(height.getText());
-            mass=Double.parseDouble(weight.getText());
-            hsqr=hsqr*0.3048;
-            hsqr=Math.pow(hsqr,2);
+            DecimalFormat df = new DecimalFormat("#.##");
+            float hsqr;
+            float mass;
+            float bmi;
+            hsqr=Float.parseFloat(height.getText());
+            mass=Float.parseFloat(weight.getText());
+            if(weightcombo.getSelectedIndex()==1)
+                mass=mass/1000;
+            else if(weightcombo.getSelectedIndex()==2)
+                mass=mass*0.4535f;
+            if(heightcombo.getSelectedIndex()==0)
+                hsqr=hsqr*0.3048f;
+            else if(heightcombo.getSelectedIndex()==2)
+                hsqr=hsqr*0.01f;
+            
+            hsqr=(float)Math.pow(hsqr,2f);
             bmi=mass/hsqr;
-            this.bmi.setText(bmi+"");
+            this.bmi.setText(df.format(bmi));
             
         }
         
@@ -210,6 +236,8 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
         jLabel27 = new javax.swing.JLabel();
         nametf = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        weightcombo = new javax.swing.JComboBox<>();
+        heightcombo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -327,6 +355,10 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
             }
         });
 
+        weightcombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kilogram(Kg)", "Gram(g)", "Pounds(lbs)" }));
+
+        heightcombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Feet Inch", "Meters", "centimeter" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -360,36 +392,11 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
                                     .addComponent(jLabel13))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(34, 34, 34)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(weight, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 496, Short.MAX_VALUE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(chronicdisease)
-                                                        .addComponent(sports, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addComponent(height, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(bmi, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(steamcellid, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(bloodgroup, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                        .addComponent(veg1)
-                                                        .addGap(18, 18, 18)
-                                                        .addComponent(veg2))
-                                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                        .addComponent(add1)
-                                                        .addGap(18, 18, 18)
-                                                        .addComponent(add2)))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jButton1))))
-                                    .addGroup(layout.createSequentialGroup()
                                         .addGap(39, 39, 39)
                                         .addComponent(pwd1)
                                         .addGap(18, 18, 18)
                                         .addComponent(pwd2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 217, Short.MAX_VALUE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                 .addComponent(jLabel19)
@@ -411,7 +418,37 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
                                             .addComponent(yoga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(spritual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(meditation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(rateofhealth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(rateofhealth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(47, 47, 47)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                        .addComponent(chronicdisease)
+                                                        .addComponent(sports, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addComponent(bmi, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(steamcellid, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(bloodgroup, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                        .addComponent(veg1)
+                                                        .addGap(18, 18, 18)
+                                                        .addComponent(veg2))
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                        .addComponent(add1)
+                                                        .addGap(18, 18, 18)
+                                                        .addComponent(add2)))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jButton1))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(weight, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(height, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(38, 38, 38)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(weightcombo, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(heightcombo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(0, 0, Short.MAX_VALUE)))))
                                 .addGap(77, 77, 77)))))
                 .addContainerGap())
         );
@@ -432,7 +469,8 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel19)
                             .addComponent(weight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))))
+                            .addComponent(jLabel1)
+                            .addComponent(weightcombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(outsidefood, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -441,7 +479,8 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel20)
                             .addComponent(height, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))))
+                            .addComponent(jLabel2)
+                            .addComponent(heightcombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sleep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -583,6 +622,7 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
     private javax.swing.JSlider checkup;
     private javax.swing.JTextField chronicdisease;
     private javax.swing.JTextField height;
+    private javax.swing.JComboBox<String> heightcombo;
     private javax.swing.JSlider homefood;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -618,6 +658,21 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog {
     private javax.swing.JRadioButton veg1;
     private javax.swing.JRadioButton veg2;
     private javax.swing.JTextField weight;
+    private javax.swing.JComboBox<String> weightcombo;
     private javax.swing.JSlider yoga;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if(e.getSource()==weightcombo)
+        {
+            if(e.getStateChange() == ItemEvent.SELECTED)
+                weight.setText("0.0");
+        }
+        if(e.getSource()==heightcombo)
+        {
+            if(e.getStateChange() == ItemEvent.SELECTED)
+                height.setText("0.0");
+        }
+    }
 }

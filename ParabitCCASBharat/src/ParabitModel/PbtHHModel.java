@@ -1244,7 +1244,7 @@ public class PbtHHModel{
              query=query+",'"+entry.getValue()+"'";
          }
          query=query+")";
-         System.out.println(query);
+         System.err.println(query);
          try
          {
              db.stm.execute(query);
