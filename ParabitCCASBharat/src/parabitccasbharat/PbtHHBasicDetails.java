@@ -31,12 +31,14 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
         initComponents();
         this.hhmodel=parent.hhmodel;
         this.dashboard=parent;
+        m1.setEditable(false);
+        religion.setEditable(false);
+        category.setEditable(false);
         setExistingData();
     }
     private void setExistingData()
     {
         m1.setVisible(false);
-        m2.setVisible(false);
         marriageage.setVisible(false);
         mstatus.setVisible(false);
         aprxage.setVisible(false);
@@ -50,13 +52,12 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
             if(hhmodel.getAge()>=21)
             {
                 m1.setVisible(true);
-                m2.setVisible(true);
                 marriageage.setVisible(true);
                 mstatus.setVisible(true);
                 aprxage.setVisible(true);
                 if(hhmodel.getAproMarriageAge()!=null)
                 {
-                    m1.setSelected(true);
+                    m1.setText(new PbtHHDialogMaritalStatus(dashboard,true).getbutton(hhmodel.getMarStatus()));
                     marriageage.setText(""+hhmodel.getAproMarriageAge());
                 }
             }
@@ -67,13 +68,12 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
             if(hhmodel.getAge()>=18)
             {
                 m1.setVisible(true);
-                m2.setVisible(true);
                 marriageage.setVisible(true);
                 mstatus.setVisible(true);
                 aprxage.setVisible(true);
                 if(hhmodel.getAproMarriageAge()!=null)
                 {
-                    m1.setSelected(true);
+                    m1.setText(new PbtHHDialogMaritalStatus(dashboard,true).getbutton(hhmodel.getMarStatus()));
                     marriageage.setText(""+hhmodel.getAproMarriageAge());
                 }
             }
@@ -89,8 +89,8 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
         altphoneno.setText(hhmodel.getAltPhoneNo());
         email.setText(hhmodel.getEmail());
         marriageage.setText(hhmodel.getAproMarriageAge());
-        religion.setText(hhmodel.getReligion());
-        category.setText(hhmodel.getCategory());
+        religion.setText(new PbtHHDialogReligion(dashboard, true).getButton(hhmodel.getReligion()));
+        category.setText(new PbtHHDialogCategory(dashboard, true).getButton(hhmodel.getCategory()));
         community.setText(hhmodel.getCommunity());
         cast.setText(hhmodel.getCast());
         mtongue.setText(hhmodel.getMTongue());
@@ -110,30 +110,23 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
         hhmodel.setEmail(email.getText());
         hhmodel.setAproMarriageAge(marriageage.getText());
         hhmodel.setAge(Long.parseLong(age.getText()));
-        hhmodel.setReligion(religion.getText());
         hhmodel.setCommunity(community.getText());
-        hhmodel.setCategory(category.getText());
+        //hhmodel.setCategory(category.getText());
         hhmodel.setCast(cast.getText());
         hhmodel.setMTongue(mtongue.getText());
         hhmodel.setRwLang(rwlang.getText());
         hhmodel.setHomeLang(homelang.getText());
         hhmodel.setChdnEvenBorn(chdnevenborn.getText());
         hhmodel.setChdnSurv(chdnsurv.getText());
-        if(m1.isSelected())
+        if(gen1.isSelected())
             hhmodel.setGender("M");
-        else if(m2.isSelected())
+        else if(gen2.isSelected())
             hhmodel.setGender("F");
         else
             hhmodel.setGender("O");
-        if(m1.isSelected())
-            hhmodel.setMarStatus("Y");
-        else
-            hhmodel.setMarStatus("N");
         Date date=dob.getDate();
         java.sql.Date dobsql=new java.sql.Date(date.getTime());
         hhmodel.setDob(dobsql);
-        
-          
     }
 
     /**
@@ -179,8 +172,6 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         homelang = new javax.swing.JTextField();
-        m1 = new javax.swing.JRadioButton();
-        m2 = new javax.swing.JRadioButton();
         aprxage = new javax.swing.JLabel();
         marriageage = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -193,6 +184,10 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
         mstatus = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        m1 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -241,12 +236,6 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
 
         jLabel17.setText("Home Language :");
 
-        buttonGroup2.add(m1);
-        m1.setText("Married");
-
-        buttonGroup2.add(m2);
-        m2.setText("Unmarried");
-
         aprxage.setText("Approx Marriage Age :");
 
         jLabel9.setText("Child Born :");
@@ -267,6 +256,27 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
         jLabel19.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel19.setText("Basic Details");
 
+        jButton2.setText("Select");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Select");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Select");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -279,7 +289,7 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(dob, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(676, 676, 676))
+                        .addGap(727, 727, 727))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2)
@@ -293,71 +303,79 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
                             .addComponent(mstatus))
                         .addGap(37, 37, 37)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(0, 0, Short.MAX_VALUE)
-                                    .addComponent(jButton1))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(m1)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(m2)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel11))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                            .addComponent(mobno)
-                                                            .addComponent(altphoneno, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addGroup(layout.createSequentialGroup()
-                                                            .addComponent(gen1)
-                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                            .addComponent(gen2)
-                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                            .addComponent(gen3)))
-                                                    .addGap(183, 183, 183))
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(headuid)
-                                                        .addComponent(headregmobno)
-                                                        .addComponent(reltohead, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addGap(190, 190, 190))
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                            .addGap(87, 87, 87)
-                                                            .addComponent(jLabel18)
-                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                            .addComponent(age, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(jLabel6)
-                                                .addComponent(jLabel7)
-                                                .addComponent(jLabel8)
-                                                .addComponent(jLabel10)
-                                                .addComponent(jLabel15)
-                                                .addComponent(jLabel16)
-                                                .addComponent(jLabel17)
-                                                .addComponent(jLabel9))))
-                                    .addGap(37, 37, 37)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(cast)
-                                        .addComponent(mtongue)
-                                        .addComponent(rwlang)
-                                        .addComponent(community)
-                                        .addComponent(category)
-                                        .addComponent(religion)
-                                        .addComponent(homelang)
-                                        .addComponent(chdnevenborn)
-                                        .addComponent(chdnsurv))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(marriageage, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 672, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(51, 51, 51))
+                                .addGap(708, 708, 708))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(jButton1)
+                                        .addGap(12, 12, 12))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(m1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel11))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                .addComponent(mobno)
+                                                                .addComponent(altphoneno, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                            .addGroup(layout.createSequentialGroup()
+                                                                .addComponent(gen1)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                .addComponent(gen2)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                .addComponent(gen3)))
+                                                        .addGap(183, 183, 183))
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                            .addComponent(headuid)
+                                                            .addComponent(headregmobno)
+                                                            .addComponent(reltohead, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addGap(190, 190, 190))
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                            .addComponent(jButton2)
+                                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                .addGroup(layout.createSequentialGroup()
+                                                                    .addGap(87, 87, 87)
+                                                                    .addComponent(jLabel18)
+                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                    .addComponent(age, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(jLabel6)
+                                                    .addComponent(jLabel7)
+                                                    .addComponent(jLabel8)
+                                                    .addComponent(jLabel10)
+                                                    .addComponent(jLabel15)
+                                                    .addComponent(jLabel16)
+                                                    .addComponent(jLabel17)
+                                                    .addComponent(jLabel9))))
+                                        .addGap(37, 37, 37)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(cast)
+                                            .addComponent(mtongue)
+                                            .addComponent(rwlang)
+                                            .addComponent(community)
+                                            .addComponent(homelang)
+                                            .addComponent(chdnevenborn)
+                                            .addComponent(chdnsurv)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(religion, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jButton3))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(category)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jButton4)))))
+                                .addGap(24, 24, 24))))))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jSeparator1)
@@ -413,32 +431,30 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(m1)
-                                    .addComponent(mstatus))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(aprxage)
-                                    .addComponent(marriageage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(m2))))
+                        .addGap(17, 17, 17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(mstatus)
+                            .addComponent(m1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(aprxage)
+                            .addComponent(marriageage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(religion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addGap(20, 20, 20)
+                            .addComponent(jLabel6)
+                            .addComponent(jButton3))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(community, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7))
-                        .addGap(20, 20, 20)
+                        .addGap(19, 19, 19)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
-                        .addGap(22, 22, 22)
+                            .addComponent(jLabel8)
+                            .addComponent(jButton4))
+                        .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cast, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10))
@@ -501,6 +517,29 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        PbtHHDialogMaritalStatus nob=new PbtHHDialogMaritalStatus(dashboard, true);
+        nob.setLocationRelativeTo(null);
+        nob.setVisible(true);
+        m1.setText(nob.getbutton(hhmodel.getMarStatus()));
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        PbtHHDialogReligion nob=new PbtHHDialogReligion(dashboard, true);
+        nob.setLocationRelativeTo(null);
+        nob.setVisible(true);
+        religion.setText(nob.getButton(hhmodel.getReligion()));
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+
+        PbtHHDialogCategory nob=new PbtHHDialogCategory(dashboard, true);
+        nob.setLocationRelativeTo(null);
+        nob.setVisible(true);
+        category.setText(nob.getButton(hhmodel.getCategory()));
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -551,6 +590,9 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
     private javax.swing.JTextField headuid;
     private javax.swing.JTextField homelang;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -571,8 +613,7 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JRadioButton m1;
-    private javax.swing.JRadioButton m2;
+    private javax.swing.JTextField m1;
     private javax.swing.JTextField marriageage;
     private javax.swing.JTextField mobno;
     private javax.swing.JLabel mstatus;
