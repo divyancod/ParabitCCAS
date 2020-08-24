@@ -127,6 +127,7 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
         Date date=dob.getDate();
         java.sql.Date dobsql=new java.sql.Date(date.getTime());
         hhmodel.setDob(dobsql);
+        hhmodel.setAltPhoneNo(altphoneno.getText());
     }
 
     /**
@@ -493,6 +494,8 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         getAllData();
         Map<Object,Object> data = new HashMap();
+        data.put("Gender",hhmodel.getGender());
+        data.put("Age",hhmodel.getAge());
         data.put("reltohead",hhmodel.getRelToHead());
         data.put("headuid",hhmodel.getHeadUid());
         data.put("headregmobno",hhmodel.getHeadRegMobNo());

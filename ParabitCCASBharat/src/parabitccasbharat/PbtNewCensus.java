@@ -80,7 +80,8 @@ public class PbtNewCensus extends javax.swing.JDialog {
         PbtUseOfHouse nob=new PbtUseOfHouse(dashboard, true);
         nob.setLocationRelativeTo(null);
         nob.setVisible(true);
-        setVisible(true);
+        //setVisible(true);
+        dashboard.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

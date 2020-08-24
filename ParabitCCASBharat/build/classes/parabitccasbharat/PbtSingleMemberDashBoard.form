@@ -49,7 +49,7 @@
                       <EmptySpace pref="130" max="32767" attributes="0"/>
                       <Component id="jButton8" min="-2" pref="150" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jButton9" min="-2" pref="150" max="-2" attributes="0"/>
+                      <Component id="finalsavebtn" min="-2" pref="150" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -67,7 +67,7 @@
                       <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
                       <Component id="scanbtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="recordbtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jButton2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
@@ -85,7 +85,7 @@
                                           <Component id="pancardno" alignment="0" pref="252" max="32767" attributes="0"/>
                                           <Component id="fullnametf" alignment="0" pref="252" max="32767" attributes="0"/>
                                           <Component id="rationcardno" alignment="0" pref="252" max="32767" attributes="0"/>
-                                          <Component id="jTextField2" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="sssmid" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -130,7 +130,7 @@
                               <Component id="armsno" pref="252" max="32767" attributes="0"/>
                               <Component id="gasno" pref="252" max="32767" attributes="0"/>
                               <Component id="rationcardtype" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jTextField1" alignment="1" max="32767" attributes="0"/>
+                              <Component id="pension" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <Component id="vid" min="-2" pref="238" max="-2" attributes="0"/>
                       </Group>
@@ -185,7 +185,7 @@
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="aadhartf" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="scanbtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="recordbtn" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="47" pref="47" max="-2" attributes="0"/>
@@ -220,9 +220,9 @@
               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="pension" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="sssmid" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -240,7 +240,7 @@
                   <Component id="other" alignment="3" min="-2" pref="80" max="-2" attributes="0"/>
                   <Component id="bank" alignment="3" min="-2" pref="80" max="-2" attributes="0"/>
                   <Component id="work" alignment="3" min="-2" pref="80" max="-2" attributes="0"/>
-                  <Component id="jButton9" alignment="3" min="-2" pref="80" max="-2" attributes="0"/>
+                  <Component id="finalsavebtn" alignment="3" min="-2" pref="80" max="-2" attributes="0"/>
                   <Component id="jButton8" alignment="3" min="-2" pref="80" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -397,10 +397,13 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton8ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton9">
+    <Component class="javax.swing.JButton" name="finalsavebtn">
       <Properties>
         <Property name="text" type="java.lang.String" value="Save And Back"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="finalsavebtnActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
@@ -409,12 +412,12 @@
     </Component>
     <Component class="javax.swing.JTextField" name="rationcardtype">
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="recordbtn">
       <Properties>
         <Property name="text" type="java.lang.String" value="Record This Entry"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="recordbtnActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton2">
@@ -430,14 +433,14 @@
         <Property name="text" type="java.lang.String" value="Pension ID :"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="pension">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel15">
       <Properties>
         <Property name="text" type="java.lang.String" value="SSSMID :"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField2">
+    <Component class="javax.swing.JTextField" name="sssmid">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel16">
       <Properties>

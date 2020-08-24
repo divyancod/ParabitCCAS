@@ -4,11 +4,18 @@ import parabitccasbharat.ParabitDBC;
 
 public class PbtHLModel{
 
-  private String empEnumNo;
+   private String empEnumNo;
   private long hlSNo;
   private long hhSNo;
   private long ucid;
   private long fsNo;
+  private String stUt;
+  private String dist;
+  private String tehsil;
+  private String townVillage;
+  private String wardNo;
+  private String hNoAdd;
+  private String pinCode;
   private long owspOfHouse;
   private long typeOfHouse;
   private long roof;
@@ -76,6 +83,12 @@ public class PbtHLModel{
   private long privateLicenseArms;
   private long burglarAlarm;
   private String expectation;
+  private java.sql.Date fillDate;
+  private java.sql.Timestamp timeIn;
+  private java.sql.Timestamp timeOut;
+  private String note;
+  private String comment;
+  private String status;
 
 
   public String getEmpEnumNo() {
@@ -120,6 +133,69 @@ public class PbtHLModel{
 
   public void setFsNo(long fsNo) {
     this.fsNo = fsNo;
+  }
+
+
+  public String getStUt() {
+    return stUt;
+  }
+
+  public void setStUt(String stUt) {
+    this.stUt = stUt;
+  }
+
+
+  public String getDist() {
+    return dist;
+  }
+
+  public void setDist(String dist) {
+    this.dist = dist;
+  }
+
+
+  public String getTehsil() {
+    return tehsil;
+  }
+
+  public void setTehsil(String tehsil) {
+    this.tehsil = tehsil;
+  }
+
+
+  public String getTownVillage() {
+    return townVillage;
+  }
+
+  public void setTownVillage(String townVillage) {
+    this.townVillage = townVillage;
+  }
+
+
+  public String getWardNo() {
+    return wardNo;
+  }
+
+  public void setWardNo(String wardNo) {
+    this.wardNo = wardNo;
+  }
+
+
+  public String getHNoAdd() {
+    return hNoAdd;
+  }
+
+  public void setHNoAdd(String hNoAdd) {
+    this.hNoAdd = hNoAdd;
+  }
+
+
+  public String getPinCode() {
+    return pinCode;
+  }
+
+  public void setPinCode(String pinCode) {
+    this.pinCode = pinCode;
   }
 
 
@@ -724,14 +800,84 @@ public class PbtHLModel{
   public void setExpectation(String expectation) {
     this.expectation = expectation;
   }
+
+
+  public java.sql.Date getFillDate() {
+    return fillDate;
+  }
+
+  public void setFillDate(java.sql.Date fillDate) {
+    this.fillDate = fillDate;
+  }
+
+
+  public java.sql.Timestamp getTimeIn() {
+    return timeIn;
+  }
+
+  public void setTimeIn(java.sql.Timestamp timeIn) {
+    this.timeIn = timeIn;
+  }
+
+
+  public java.sql.Timestamp getTimeOut() {
+    return timeOut;
+  }
+
+  public void setTimeOut(java.sql.Timestamp timeOut) {
+    this.timeOut = timeOut;
+  }
+
+
+  public String getNote() {
+    return note;
+  }
+
+  public void setNote(String note) {
+    this.note = note;
+  }
+
+
+  public String getComment() {
+    return comment;
+  }
+
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
+
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
   
   public void firstInsert()
   {
-      String query="insert into pbtcensus_houselisting (Empenumno,HL_Sno,UseOfHouse,TypeOfHouse) values ('"+empEnumNo+"','1','1','1')";
+      String query="insert into pbtcensus_houselisting (Empenumno,HL_Sno,UseOfHouse,TypeOfHouse,timein,status) values ('"+empEnumNo+"','1002','1','1',curtime(),'9')";
       ParabitDBC db=new ParabitDBC();
       try
       {
           db.stm.execute(query);
+      }catch(Exception e)
+      {
+          e.printStackTrace();
+      }
+  }
+  public void getCurrent()
+  {
+      String query="select * from pbtcensus_houselisting where status='9'";
+      ParabitDBC db=new ParabitDBC();
+      try
+      {
+          db.rs1=db.stm.executeQuery(query);
+          if(db.rs1.next())
+          {
+              this.hlSNo=db.rs1.getLong("HL_Sno");
+          }
       }catch(Exception e)
       {
           e.printStackTrace();

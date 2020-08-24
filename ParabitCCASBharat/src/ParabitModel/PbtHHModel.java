@@ -1215,7 +1215,7 @@ public class PbtHHModel{
      }
      public void myQuery(Map<Object,Object> mymap)
      {
-         ParabitDBC db=new ParabitDBC();
+        ParabitDBC db=new ParabitDBC();
         String query="update pbtcensus_household set hh_sno='1'";
         for (Map.Entry<Object, Object> entry : mymap.entrySet()){
             if(entry.getValue()!=null)
@@ -1239,15 +1239,161 @@ public class PbtHHModel{
          for (Map.Entry<Object, Object> entry : data.entrySet()){
              query=query+","+entry.getKey();
          }
-         query=query+") values (null";
+         query=query+",timein,status) values (null";
          for (Map.Entry<Object, Object> entry : data.entrySet()){
              query=query+",'"+entry.getValue()+"'";
          }
-         query=query+")";
+         query=query+",curtime(),'9')";
          System.err.println(query);
          try
          {
              db.stm.execute(query);
+         }catch(Exception e)
+         {
+             e.printStackTrace();
+         }
+     }
+     public void finalQuery(Map<Object,Object> mymap)
+     {
+         ParabitDBC db=new ParabitDBC();
+        String query="update pbtcensus_household set hh_sno='1'";
+        for (Map.Entry<Object, Object> entry : mymap.entrySet()){
+            if(entry.getValue()!=null){
+                if(entry.getValue().toString().isEmpty())
+                    query=query+","+entry.getKey()+"='N'";
+                else
+                    query=query+","+entry.getKey()+"='"+entry.getValue()+"'";
+            }else
+            {
+                    query=query+","+entry.getKey()+"='N'";
+            }
+        }
+        query=query+",filldate=curdate(),timeout=curtime()";
+        query=query+" where uid='"+uid+"'";
+         System.err.println(""+query);
+         try
+         {
+             db.stm.execute(query);
+         }catch(Exception e)
+         {
+             e.printStackTrace();
+         }
+     }
+     public void oldQuery()
+     {
+         ParabitDBC db=new ParabitDBC();
+         String query="select * from pbtcensus_household where uid='"+uid+"'";
+         try
+         {
+             db.rs1=db.stm.executeQuery(query);
+             while(db.rs1.next())
+             {
+            hhSNo=db.rs1.getLong("hh_SNo");
+            hlSNo=db.rs1.getLong("hl_SNo");
+            ucid=db.rs1.getLong("ucid");
+            fsNo=db.rs1.getLong("fsNo");
+            empEnumNo=db.rs1.getString("empEnumNo");
+            rCardNo=db.rs1.getString("rCardNo");
+            rCardType=db.rs1.getString("rCardType");
+            uid=db.rs1.getString("uid");
+            gConsumerNo=db.rs1.getString("gConsumerNo");
+            drivLicNo=db.rs1.getString("drivLicNo");
+            armsUiNo=db.rs1.getString("armsUiNo");
+            birthCertNo=db.rs1.getString("birthCertNo");
+            marrCertNo=db.rs1.getString("marrCertNo");
+            policeVerNo=db.rs1.getString("policeVerNo");
+            sssmid=db.rs1.getString("sssmid");
+            name=db.rs1.getString("name");
+            relToHead=db.rs1.getString("relToHead");
+            headUid=db.rs1.getString("headUid");
+            headRegMobNo=db.rs1.getString("headRegMobNo");
+            mobNo=db.rs1.getString("mobNo");
+            altPhoneNo=db.rs1.getString("altPhoneNo");
+            email=db.rs1.getString("email");
+            gender=db.rs1.getString("gender");
+            dob=db.rs1.getDate("dob");
+            age=db.rs1.getLong("age");
+            wt=db.rs1.getDouble("wt");
+            ht=db.rs1.getDouble("ht");
+            veg=db.rs1.getString("veg");
+            homeFood=db.rs1.getString("homeFood");
+            outsideFood=db.rs1.getString("outsideFood");
+            sleepHrs=db.rs1.getString("sleepHrs");
+            healthCheckup=db.rs1.getString("health_Checkup");
+            addiction=db.rs1.getString("addiction");
+            bmi=db.rs1.getDouble("bmi");
+            stemCellId=db.rs1.getString("stem_Cell_Id");
+            bGroup=db.rs1.getString("bGroup");
+            vid=db.rs1.getString("vid");
+            passport=db.rs1.getString("passport");
+            panCardNo=db.rs1.getString("panCardNo");
+            ifsc=db.rs1.getString("ifsc");
+            bankAccNo=db.rs1.getString("bankAccNo");
+            netBank=db.rs1.getString("netBank");
+            mobBank=db.rs1.getString("mobBank");
+            pensionId=db.rs1.getString("pensionId");
+            religion=db.rs1.getString("religion");
+            community=db.rs1.getString("community");
+            category=db.rs1.getString("category");
+            cast=db.rs1.getString("cast");
+            marStatus=db.rs1.getString("marStatus");
+            aproMarriageAge=db.rs1.getString("aproMarriageAge");
+            pwd=db.rs1.getString("pwd");
+            pwdid=db.rs1.getString("pwdid");
+            mTongue=db.rs1.getString("mTongue");
+            rwLang=db.rs1.getString("rwLang");
+            homeLang=db.rs1.getString("homeLang");
+            litStatus=db.rs1.getString("litStatus");
+            cEduStatus=db.rs1.getString("cEduStatus");
+            cInstNmCity=db.rs1.getString("cInstNmCity");
+            cInstType=db.rs1.getString("cInstType");
+            techDeg=db.rs1.getString("techDeg");
+            nonTechDeg=db.rs1.getString("nonTechDeg");
+            nccnss=db.rs1.getString("nccnss");
+            jobSeek=db.rs1.getString("jobSeek");
+            cWorkStat=db.rs1.getString("cWorkStat");
+            workCategory=db.rs1.getLong("workCategory");
+            workingSector=db.rs1.getLong("workingSector");
+            natureOfWork=db.rs1.getLong("natureOfWork");
+            icsNo=db.rs1.getLong("icsNo");
+            occupation=db.rs1.getString("occupation");
+            workExp=db.rs1.getString("workExp");
+            specDescription=db.rs1.getString("specDescription");
+            specExp=db.rs1.getString("specExp");
+            profLicNo=db.rs1.getString("profLicNo");
+            busiRegNo=db.rs1.getString("busiRegNo");
+            income=db.rs1.getLong("income");
+            itr=db.rs1.getString("itr");
+            distFrmWorkPlace=db.rs1.getDouble("distFrmWorkPlace");
+            modOfTravel=db.rs1.getString("modOfTravel");
+            nri=db.rs1.getString("nri");
+            foreignAdd=db.rs1.getString("foreignAdd");
+            birthPlaceWithStateCountry=db.rs1.getString("birthPlaceWithStateCountry");
+            pmtStUt=db.rs1.getString("pmtStUt");
+            pmtDist=db.rs1.getString("pmtDist");
+            pmtTehsil=db.rs1.getString("pmtTehsil");
+            pmtTownVillage=db.rs1.getString("pmtTownVillage");
+            pmtWardNo=db.rs1.getString("pmtWardNo");
+            pmtHNoAdd=db.rs1.getString("pmtHNoAdd");
+            pmtPinCode=db.rs1.getString("pmtPinCode");
+            rsnOfMig=db.rs1.getString("rsnOfMig");
+            durOfMig=db.rs1.getString("durOfMig");
+            chdnSurv=db.rs1.getString("chdnSurv");
+            chdnEvenBorn=db.rs1.getString("chdnEvenBorn");
+            noOfChdnAliveLastYr=db.rs1.getString("noOfChdnAliveLastYr");
+            chronicDisease=db.rs1.getString("chronicDisease");
+            sport=db.rs1.getString("sport");
+            yoga=db.rs1.getString("yoga");
+            spiritual=db.rs1.getString("spiritual");
+            meditation=db.rs1.getString("meditation");
+            ratYourHealth=db.rs1.getLong("ratYourHealth");
+            fillDate=db.rs1.getDate("fillDate");
+            timeIn=db.rs1.getTime("timeIn");
+            timeOut=db.rs1.getTime("timeOut");
+            note=db.rs1.getString("note");
+            comment=db.rs1.getString("comment");
+            status=db.rs1.getString("status");
+             }
          }catch(Exception e)
          {
              e.printStackTrace();

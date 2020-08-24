@@ -5,6 +5,8 @@
  */
 package parabitccasbharat;
 
+import java.util.Locale;
+import javax.swing.table.DefaultTableModel;
 import parabitmodel.PbtHLModel;
 
 /**
@@ -17,15 +19,40 @@ public class PbtHLMemberListForm extends javax.swing.JFrame {
      * Creates new form PbtHLMemberListForm
      */
     PbtHLModel hlmodel;
+    DefaultTableModel membermodel;
+    ParabitDBC db;
     public PbtHLMemberListForm(PbtEmpData empdata) {
         initComponents();
+        db=new ParabitDBC();
         hlmodel=new PbtHLModel();
         hlmodel.setTypeOfHouse(1);
         hlmodel.setUseOfHouse("1");
         hlmodel.setEmpEnumNo(empdata.getEmpid());
         hlmodel.firstInsert();
+        hlmodel.getCurrent();
+        //hlmodel.setHlSNo(1001);
+        membermodel=(DefaultTableModel)membertable.getModel();
+        //setTableData();
     }
-
+    public void setTableData()
+    {
+        membermodel.setRowCount(0);
+        int i=1;
+        String query="select * from pbtcensus_household where hl_sno='"+hlmodel.getHlSNo()+"'";
+        try
+        {
+            db.rs1=db.stm.executeQuery(query);
+            while(db.rs1.next())
+            {
+                Object nob[]={i++,db.rs1.getString("uid"),db.rs1.getString("name"),db.rs1.getString("mobno"),db.rs1.getString("gender"),db.rs1.getString("dob"),db.rs1.getString("status")};
+                membermodel.addRow(nob);
+            }
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,25 +63,29 @@ public class PbtHLMemberListForm extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        membertable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        membertable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "SNo", "Aadhar No", "Name", "Mobile No", "Gender", "Date of Birth", "Status"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(membertable);
+        if (membertable.getColumnModel().getColumnCount() > 0) {
+            membertable.getColumnModel().getColumn(0).setMinWidth(30);
+            membertable.getColumnModel().getColumn(0).setMaxWidth(35);
+        }
 
         jButton1.setText("Add Members");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -71,6 +102,11 @@ public class PbtHLMemberListForm extends javax.swing.JFrame {
         });
 
         jButton3.setText("Final Save");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,15 +145,22 @@ public class PbtHLMemberListForm extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         setVisible(false);
-        PbtSingleMemberDashBoard nob=new PbtSingleMemberDashBoard();
+        PbtSingleMemberDashBoard nob=new PbtSingleMemberDashBoard(hlmodel,this);
         nob.setLocationRelativeTo(null);
         nob.setVisible(true);
-        setVisible(true);
+        //setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        setVisible(false);
+        PbtSingleMemberDashBoard nob=new PbtSingleMemberDashBoard("101153691786");
+        nob.setLocationRelativeTo(null);
+        nob.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -155,6 +198,6 @@ public class PbtHLMemberListForm extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable membertable;
     // End of variables declaration//GEN-END:variables
 }

@@ -150,7 +150,7 @@ public class PbtUseOfHouse extends javax.swing.JDialog {
         PbtTypeOfHouse nob=new PbtTypeOfHouse(dashboard, true);
         nob.setLocationRelativeTo(null);
         nob.setVisible(true);
-        setVisible(true);
+        dashboard.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed

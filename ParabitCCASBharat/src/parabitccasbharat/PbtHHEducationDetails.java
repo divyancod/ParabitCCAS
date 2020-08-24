@@ -30,7 +30,8 @@ public class PbtHHEducationDetails extends javax.swing.JDialog {
     
     private void setDispData()
     {
-        educationstatus.setText(hhmodel.getCEduStatus());
+        //educationstatus.setText(hhmodel.getCEduStatus());
+        educationstatus.setText(new PbtHHDialogCEduStatus(dashBoard, true).getButton(hhmodel.getCEduStatus()));
         institutename.setText(hhmodel.getCInstNmCity());
         institutetype.setText(hhmodel.getCInstType());
         technicaldegree.setText(hhmodel.getTechDeg());
@@ -53,7 +54,7 @@ public class PbtHHEducationDetails extends javax.swing.JDialog {
 
     private void setModelData()
     {
-        hhmodel.setCEduStatus(educationstatus.getText());
+        //hhmodel.setCEduStatus(educationstatus.getText());
         hhmodel.setCInstNmCity(institutename.getText());
         hhmodel.setCInstType(institutetype.getText());
         hhmodel.setTechDeg(technicaldegree.getText());
@@ -97,6 +98,7 @@ public class PbtHHEducationDetails extends javax.swing.JDialog {
         l2 = new javax.swing.JRadioButton();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel8 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -136,6 +138,13 @@ public class PbtHHEducationDetails extends javax.swing.JDialog {
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel8.setText("Education Details");
 
+        jButton2.setText("Select");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -166,7 +175,10 @@ public class PbtHHEducationDetails extends javax.swing.JDialog {
                             .addComponent(technicaldegree, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(institutetype, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(institutename, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(educationstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(educationstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton2))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(ncc1)
                                 .addGap(18, 18, 18)
@@ -178,7 +190,7 @@ public class PbtHHEducationDetails extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(226, 226, 226)
                         .addComponent(jLabel8)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(178, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,11 +204,12 @@ public class PbtHHEducationDetails extends javax.swing.JDialog {
                     .addComponent(jLabel1)
                     .addComponent(l1)
                     .addComponent(l2))
-                .addGap(38, 38, 38)
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(educationstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
+                    .addComponent(educationstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
+                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(institutename, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -240,6 +253,13 @@ public class PbtHHEducationDetails extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        PbtHHDialogCEduStatus nob=new PbtHHDialogCEduStatus(dashBoard, true);
+        nob.setLocationRelativeTo(null);
+        nob.setVisible(true);
+        educationstatus.setText(nob.getButton(hhmodel.getCEduStatus()));
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -278,6 +298,7 @@ public class PbtHHEducationDetails extends javax.swing.JDialog {
     private javax.swing.JTextField institutename;
     private javax.swing.JTextField institutetype;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

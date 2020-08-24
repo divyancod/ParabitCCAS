@@ -38,7 +38,8 @@ public class PbtTypeOfHouse extends javax.swing.JDialog implements ActionListene
                PbtHLMemberListForm nob=new PbtHLMemberListForm(dashboard.empdata);
                nob.setLocationRelativeTo(null);
                nob.setVisible(true);
-               setVisible(false);
+               System.out.print("disposing frame");
+               dashboard.dispose();
            }
            else if(opt==1)
            {

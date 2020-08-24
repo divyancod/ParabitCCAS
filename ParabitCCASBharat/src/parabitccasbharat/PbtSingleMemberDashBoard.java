@@ -16,6 +16,7 @@ import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import parabitmodel.PbtHLModel;
 
 /**
  *
@@ -28,6 +29,29 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
      */
     ParabitDBC db;
     PbtHHModel hhmodel;
+    PbtHLModel hlmodel;
+    PbtHLMemberListForm hLMemberListForm;
+    public PbtSingleMemberDashBoard(PbtHLModel hlmodel,PbtHLMemberListForm hLMemberListForm)
+    {
+        this();
+        this.hlmodel=hlmodel;
+        this.hLMemberListForm=hLMemberListForm;
+    }
+    public PbtSingleMemberDashBoard(String uid)
+    {
+        this();
+        //hhmodel=new PbtHHModel();
+        hhmodel.setUid(uid);
+        hhmodel.oldQuery();
+        recordbtn.setEnabled(false);
+        basic.setEnabled(true);
+        education.setEnabled(true);
+        work.setEnabled(true);
+        bank.setEnabled(true);
+        medical.setEnabled(true);
+        other.setEnabled(true);
+        aadhartf.setText(uid);
+    }
     public PbtSingleMemberDashBoard() {
         initComponents();
         db=new ParabitDBC("util");
@@ -37,6 +61,7 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
         bank.setEnabled(false);
         medical.setEnabled(false);
         other.setEnabled(false);
+        hhmodel=new PbtHHModel();
         aadhartf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -77,7 +102,7 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
         armsno.setText("");
         gasno.setText("");
         passportno.setText("");
-        hhmodel=new PbtHHModel();
+        //hhmodel=new PbtHHModel();
         hhmodel.fetchAllData(adhr);
         fullnametf.setText(hhmodel.getName());
         pancardno.setText(hhmodel.getPanCardNo());
@@ -91,6 +116,8 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
         passportno.setText(hhmodel.getPassport());
         rationcardtype.setText(hhmodel.getRCardType());
         vid.setText(hhmodel.getVid());
+        sssmid.setText(hhmodel.getSssmid());
+        pension.setText(hhmodel.getPensionId());
     }
 
     /**
@@ -134,15 +161,15 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
         medical = new javax.swing.JButton();
         other = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        finalsavebtn = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         rationcardtype = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        recordbtn = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        pension = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        sssmid = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         vid = new javax.swing.JTextField();
 
@@ -228,14 +255,19 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
             }
         });
 
-        jButton9.setText("Save And Back");
+        finalsavebtn.setText("Save And Back");
+        finalsavebtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                finalsavebtnActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Ration Card Type :");
 
-        jButton1.setText("Record This Entry");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        recordbtn.setText("Record This Entry");
+        recordbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                recordbtnActionPerformed(evt);
             }
         });
 
@@ -277,7 +309,7 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
                         .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(finalsavebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(48, 48, 48))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -293,7 +325,7 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
                         .addGap(58, 58, 58)
                         .addComponent(scanbtn)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addComponent(recordbtn)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -310,7 +342,7 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
                                             .addComponent(pancardno, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
                                             .addComponent(fullnametf, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
                                             .addComponent(rationcardno, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
-                                            .addComponent(jTextField2))))
+                                            .addComponent(sssmid))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -343,7 +375,7 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
                                 .addComponent(armsno, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
                                 .addComponent(gasno, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
                                 .addComponent(rationcardtype)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addComponent(pension, javax.swing.GroupLayout.Alignment.TRAILING))
                             .addComponent(vid, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(89, 89, 89))))
         );
@@ -383,7 +415,7 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(aadhartf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(scanbtn)
-                            .addComponent(jButton1)
+                            .addComponent(recordbtn)
                             .addComponent(jButton2))
                         .addGap(47, 47, 47)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -410,9 +442,9 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pension, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(sssmid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
@@ -427,7 +459,7 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
                     .addComponent(other, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bank, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(work, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(finalsavebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -488,7 +520,7 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
         nob.setVisible(true);
     }//GEN-LAST:event_bankActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void recordbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordbtnActionPerformed
 
         if(!fullnametf.getText().isEmpty())
         {
@@ -514,10 +546,17 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
             data.put("pancardno",hhmodel.getPanCardNo());
             data.put("pwdid",hhmodel.getPwdid());
             data.put("vid",hhmodel.getVid());
+            data.put("sssmid",hhmodel.getSssmid());
+            data.put("pensionid",hhmodel.getPensionId());
+            if(hlmodel!=null)
+            {
+                data.put("EmpEnumNo",hlmodel.getEmpEnumNo());
+                data.put("HL_Sno",hlmodel.getHlSNo());
+            }
             hhmodel.myInsert(data);
         }
        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_recordbtnActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         hhmodel=new PbtHHModel();
@@ -528,6 +567,110 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
         nob.setLocationRelativeTo(null);
         nob.setVisible(true);
     }//GEN-LAST:event_otherActionPerformed
+
+    private void finalsavebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finalsavebtnActionPerformed
+
+        Map<Object,Object> data = new HashMap();
+        data.put("rcardno",hhmodel.getRCardNo());
+        data.put("rcardtype",hhmodel.getRCardType());
+        data.put("uid",hhmodel.getUid());
+        data.put("gconsumerNo",hhmodel.getGConsumerNo());
+        data.put("drivlicno",hhmodel.getDrivLicNo());
+        data.put("armsuino",hhmodel.getArmsUiNo());
+        data.put("birthcertno",hhmodel.getBirthCertNo());
+        data.put("marrcertno",hhmodel.getMarrCertNo());
+        data.put("policeverno",hhmodel.getPoliceVerNo());
+        data.put("name",hhmodel.getName());
+        data.put("passport",hhmodel.getPassport());
+        data.put("pancardno",hhmodel.getPanCardNo());
+        data.put("pwdid",hhmodel.getPwdid());
+        data.put("vid",hhmodel.getVid());
+        data.put("sssmid",hhmodel.getSssmid());
+        data.put("pensionid",hhmodel.getPensionId());
+        data.put("reltohead",hhmodel.getRelToHead());
+        data.put("headuid",hhmodel.getHeadUid());
+        data.put("headregmobno",hhmodel.getHeadRegMobNo());
+        data.put("mobno",hhmodel.getMobNo());
+        data.put("altphoneno",hhmodel.getAltPhoneNo());
+        data.put("email",hhmodel.getEmail());
+        data.put("marstatus",hhmodel.getMarStatus());
+        data.put("apromarriageage",hhmodel.getAproMarriageAge());
+        data.put("religion",hhmodel.getReligion());
+        data.put("category",hhmodel.getCategory());
+        data.put("community",hhmodel.getCommunity());
+        data.put("cast",hhmodel.getCast());
+        data.put("mtongue",hhmodel.getMTongue());
+        data.put("rwlang",hhmodel.getRwLang());
+        data.put("homelang",hhmodel.getHomeLang());
+        data.put("chdnevenborn",hhmodel.getChdnEvenBorn());
+        data.put("chdnsurv",hhmodel.getChdnSurv());
+        data.put("dob",hhmodel.getDob());
+        data.put("litstatus",hhmodel.getLitStatus());
+        data.put("cedustatus",hhmodel.getCEduStatus());
+        data.put("cinstnmcity",hhmodel.getCInstNmCity());
+        data.put("cinsttype",hhmodel.getCInstType());
+        data.put("techdeg",hhmodel.getTechDeg());
+        data.put("nontechdeg",hhmodel.getNonTechDeg());
+        data.put("nccnss",hhmodel.getNccnss());
+        data.put("wt",hhmodel.getWt());
+        data.put("ht",hhmodel.getHt());
+        data.put("veg", hhmodel.getVeg());
+        data.put("homefood",hhmodel.getHomeFood());
+        data.put("outsidefood",hhmodel.getOutsideFood());
+        data.put("sleephrs",hhmodel.getSleepHrs());
+        data.put("health_checkup",hhmodel.getHealthCheckup());
+        data.put("addiction",hhmodel.getAddiction());
+        data.put("bmi",hhmodel.getBmi());
+        data.put("stem_cell_id",hhmodel.getStemCellId());
+        data.put("bGroup",hhmodel.getBGroup());
+        data.put("pwd",hhmodel.getPwd());
+        data.put("chronicdisease",hhmodel.getChronicDisease());
+        data.put("sport",hhmodel.getSport());
+        data.put("yoga",hhmodel.getYoga());
+        data.put("spiritual",hhmodel.getSpiritual());
+        data.put("meditation",hhmodel.getMeditation());
+        data.put("ratyourhealth",hhmodel.getRatYourHealth());
+        data.put("jobseek",hhmodel.getJobSeek());
+       data.put("cworkstat",hhmodel.getCWorkStat());
+       data.put("workcategory",hhmodel.getWorkCategory());
+       data.put("workingsector",hhmodel.getWorkingSector());
+       data.put("natureofwork",hhmodel.getNatureOfWork());
+       data.put("icsno",hhmodel.getIcsNo());
+       data.put("occupation",hhmodel.getOccupation());
+       data.put("workexp",hhmodel.getWorkExp());
+       data.put("specdescription",hhmodel.getSpecDescription());
+       data.put("specexp",hhmodel.getSpecExp());
+       data.put("proflicno",hhmodel.getProfLicNo());
+       data.put("busiregno",hhmodel.getBusiRegNo());
+       data.put("income",hhmodel.getIncome());
+       data.put("itr",hhmodel.getItr());
+       data.put("distfrmworkplace",hhmodel.getDistFrmWorkPlace());
+       data.put("modoftravel",hhmodel.getModOfTravel());
+       data.put("bankaccno",hhmodel.getBankAccNo());
+        data.put("ifsc",hhmodel.getIfsc());
+        data.put("netbank",hhmodel.getNetBank());
+        data.put("mobbank",hhmodel.getMobBank());
+        data.put("nri",hhmodel.getNri());
+       data.put("foreignadd",hhmodel.getForeignAdd());
+       data.put("birthPlaceWithStateCountry",hhmodel.getBirthPlaceWithStateCountry());
+       data.put("pmtstut",hhmodel.getPmtStUt());
+       data.put("pmtdist",hhmodel.getPmtDist());
+       data.put("pmttehsil",hhmodel.getPmtTehsil());
+       data.put("pmttownvillage",hhmodel.getPmtTownVillage());
+       data.put("pmtwardno",hhmodel.getPmtWardNo());
+       data.put("pmthnoadd",hhmodel.getPmtHNoAdd());
+       data.put("pmtpincode",hhmodel.getPmtPinCode());
+       data.put("rsnofmig",hhmodel.getRsnOfMig());
+       data.put("durofmig",hhmodel.getDurOfMig());
+       hhmodel.finalQuery(data);
+       dispose();
+       if(hLMemberListForm!=null)
+       {
+           hLMemberListForm.hlmodel=hlmodel;
+           hLMemberListForm.setTableData();
+           hLMemberListForm.setVisible(true);
+       }
+    }//GEN-LAST:event_finalsavebtnActionPerformed
 
     private void setModelData()
     {
@@ -546,6 +689,8 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
        hhmodel.setPassport(passportno.getText());
        hhmodel.setPanCardNo(pancardno.getText());
        hhmodel.setPwdid(disabilityno.getText());
+       hhmodel.setSssmid(sssmid.getText());
+       hhmodel.setPensionId(pension.getText());
     }
     private void getAadhar(String text) {
         System.out.println(text);
@@ -605,12 +750,11 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
     private javax.swing.JTextField disabilityno;
     private javax.swing.JTextField dlno;
     private javax.swing.JButton education;
+    private javax.swing.JButton finalsavebtn;
     private javax.swing.JTextField fullnametf;
     private javax.swing.JTextField gasno;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -627,17 +771,18 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField marriageno;
     private javax.swing.JButton medical;
     private javax.swing.JButton other;
     private javax.swing.JTextField pancardno;
     private javax.swing.JTextField passportno;
+    private javax.swing.JTextField pension;
     private javax.swing.JTextField policeno;
     private javax.swing.JTextField rationcardno;
     private javax.swing.JTextField rationcardtype;
+    private javax.swing.JButton recordbtn;
     private javax.swing.JButton scanbtn;
+    private javax.swing.JTextField sssmid;
     private javax.swing.JTextField vid;
     private javax.swing.JButton work;
     // End of variables declaration//GEN-END:variables
