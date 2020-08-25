@@ -7,8 +7,15 @@ package parabitccasbharat;
 
 import ParabitModel.PbtHHModel;
 import ParabitModel.PbtModelAadhar;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +26,7 @@ import java.util.logging.Logger;
  *
  * @author Asus
  */
-public class PbtHHBasicDetails extends javax.swing.JDialog {
+public class PbtHHBasicDetails extends javax.swing.JDialog implements ItemListener{
 
     /**
      * Creates new form PbtHHBasicDetails
@@ -32,6 +39,7 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
         this.hhmodel=parent.hhmodel;
         this.dashboard=parent;
         m1.setEditable(false);
+        selfhead.addItemListener(this);
         religion.setEditable(false);
         category.setEditable(false);
         setExistingData();
@@ -46,41 +54,44 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
         dob.setDate(hhmodel.getDob());
         email.setText(hhmodel.getEmail());
         age.setText(hhmodel.getAge()+"");
-        if(hhmodel.getGender().equals("M"))
+        if(hhmodel.getGender()!=null)
         {
-            gen1.setSelected(true);
-            if(hhmodel.getAge()>=21)
+            if(hhmodel.getGender().equals("M"))
             {
-                m1.setVisible(true);
-                marriageage.setVisible(true);
-                mstatus.setVisible(true);
-                aprxage.setVisible(true);
-                if(hhmodel.getAproMarriageAge()!=null)
+                gen1.setSelected(true);
+                if(hhmodel.getAge()>=21)
                 {
-                    m1.setText(new PbtHHDialogMaritalStatus(dashboard,true).getbutton(hhmodel.getMarStatus()));
-                    marriageage.setText(""+hhmodel.getAproMarriageAge());
+                    m1.setVisible(true);
+                    marriageage.setVisible(true);
+                    mstatus.setVisible(true);
+                    aprxage.setVisible(true);
+                    if(hhmodel.getAproMarriageAge()!=null)
+                    {
+                        m1.setText(new PbtHHDialogMaritalStatus(dashboard,true).getbutton(hhmodel.getMarStatus()));
+                        marriageage.setText(""+hhmodel.getAproMarriageAge());
+                    }
                 }
             }
-        }
-        else if(hhmodel.getGender().equals("F"))
-        {
-            gen2.setSelected(true);
-            if(hhmodel.getAge()>=18)
+            else if(hhmodel.getGender().equals("F"))
             {
-                m1.setVisible(true);
-                marriageage.setVisible(true);
-                mstatus.setVisible(true);
-                aprxage.setVisible(true);
-                if(hhmodel.getAproMarriageAge()!=null)
+                gen2.setSelected(true);
+                if(hhmodel.getAge()>=18)
                 {
-                    m1.setText(new PbtHHDialogMaritalStatus(dashboard,true).getbutton(hhmodel.getMarStatus()));
-                    marriageage.setText(""+hhmodel.getAproMarriageAge());
+                    m1.setVisible(true);
+                    marriageage.setVisible(true);
+                    mstatus.setVisible(true);
+                    aprxage.setVisible(true);
+                    if(hhmodel.getAproMarriageAge()!=null)
+                    {
+                        m1.setText(new PbtHHDialogMaritalStatus(dashboard,true).getbutton(hhmodel.getMarStatus()));
+                        marriageage.setText(""+hhmodel.getAproMarriageAge());
+                    }
                 }
             }
-        }
-        else
-        {
-            gen3.setSelected(true);
+            else
+            {
+                gen3.setSelected(true);
+            }
         }
         reltohead.setText(hhmodel.getRelToHead());
         headuid.setText(hhmodel.getHeadUid());
@@ -125,8 +136,11 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
         else
             hhmodel.setGender("O");
         Date date=dob.getDate();
-        java.sql.Date dobsql=new java.sql.Date(date.getTime());
-        hhmodel.setDob(dobsql);
+        if(date!=null)
+        {
+            java.sql.Date dobsql=new java.sql.Date(date.getTime());
+            hhmodel.setDob(dobsql);
+        }
         hhmodel.setAltPhoneNo(altphoneno.getText());
     }
 
@@ -189,6 +203,7 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        selfhead = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -278,6 +293,8 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
             }
         });
 
+        selfhead.setText("Head");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -338,7 +355,9 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
                                                             .addComponent(headuid)
                                                             .addComponent(headregmobno)
                                                             .addComponent(reltohead, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addGap(190, 190, 190))
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(selfhead)
+                                                        .addGap(130, 130, 130))
                                                     .addGroup(layout.createSequentialGroup()
                                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                             .addComponent(jButton2)
@@ -393,13 +412,14 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
                 .addComponent(jLabel19)
                 .addGap(19, 19, 19)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
-                            .addComponent(reltohead, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(17, 17, 17)
+                            .addComponent(reltohead, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(selfhead))
+                        .addGap(15, 15, 15)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel13)
                             .addComponent(headuid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -624,5 +644,28 @@ public class PbtHHBasicDetails extends javax.swing.JDialog {
     private javax.swing.JTextField religion;
     private javax.swing.JTextField reltohead;
     private javax.swing.JTextField rwlang;
+    private javax.swing.JCheckBox selfhead;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if(e.getSource()==selfhead)
+        {
+            if(selfhead.isSelected())
+            {
+                headuid.setEditable(false);
+                reltohead.setEditable(false);
+                headuid.setText(hhmodel.getUid());
+                reltohead.setText("HEAD");
+                headregmobno.setText(hhmodel.getMobNo());
+            }else
+            {
+                headuid.setEditable(true);
+                reltohead.setEditable(true);
+                headuid.setText("");
+                reltohead.setText("");
+                headregmobno.setText("");
+            }
+        }
+    }
 }

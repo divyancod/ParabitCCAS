@@ -32,7 +32,18 @@ public class PbtTypeOfHouse extends javax.swing.JDialog implements ActionListene
     }
     private void nextFrame()
     {
-        int opt= JOptionPane.showConfirmDialog(null,"Do you want to perform census now?","Confirm",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+        String msg="Do you want to perform census now?\nPlease note you will be logged out from the main app if you proceed for the form.You need to re-login after form filling is done";
+        msg=msg+"\nAlso all the activities are being recorded to the main server.If you proceed for the form filling then you will be marked as active and online.";
+        String[] listoptions = {"Proceed to Form", "Marking a Location","Cancel"};
+        
+        int opt= JOptionPane.showOptionDialog(this,msg,
+               "Confirm Your Choice",            
+               JOptionPane.YES_NO_OPTION,
+               JOptionPane.WARNING_MESSAGE,
+               null,     
+               listoptions,
+              null
+            );
            if(opt==0)
            {
                PbtHLMemberListForm nob=new PbtHLMemberListForm(dashboard.empdata);
@@ -48,7 +59,8 @@ public class PbtTypeOfHouse extends javax.swing.JDialog implements ActionListene
                nob.setLocationRelativeTo(null);
                nob.setVisible(true);
                setVisible(true);
-           }
+           }else if(opt==2)
+               return;
         
     }
 

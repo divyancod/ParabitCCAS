@@ -79,13 +79,13 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog implements ItemList
         else if(hhmodel.getVeg().equals("N"))
             veg2.setSelected(true);
         }
-        if(hhmodel.getHomeFood()!=null)
+        if(hhmodel.getHomeFood()!=null && !hhmodel.getHomeFood().isEmpty())
             homefood.setValue(Integer.parseInt(hhmodel.getHomeFood()));
-        if(hhmodel.getOutsideFood()!=null)
+        if(hhmodel.getOutsideFood()!=null && !hhmodel.getOutsideFood().isEmpty())
             outsidefood.setValue(Integer.parseInt(hhmodel.getOutsideFood()));
-        if(hhmodel.getSleepHrs()!=null)
+        if(hhmodel.getSleepHrs()!=null && !hhmodel.getSleepHrs().isEmpty())
             sleep.setValue(Integer.parseInt(hhmodel.getSleepHrs()));
-        if(hhmodel.getHealthCheckup()!=null)
+        if(hhmodel.getHealthCheckup()!=null && !hhmodel.getHealthCheckup().isEmpty())
             checkup.setValue(Integer.parseInt(hhmodel.getHealthCheckup()));
         if(hhmodel.getAddiction()!=null)
         {
@@ -106,11 +106,11 @@ public class PbtHHMedicalDetails extends javax.swing.JDialog implements ItemList
         }
         chronicdisease.setText(hhmodel.getChronicDisease());
         sports.setText(hhmodel.getSport());
-        if(hhmodel.getYoga()!=null)
+        if(hhmodel.getYoga()!=null && !hhmodel.getYoga().isEmpty())
             yoga.setValue(Integer.parseInt(hhmodel.getYoga()));
-        if(hhmodel.getSpiritual()!=null)
+        if(hhmodel.getSpiritual()!=null && !hhmodel.getSpiritual().isEmpty())
             spritual.setValue(Integer.parseInt(hhmodel.getSpiritual()));
-        if(hhmodel.getMeditation()!=null)
+        if(hhmodel.getMeditation()!=null && !hhmodel.getMeditation().isEmpty())
             meditation.setValue(Integer.parseInt(hhmodel.getMeditation()));
         rateofhealth.setValue((int)hhmodel.getRatYourHealth());
     }

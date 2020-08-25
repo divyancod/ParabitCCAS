@@ -1,5 +1,6 @@
 package parabitmodel;
 
+import java.util.Map;
 import parabitccasbharat.ParabitDBC;
 
 public class PbtHLModel{
@@ -857,7 +858,7 @@ public class PbtHLModel{
   
   public void firstInsert()
   {
-      String query="insert into pbtcensus_houselisting (Empenumno,HL_Sno,UseOfHouse,TypeOfHouse,timein,status) values ('"+empEnumNo+"','1002','1','1',curtime(),'9')";
+      String query="insert into pbtcensus_houselisting (Empenumno,HL_Sno,UseOfHouse,TypeOfHouse,timein,status) values ('"+empEnumNo+"',null,'1','1',curtime(),'9')";
       ParabitDBC db=new ParabitDBC();
       try
       {
@@ -882,6 +883,24 @@ public class PbtHLModel{
       {
           e.printStackTrace();
       }
+  }
+  public void updateQuery(Map<Object,Object> data)
+  {
+      ParabitDBC db=new ParabitDBC();
+        String query="update pbtcensus_houselisting set note=''";
+        for (Map.Entry<Object, Object> entry : data.entrySet()){
+            if(entry.getValue()!=null)
+            query=query+","+entry.getKey()+"='"+entry.getValue()+"'";
+        }
+        query=query+" where hl_sno='"+hlSNo+"'";
+         System.err.println(""+query);
+         try
+         {
+             db.stm.execute(query);
+         }catch(Exception e)
+         {
+             e.printStackTrace();
+         }
   }
 
 }

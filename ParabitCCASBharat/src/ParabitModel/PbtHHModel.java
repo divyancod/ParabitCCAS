@@ -7,6 +7,7 @@ import java.time.Period;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import parabitccasbharat.ParabitDBC;
@@ -1198,7 +1199,7 @@ public class PbtHHModel{
             e.printStackTrace();
         }   
     }
-     private int ageCal(java.sql.Date drec)
+     public int ageCal(java.sql.Date drec)
      {
          Date d=new Date(drec.getTime());
          System.out.println(""+d);
@@ -1216,12 +1217,12 @@ public class PbtHHModel{
      public void myQuery(Map<Object,Object> mymap)
      {
         ParabitDBC db=new ParabitDBC();
-        String query="update pbtcensus_household set hh_sno='1'";
+        String query="update pbtcensus_household set note=''";
         for (Map.Entry<Object, Object> entry : mymap.entrySet()){
             if(entry.getValue()!=null)
             query=query+","+entry.getKey()+"='"+entry.getValue()+"'";
         }
-        query=query+" where uid='"+uid+"'";
+        query=query+" where hh_sno='"+hhSNo+"'";
          System.err.println(""+query);
          try
          {
@@ -1235,7 +1236,7 @@ public class PbtHHModel{
      public void myInsert(Map<Object,Object> data)
      {
          ParabitDBC db=new ParabitDBC();
-         String query="insert into pbtcensus_household(hh_sno";
+         String query="insert into pbtcensus_household(note";
          for (Map.Entry<Object, Object> entry : data.entrySet()){
              query=query+","+entry.getKey();
          }
@@ -1253,19 +1254,50 @@ public class PbtHHModel{
              e.printStackTrace();
          }
      }
-     public void finalQuery(Map<Object,Object> mymap)
+     public void getCurrentHH()
      {
          ParabitDBC db=new ParabitDBC();
-        String query="update pbtcensus_household set hh_sno='1'";
+         String query="select hh_sno from pbtcensus_household where status='9'";
+         try
+         {
+             db.rs1=db.stm.executeQuery(query);
+             if(db.rs1.next())
+                 hhSNo=db.rs1.getLong("hh_sno");
+         }catch(Exception e)
+         {
+             e.printStackTrace();
+         }
+     }
+     public void genUCID()
+     {
+         ParabitDBC db=new ParabitDBC();
+         Random rand=new Random();
+         long uucid=rand.nextInt(999);
+         String cid=""+hhSNo+""+ucid;
+         String query="update pbtcensus_household set ucid="+hhSNo+""+uucid+" where hh_sno="+hhSNo;
+         System.err.println(""+query);
+         try
+         {
+             db.stm.execute(query);
+             this.ucid=Long.parseLong(cid);
+         }catch(Exception e)
+         {
+             e.printStackTrace();
+         }
+     }
+     public void finalQuery(Map<Object,Object> mymap)
+     {
+        ParabitDBC db=new ParabitDBC();
+        String query="update pbtcensus_household set note=''";
         for (Map.Entry<Object, Object> entry : mymap.entrySet()){
             if(entry.getValue()!=null){
                 if(entry.getValue().toString().isEmpty())
-                    query=query+","+entry.getKey()+"='N'";
+                    query=query+","+entry.getKey()+"=''";//<--- added N here
                 else
                     query=query+","+entry.getKey()+"='"+entry.getValue()+"'";
             }else
             {
-                    query=query+","+entry.getKey()+"='N'";
+                    query=query+","+entry.getKey()+"=''";
             }
         }
         query=query+",filldate=curdate(),timeout=curtime()";

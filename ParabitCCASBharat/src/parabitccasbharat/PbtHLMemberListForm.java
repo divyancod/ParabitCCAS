@@ -5,7 +5,13 @@
  */
 package parabitccasbharat;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 import parabitmodel.PbtHLModel;
 
@@ -13,7 +19,7 @@ import parabitmodel.PbtHLModel;
  *
  * @author Asus
  */
-public class PbtHLMemberListForm extends javax.swing.JFrame {
+public class PbtHLMemberListForm extends javax.swing.JFrame implements MouseListener{
 
     /**
      * Creates new form PbtHLMemberListForm
@@ -21,8 +27,10 @@ public class PbtHLMemberListForm extends javax.swing.JFrame {
     PbtHLModel hlmodel;
     DefaultTableModel membermodel;
     ParabitDBC db;
+    boolean tlive;
     public PbtHLMemberListForm(PbtEmpData empdata) {
         initComponents();
+        setTitle("CENSUS FORM HOUSELISTING - "+empdata.getEmpid());
         db=new ParabitDBC();
         hlmodel=new PbtHLModel();
         hlmodel.setTypeOfHouse(1);
@@ -32,7 +40,22 @@ public class PbtHLMemberListForm extends javax.swing.JFrame {
         hlmodel.getCurrent();
         //hlmodel.setHlSNo(1001);
         membermodel=(DefaultTableModel)membertable.getModel();
+        membertable.addMouseListener(this);
         //setTableData();
+        tlive=true;
+        Thread nob=new Thread(new Runnable(){
+            @Override
+            public void run()
+            {
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");  
+            while(true)
+            {
+                live.setText(formatter.format(new Date())); 
+                try{Thread.sleep(1000);}catch(Exception e){}
+            }
+            }
+        });
+        nob.start();
     }
     public void setTableData()
     {
@@ -44,7 +67,24 @@ public class PbtHLMemberListForm extends javax.swing.JFrame {
             db.rs1=db.stm.executeQuery(query);
             while(db.rs1.next())
             {
-                Object nob[]={i++,db.rs1.getString("uid"),db.rs1.getString("name"),db.rs1.getString("mobno"),db.rs1.getString("gender"),db.rs1.getString("dob"),db.rs1.getString("status")};
+                String status=db.rs1.getString("status");
+                switch (status) {
+                    case "1":
+                        status="Completed";
+                        break;
+                    case "9":
+                        status="OnGoing";
+                        break;
+                    case "8":
+                        status="Pending";
+                        break;
+                    case "7":
+                        status="Incomplete";
+                        break;
+                    default:
+                        break;
+                }
+                Object nob[]={i++,db.rs1.getString("uid"),db.rs1.getString("name"),db.rs1.getString("mobno"),db.rs1.getString("gender"),db.rs1.getString("dob"),status};
                 membermodel.addRow(nob);
             }
         }catch(Exception e)
@@ -67,20 +107,26 @@ public class PbtHLMemberListForm extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        live = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         membertable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "SNo", "Aadhar No", "Name", "Mobile No", "Gender", "Date of Birth", "Status"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(membertable);
         if (membertable.getColumnModel().getColumnCount() > 0) {
             membertable.getColumnModel().getColumn(0).setMinWidth(30);
@@ -108,32 +154,44 @@ public class PbtHLMemberListForm extends javax.swing.JFrame {
             }
         });
 
+        live.setText("LIVE");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1268, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1268, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(live)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
+                        .addGap(18, 18, 18))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(live)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -144,6 +202,8 @@ public class PbtHLMemberListForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        tlive=false;
+        hlmodel.setFsNo(membermodel.getRowCount()+1);
         setVisible(false);
         PbtSingleMemberDashBoard nob=new PbtSingleMemberDashBoard(hlmodel,this);
         nob.setLocationRelativeTo(null);
@@ -152,14 +212,13 @@ public class PbtHLMemberListForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        Map<Object,Object> data=new HashMap<>();
+        data.put("status","1");
+        hlmodel.updateQuery(data);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        setVisible(false);
-        PbtSingleMemberDashBoard nob=new PbtSingleMemberDashBoard("101153691786");
-        nob.setLocationRelativeTo(null);
-        nob.setVisible(true);
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -198,6 +257,37 @@ public class PbtHLMemberListForm extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel live;
     private javax.swing.JTable membertable;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+        int row=membertable.rowAtPoint(e.getPoint());
+        if(row>0)
+        {
+            String uid=membermodel.getValueAt(row,1).toString();
+            setVisible(false);
+            PbtSingleMemberDashBoard nob=new PbtSingleMemberDashBoard(uid,this);
+            nob.setLocationRelativeTo(null);
+            nob.setVisible(true);
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
 }

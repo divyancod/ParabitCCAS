@@ -7,12 +7,15 @@ package parabitccasbharat;
 
 import ParabitModel.PbtHHModel;
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -31,16 +34,18 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
     PbtHHModel hhmodel;
     PbtHLModel hlmodel;
     PbtHLMemberListForm hLMemberListForm;
-    public PbtSingleMemberDashBoard(PbtHLModel hlmodel,PbtHLMemberListForm hLMemberListForm)
+    public PbtSingleMemberDashBoard(PbtHLModel hlmodel,PbtHLMemberListForm hLMemberListForm)//----------- new member addition constructor
     {
         this();
         this.hlmodel=hlmodel;
         this.hLMemberListForm=hLMemberListForm;
     }
-    public PbtSingleMemberDashBoard(String uid)
+    public PbtSingleMemberDashBoard(String uid,PbtHLMemberListForm hLMemberListForm) //------- Modification table selection constructor
     {
         this();
         //hhmodel=new PbtHHModel();
+        this.hLMemberListForm=hLMemberListForm;
+        this.hlmodel=hLMemberListForm.hlmodel;
         hhmodel.setUid(uid);
         hhmodel.oldQuery();
         recordbtn.setEnabled(false);
@@ -52,8 +57,9 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
         other.setEnabled(true);
         aadhartf.setText(uid);
     }
-    public PbtSingleMemberDashBoard() {
+    public PbtSingleMemberDashBoard() {//-------------- default constructor must be called each time
         initComponents();
+        setTitle("CENSUS FORM - CCAS");
         db=new ParabitDBC("util");
         basic.setEnabled(false);
         education.setEnabled(false);
@@ -88,6 +94,19 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
                 
             }
         });
+        Thread nob=new Thread(new Runnable(){
+        @Override
+        public void run()
+        {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");  
+            while(true)
+            {
+                dclock.setText(formatter.format(new Date())); 
+                try{Thread.sleep(1000);}catch(Exception e){}
+            }
+        }
+        });
+        nob.start(); 
     }
     
     private void setFetchData(String adhr)
@@ -172,6 +191,8 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
         sssmid = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         vid = new javax.swing.JTextField();
+        dclock = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -284,6 +305,11 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
 
         jLabel16.setText("Voter ID :");
 
+        dclock.setText("12-mar-2018 17:12:12");
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel17.setText("CENSUS INDIVIDUAL FORM");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -291,26 +317,6 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(82, 82, 82)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(basic, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(82, 82, 82)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(bank, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(other, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(education, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(106, 106, 106)
-                                        .addComponent(medical, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(work, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(finalsavebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel9)
@@ -377,12 +383,45 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
                                 .addComponent(rationcardtype)
                                 .addComponent(pension, javax.swing.GroupLayout.Alignment.TRAILING))
                             .addComponent(vid, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(89, 89, 89))))
+                        .addGap(89, 89, 89))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(dclock))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(basic, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(82, 82, 82)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(bank, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(other, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(education, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(106, 106, 106)
+                                                .addComponent(medical, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(work, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(finalsavebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(48, 48, 48))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel17)
+                .addGap(525, 525, 525))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addContainerGap()
+                .addComponent(jLabel17)
+                .addGap(27, 27, 27)
+                .addComponent(dclock)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -418,9 +457,9 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
                             .addComponent(recordbtn)
                             .addComponent(jButton2))
                         .addGap(47, 47, 47)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13)
-                            .addComponent(fullnametf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(fullnametf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13))
                         .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(pancardno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -449,7 +488,7 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(vid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(basic, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(education, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -468,7 +507,14 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-       String adhrno=aadhartf.getText();
+       
+       if(hLMemberListForm!=null)
+       {
+           dispose();
+           hLMemberListForm.hlmodel=hlmodel;
+           hLMemberListForm.setTableData();
+           hLMemberListForm.setVisible(true);
+       }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void scanbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scanbtnActionPerformed
@@ -552,8 +598,12 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
             {
                 data.put("EmpEnumNo",hlmodel.getEmpEnumNo());
                 data.put("HL_Sno",hlmodel.getHlSNo());
+                data.put("fsno",hlmodel.getFsNo());
             }
             hhmodel.myInsert(data);
+            hhmodel.getCurrentHH();
+            hhmodel.genUCID();
+            recordbtn.setEnabled(false);
         }
        
     }//GEN-LAST:event_recordbtnActionPerformed
@@ -662,10 +712,31 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
        data.put("pmtpincode",hhmodel.getPmtPinCode());
        data.put("rsnofmig",hhmodel.getRsnOfMig());
        data.put("durofmig",hhmodel.getDurOfMig());
+       String[] listoptions = {"Form Complete", "Form Incomplete","Cancel"};
+        String msg="Are you sure want to final save the form and its data.\nPlease note this will reflect in the main dashboard.Kindly Check all the field filled properly.";
+            int option = JOptionPane.showOptionDialog(this,msg,
+               "Confirm Final Save",            
+               JOptionPane.YES_NO_OPTION,
+               JOptionPane.QUESTION_MESSAGE,
+               null,     
+               listoptions,
+              null
+            );
+        if(option==0)
+        {
+            data.put("status","1");//--------- changing status accordingly
+        }else if(option==1)
+        {
+            data.put("status","7");//--------- changing status accordingly
+        }
+        else if(option==2)
+        {
+            return;// ----------------- accidentally pressed save
+        }
        hhmodel.finalQuery(data);
-       dispose();
        if(hLMemberListForm!=null)
        {
+           dispose();
            hLMemberListForm.hlmodel=hlmodel;
            hLMemberListForm.setTableData();
            hLMemberListForm.setVisible(true);
@@ -747,6 +818,7 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
     private javax.swing.JButton bank;
     private javax.swing.JButton basic;
     private javax.swing.JTextField birthno;
+    private javax.swing.JLabel dclock;
     private javax.swing.JTextField disabilityno;
     private javax.swing.JTextField dlno;
     private javax.swing.JButton education;
@@ -763,6 +835,7 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
