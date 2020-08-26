@@ -80,6 +80,11 @@ public class PbtEnumDashBoard extends javax.swing.JFrame {
         });
 
         jButton4.setText("Incomplete Census");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Notifications");
 
@@ -194,6 +199,14 @@ public class PbtEnumDashBoard extends javax.swing.JFrame {
         nob.setLocationRelativeTo(null);
         nob.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        setVisible(false);
+        PbtEnumIncomplete nob=new PbtEnumIncomplete(this, true);
+        nob.setLocationRelativeTo(null);
+        nob.setVisible(true);
+        setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

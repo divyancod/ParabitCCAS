@@ -265,7 +265,7 @@ public class PbtHLMemberListForm extends javax.swing.JFrame implements MouseList
     public void mouseClicked(MouseEvent e) {
 
         int row=membertable.rowAtPoint(e.getPoint());
-        if(row>0)
+        if(row>=0)
         {
             String uid=membermodel.getValueAt(row,1).toString();
             setVisible(false);

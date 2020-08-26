@@ -20,6 +20,7 @@ public class PbtHHDialogNatureOfWork extends javax.swing.JDialog implements Acti
      */
     PbtSingleMemberDashBoard dashBoard;
     PbtHHModel hhmodel; 
+    public long nature;
     public PbtHHDialogNatureOfWork(PbtSingleMemberDashBoard parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -174,18 +175,17 @@ public class PbtHHDialogNatureOfWork extends javax.swing.JDialog implements Acti
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==b1)
-            hhmodel.setNatureOfWork(1);
+           nature=1;
         if(e.getSource()==b2)
-            hhmodel.setNatureOfWork(2);
+            nature=2;
         if(e.getSource()==b3)
-            hhmodel.setNatureOfWork(3);
+            nature=3;
         if(e.getSource()==b4)
-            hhmodel.setNatureOfWork(4);
+            nature=4;
         if(e.getSource()==b5)
-            hhmodel.setNatureOfWork(5);
+            nature=5;
         if(e.getSource()==b6)
-            hhmodel.setNatureOfWork(6);
-        dashBoard.hhmodel=hhmodel;
+            nature=6;
         setVisible(false);
     }
 }

@@ -87,8 +87,8 @@ public class PbtHHModel{
   private String jobSeek;
   private String cWorkStat;
   private long workCategory;
-  private long workingSector;
-  private long natureOfWork;
+  private String workingSector;
+  private String natureOfWork;
   private long icsNo;
   private String occupation;
   private String workExp;
@@ -777,20 +777,20 @@ public class PbtHHModel{
   }
 
 
-  public long getWorkingSector() {
+  public String getWorkingSector() {
     return workingSector;
   }
 
-  public void setWorkingSector(long workingSector) {
+  public void setWorkingSector(String workingSector) {
     this.workingSector = workingSector;
   }
 
 
-  public long getNatureOfWork() {
+  public String getNatureOfWork() {
     return natureOfWork;
   }
 
-  public void setNatureOfWork(long natureOfWork) {
+  public void setNatureOfWork(String natureOfWork) {
     this.natureOfWork = natureOfWork;
   }
 
@@ -1301,7 +1301,7 @@ public class PbtHHModel{
             }
         }
         query=query+",filldate=curdate(),timeout=curtime()";
-        query=query+" where uid='"+uid+"'";
+        query=query+" where hh_sno="+hhSNo;
          System.err.println(""+query);
          try
          {
@@ -1385,8 +1385,8 @@ public class PbtHHModel{
             jobSeek=db.rs1.getString("jobSeek");
             cWorkStat=db.rs1.getString("cWorkStat");
             workCategory=db.rs1.getLong("workCategory");
-            workingSector=db.rs1.getLong("workingSector");
-            natureOfWork=db.rs1.getLong("natureOfWork");
+            workingSector=db.rs1.getString("workingSector");
+            natureOfWork=db.rs1.getString("natureOfWork");
             icsNo=db.rs1.getLong("icsNo");
             occupation=db.rs1.getString("occupation");
             workExp=db.rs1.getString("workExp");

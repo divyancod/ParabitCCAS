@@ -46,8 +46,8 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
             wcat2.setSelected(true);
         else if(hhmodel.getWorkCategory()==3)
             wcat3.setSelected(true);
-        wsector.setText(new PbtHHDialogWorkSector(dashBoard, true).getSector(hhmodel.getWorkingSector()));
-        wnature.setText(new PbtHHDialogNatureOfWork(dashBoard, true).getNature(hhmodel.getNatureOfWork()));
+        //wsector.setText(new PbtHHDialogWorkSector(dashBoard, true).getSector(hhmodel.getWorkingSector()));
+        //wnature.setText(new PbtHHDialogNatureOfWork(dashBoard, true).getNature(hhmodel.getNatureOfWork()));
         icsno.setText(hhmodel.getIcsNo()+"");
         occupation.setText(hhmodel.getOccupation());
         income.setText(hhmodel.getIncome()+"");
@@ -509,14 +509,14 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
        PbtHHDialogWorkSector nob=new PbtHHDialogWorkSector(dashBoard, true);
        nob.setLocationRelativeTo(null);
        nob.setVisible(true);
-       wsector.setText(nob.getSector(hhmodel.getWorkingSector()));
+//       wsector.setText(nob.getSector(hhmodel.getWorkingSector()));
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         PbtHHDialogNatureOfWork nob=new PbtHHDialogNatureOfWork(dashBoard, true);
         nob.setLocationRelativeTo(null);
         nob.setVisible(true);
-        wnature.setText(nob.getNature(hhmodel.getNatureOfWork()));
+        //wnature.setText(nob.getNature(hhmodel.getNatureOfWork()));
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**

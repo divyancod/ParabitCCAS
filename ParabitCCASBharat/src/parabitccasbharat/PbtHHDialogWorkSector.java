@@ -8,6 +8,7 @@ package parabitccasbharat;
 import ParabitModel.PbtHHModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,9 +19,11 @@ public class PbtHHDialogWorkSector extends javax.swing.JDialog implements Action
     /**
      * Creates new form PbtHHDialogWorkSector
      */
-    long cworksector;
+    long cworksector,activity;
     PbtSingleMemberDashBoard dashBoard;
     PbtHHModel hhmodel;
+    DefaultTableModel model;
+    String naturework,sector;
     public PbtHHDialogWorkSector(PbtSingleMemberDashBoard parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -30,19 +33,74 @@ public class PbtHHDialogWorkSector extends javax.swing.JDialog implements Action
        b2.addActionListener(this);
        b3.addActionListener(this);
        b4.addActionListener(this);
+       b5.addActionListener(this);
+       b6.addActionListener(this);
+       b7.addActionListener(this);
+       b8.addActionListener(this);
+       b9.addActionListener(this);
+       b10.addActionListener(this);
+       b11.addActionListener(this);
+       
+       naturework="";
+       sector="";
+       model=(DefaultTableModel)tablemodel.getModel();
+       model.setRowCount(0);
+       if(hhmodel.getWorkingSector()!=null && hhmodel.getNatureOfWork()!=null)
+           setEcoTable();
+           
     }
     public String getSector(long i)
     {
         if(i==1)
             return b1.getText();
-        if(i==2)
+        else if(i==2)
             return b2.getText();
-        if(i==3)
+        else if(i==3)
             return b3.getText();
-        if(i==4)
+        else if(i==4)
             return b4.getText();
+        else if(i==5)
+            return b5.getText();
+        else if(i==6)
+            return b6.getText();
+        else if(i==7)
+            return b7.getText();
+        else if(i==8)
+            return b8.getText();
+        else if(i==9)
+            return b9.getText();
+        else if(i==10)
+            return b10.getText();
+        else if(i==11)
+            return b11.getText();
         dispose();
         return null;
+    }
+    public void setEcoTable()
+    {
+        String r1="",r2="",r3="";
+        sector=hhmodel.getWorkingSector();
+        naturework=hhmodel.getNatureOfWork();
+        String sectors[]=sector.split(",");
+        String natures[]=naturework.split(",");
+        PbtHHDialogNatureOfWork nob=new PbtHHDialogNatureOfWork(dashBoard, true);
+        for(int i=0;i<sectors.length;i++)
+        {
+            if(sectors[i].charAt(0)=='1')
+            {
+                r1="Economic";
+                r3=nob.getNature(Long.parseLong(String.valueOf(natures[i].charAt(2))));
+            }
+            else
+            {
+                r1="Non Economic";
+                r3="Not Applicable";
+            }
+            r2=getSector(Long.parseLong(String.valueOf(natures[i].charAt(0))));
+         Object ob[]={r1,r2,r3};   
+         model.addRow(ob);
+        }
+        nob.dispose();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -57,6 +115,18 @@ public class PbtHHDialogWorkSector extends javax.swing.JDialog implements Action
         b2 = new javax.swing.JButton();
         b3 = new javax.swing.JButton();
         b4 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablemodel = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        b5 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        b6 = new javax.swing.JButton();
+        b7 = new javax.swing.JButton();
+        b8 = new javax.swing.JButton();
+        b9 = new javax.swing.JButton();
+        b10 = new javax.swing.JButton();
+        b11 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -66,37 +136,133 @@ public class PbtHHDialogWorkSector extends javax.swing.JDialog implements Action
 
         b3.setText("Bussiness");
 
-        b4.setText("FreeLancer");
+        b4.setText("Freelancer");
+
+        jLabel1.setText("Select All Which Are Applicable for Economic Activity :");
+
+        tablemodel.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Activity", "Type", "Nature Of Work"
+            }
+        ));
+        jScrollPane2.setViewportView(tablemodel);
+
+        jLabel2.setText("Select All Which Are Applicable for Non Economic Activity :");
+
+        b5.setText("Student");
+
+        jButton1.setText("Save");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        b6.setText("Dependent");
+
+        b7.setText("HouseholdDuties");
+
+        b8.setText("Pensioner");
+
+        b9.setText("Rentier");
+
+        b10.setText("Other");
+
+        b11.setText("Beggar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(b1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(b2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(b3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
-                .addComponent(b4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(162, 162, 162)
+                        .addComponent(b1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(b2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(b3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(49, 49, 49)
+                        .addComponent(b4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(289, 289, 289)
+                        .addComponent(b9, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61)
+                        .addComponent(b11, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(75, 75, 75)
+                        .addComponent(b10, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(200, 200, 200)
+                        .addComponent(b5, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61)
+                        .addComponent(b7, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(75, 75, 75)
+                        .addComponent(b6, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61)
+                        .addComponent(b8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(69, 69, 69)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 749, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(94, 94, 94))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(130, 130, 130)
+                .addGap(67, 67, 67)
+                .addComponent(jLabel1)
+                .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(b1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(b2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(b3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(b4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addGap(112, 112, 112)
+                .addComponent(jLabel2)
+                .addGap(40, 40, 40)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(b5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(b7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(b6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(b8, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(b9, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(b11, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(b10, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(61, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(98, 98, 98))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        hhmodel.setWorkingSector(sector);
+        hhmodel.setNatureOfWork(naturework);
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -131,23 +297,76 @@ public class PbtHHDialogWorkSector extends javax.swing.JDialog implements Action
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton b1;
+    private javax.swing.JButton b10;
+    private javax.swing.JButton b11;
     private javax.swing.JButton b2;
     private javax.swing.JButton b3;
     private javax.swing.JButton b4;
+    private javax.swing.JButton b5;
+    private javax.swing.JButton b6;
+    private javax.swing.JButton b7;
+    private javax.swing.JButton b8;
+    private javax.swing.JButton b9;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tablemodel;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==b1)
             cworksector=1;
-        if(e.getSource()==b2)
+        else if(e.getSource()==b2)
             cworksector=2;
-        if(e.getSource()==b3)
+        else if(e.getSource()==b3)
             cworksector=3;
-        if(e.getSource()==b4)
+        else if(e.getSource()==b4)
             cworksector=4;
-        hhmodel.setWorkingSector(cworksector);
-        dashBoard.hhmodel=hhmodel;
-        setVisible(false);
+        else if(e.getSource()==b5)
+            cworksector=5;
+        else if(e.getSource()==b6)
+            cworksector=6;
+        else if(e.getSource()==b7)
+            cworksector=7;
+        else if(e.getSource()==b8)
+            cworksector=8;
+        else if(e.getSource()==b9)
+            cworksector=9;
+        else if(e.getSource()==b10)
+            cworksector=10;
+        else if(e.getSource()==b11)
+            cworksector=11;
+        
+        if(cworksector<=4 && cworksector>=1)
+            activity=1;
+        else
+            activity=2;
+        
+        Object ob[]=new Object[3];
+        if(activity==1)
+        {
+            PbtHHDialogNatureOfWork nob=new PbtHHDialogNatureOfWork(dashBoard, true);
+            nob.setLocationRelativeTo(null);
+            nob.setVisible(true);
+            ob[0]="Economic";
+            ob[1]=getSector(cworksector);
+            ob[2]=nob.getNature(nob.nature);
+            sector=sector+"1-"+cworksector+",";
+            naturework=naturework+cworksector+"-"+nob.nature+",";
+            nob.dispose();
+        }
+        else
+        {
+            ob[0]="Non - Economic";
+            ob[1]=getSector(cworksector);
+            ob[2]="Not Applicable";
+            sector=sector+"2-"+cworksector+",";
+            naturework=naturework+cworksector+"-0,";
+        } 
+        model.addRow(ob);
+        //hhmodel.setWorkingSector(cworksector);
+        //dashBoard.hhmodel=hhmodel;
     }
 }
