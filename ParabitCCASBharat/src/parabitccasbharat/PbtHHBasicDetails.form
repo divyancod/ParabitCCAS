@@ -60,16 +60,11 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                           <Group type="102" alignment="1" attributes="0">
                                               <Component id="m1" min="-2" pref="193" max="-2" attributes="0"/>
                                               <EmptySpace max="32767" attributes="0"/>
-                                              <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lsurvive" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="1" attributes="0">
                                               <Group type="103" groupAlignment="0" attributes="0">
@@ -101,7 +96,7 @@
                                                   </Group>
                                                   <Group type="102" alignment="0" attributes="0">
                                                       <Group type="103" groupAlignment="1" attributes="0">
-                                                          <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="mchoose" min="-2" max="-2" attributes="0"/>
                                                           <Group type="103" groupAlignment="0" attributes="0">
                                                               <Group type="102" alignment="0" attributes="0">
                                                                   <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
@@ -123,7 +118,7 @@
                                                   <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                                                   <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                                                   <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lborn" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -147,6 +142,14 @@
                                               <Component id="jButton4" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Component id="lerror" min="-2" max="-2" attributes="0"/>
+                                          <Component id="savebtn" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
@@ -227,7 +230,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="mstatus" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="m1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="mchoose" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -274,19 +277,21 @@
                       </Group>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lborn" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="chdnevenborn" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lsurvive" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="chdnsurv" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-              <Component id="jButton1" min="-2" pref="89" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+              <Component id="savebtn" min="-2" pref="89" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lerror" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -334,7 +339,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel10">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cast :"/>
+        <Property name="text" type="java.lang.String" value="Caste :"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="mobno">
@@ -429,26 +434,26 @@
     </Component>
     <Component class="javax.swing.JTextField" name="marriageage">
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel9">
+    <Component class="javax.swing.JLabel" name="lborn">
       <Properties>
         <Property name="text" type="java.lang.String" value="Child Born :"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="chdnevenborn">
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel11">
+    <Component class="javax.swing.JLabel" name="lsurvive">
       <Properties>
         <Property name="text" type="java.lang.String" value="No of Childern Survived :"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="chdnsurv">
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="savebtn">
       <Properties>
         <Property name="text" type="java.lang.String" value="Save and Back"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="savebtnActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel18">
@@ -475,12 +480,12 @@
     </Component>
     <Component class="javax.swing.JTextField" name="m1">
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="mchoose">
       <Properties>
         <Property name="text" type="java.lang.String" value="Select"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mchooseActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton3">
@@ -502,6 +507,14 @@
     <Component class="javax.swing.JCheckBox" name="selfhead">
       <Properties>
         <Property name="text" type="java.lang.String" value="Head"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lerror">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" red="ff" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Invalid data in head registered mobile no"/>
       </Properties>
     </Component>
   </SubComponents>

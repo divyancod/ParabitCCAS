@@ -6,25 +6,51 @@
 package parabitccasbharat;
 
 import ParabitModel.PbtHHModel;
+import java.awt.Color;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.BorderFactory;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
 
 /**
  *
  * @author Asus
  */
-public class PbtHHOthersDetails extends javax.swing.JDialog {
+public class PbtHHOthersDetails extends javax.swing.JDialog implements ItemListener,DocumentListener{
 
     /**
      * Creates new form PbtHHOthersDetails
      */
     PbtSingleMemberDashBoard dashBoard;
     PbtHHModel hhmodel;
+    Border defaultborder,errorborder;
     public PbtHHOthersDetails(PbtSingleMemberDashBoard parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.dashBoard=parent;
         this.hhmodel=parent.hhmodel;
+        nri1.addItemListener(this);
+        nri2.addItemListener(this);
+        reasonmig.setVisible(false);
+        rmig.setVisible(false);
+        lerror.setVisible(false);
+        timemigr.setVisible(false);
+        tmig.setVisible(false);
+        foreginadd.setVisible(false);
+        fadd.setVisible(false);
+        pmtpin.getDocument().addDocumentListener(this);
+        timemigr.getDocument().addDocumentListener(this);
+        defaultborder=pmtpin.getBorder();
+        errorborder= BorderFactory.createLineBorder(Color.red, 2);
         setDataModel();
         
     }
@@ -99,16 +125,17 @@ public class PbtHHOthersDetails extends javax.swing.JDialog {
         jLabel11 = new javax.swing.JLabel();
         nri1 = new javax.swing.JRadioButton();
         nri2 = new javax.swing.JRadioButton();
-        jLabel12 = new javax.swing.JLabel();
+        fadd = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         foreginadd = new javax.swing.JTextArea();
-        jLabel13 = new javax.swing.JLabel();
+        rmig = new javax.swing.JLabel();
         reasonmig = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
+        tmig = new javax.swing.JLabel();
         timemigr = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        savebtn = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
+        lerror = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -142,25 +169,28 @@ public class PbtHHOthersDetails extends javax.swing.JDialog {
         buttonGroup1.add(nri2);
         nri2.setText("No");
 
-        jLabel12.setText("Foreign Address :");
+        fadd.setText("Foreign Address :");
 
         foreginadd.setColumns(20);
         foreginadd.setRows(5);
         jScrollPane2.setViewportView(foreginadd);
 
-        jLabel13.setText("Reason of Migration :");
+        rmig.setText("Reason of Migration :");
 
-        jLabel14.setText("Time Period of Migration :");
+        tmig.setText("Time Period of Migration :");
 
-        jButton1.setText("Save and Back");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        savebtn.setText("Save and Back");
+        savebtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                savebtnActionPerformed(evt);
             }
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Other Misc Details");
+
+        lerror.setForeground(new java.awt.Color(255, 0, 0));
+        lerror.setText("Invalid data in head registered mobile no");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -215,21 +245,22 @@ public class PbtHHOthersDetails extends javax.swing.JDialog {
                                 .addGap(172, 172, 172)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel11)
-                                    .addComponent(jLabel12)
-                                    .addComponent(jLabel13)
-                                    .addComponent(jLabel14))
+                                    .addComponent(fadd)
+                                    .addComponent(rmig)
+                                    .addComponent(tmig))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(timemigr, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jButton1)
+                                        .addComponent(savebtn)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(nri1)
                                                 .addGap(18, 18, 18)
                                                 .addComponent(nri2))
                                             .addComponent(jScrollPane2)
-                                            .addComponent(reasonmig, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                            .addComponent(reasonmig, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(lerror))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(461, 461, 461)
                                 .addComponent(jLabel1)))
@@ -265,7 +296,7 @@ public class PbtHHOthersDetails extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(pmtward, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12))
+                            .addComponent(fadd))
                         .addGap(47, 47, 47)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
@@ -274,13 +305,13 @@ public class PbtHHOthersDetails extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(pmttehsil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13)
+                            .addComponent(rmig)
                             .addComponent(reasonmig, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(47, 47, 47)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(pmtdist, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel14)
+                            .addComponent(tmig)
                             .addComponent(timemigr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(45, 45, 45)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -292,14 +323,16 @@ public class PbtHHOthersDetails extends javax.swing.JDialog {
                             .addComponent(pmtstate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(savebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lerror)
+                .addGap(10, 10, 10))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void savebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savebtnActionPerformed
        setModel();
        Map<Object,Object> data=new HashMap();
        data.put("nri",hhmodel.getNri());
@@ -317,7 +350,7 @@ public class PbtHHOthersDetails extends javax.swing.JDialog {
        hhmodel.myQuery(data);
        dashBoard.hhmodel=hhmodel;
        dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_savebtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -353,14 +386,11 @@ public class PbtHHOthersDetails extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField birthplace;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JLabel fadd;
     private javax.swing.JTextArea foreginadd;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -373,6 +403,7 @@ public class PbtHHOthersDetails extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel lerror;
     private javax.swing.JRadioButton nri1;
     private javax.swing.JRadioButton nri2;
     private javax.swing.JTextField pmtdist;
@@ -383,6 +414,92 @@ public class PbtHHOthersDetails extends javax.swing.JDialog {
     private javax.swing.JTextField pmttown;
     private javax.swing.JTextField pmtward;
     private javax.swing.JTextField reasonmig;
+    private javax.swing.JLabel rmig;
+    private javax.swing.JButton savebtn;
     private javax.swing.JTextField timemigr;
+    private javax.swing.JLabel tmig;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if(e.getSource()==nri1)
+        {
+            reasonmig.setVisible(true);
+            rmig.setVisible(true);
+            timemigr.setVisible(true);
+            tmig.setVisible(true);
+            foreginadd.setVisible(true);
+            fadd.setVisible(true);
+        }else if(e.getSource()==nri2)
+        {
+            reasonmig.setVisible(false);
+            rmig.setVisible(false);
+            timemigr.setVisible(false);
+            tmig.setVisible(false);
+            foreginadd.setVisible(false);
+            fadd.setVisible(false);
+        }
+    }
+    private boolean checkNum(String str)
+    {
+        Pattern p=Pattern.compile("[a-zA-z]");
+        Matcher mat=p.matcher(str);
+        return mat.find();
+    }
+    private void setNoError(javax.swing.JTextField nob)
+    {
+        nob.setBorder(defaultborder);
+        lerror.setVisible(false);
+        savebtn.setEnabled(true);
+    }
+    private void setError(javax.swing.JTextField nob)
+    {
+        nob.setBorder(errorborder);
+        lerror.setText("Invalid data in some fields");
+        lerror.setVisible(true);
+        savebtn.setEnabled(false);
+    }
+    private void verifyNum(DocumentEvent e)
+    {
+        if(e.getDocument()==pmtpin.getDocument())
+        {
+            String pin=pmtpin.getText();
+            if(!checkNum(pin)&& pin.length()==6)
+            {
+                setNoError(pmtpin);
+            }
+            else
+            {
+                setError(pmtpin);
+            }
+        }
+        else if(e.getDocument()==timemigr.getDocument())
+        {
+            String time=timemigr.getText();
+            if(!checkNum(time)&& time.length()==1||time.length()==2)
+            {
+                setNoError(timemigr);
+            }
+            else
+            {
+                setError(timemigr);
+            }
+        
+        }
+        
+    }
+    
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        verifyNum(e);
+      }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        verifyNum(e);
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+    }
 }

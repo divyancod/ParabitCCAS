@@ -1291,9 +1291,9 @@ public class PbtHHModel{
         String query="update pbtcensus_household set note=''";
         for (Map.Entry<Object, Object> entry : mymap.entrySet()){
             if(entry.getValue()!=null){
-                if(entry.getValue().toString().isEmpty())
-                    query=query+","+entry.getKey()+"=''";//<--- added N here
-                else
+//                if(entry.getValue().toString().isEmpty())
+//                    query=query+","+entry.getKey()+"=''";//<--- added N here
+//                else
                     query=query+","+entry.getKey()+"='"+entry.getValue()+"'";
             }else
             {

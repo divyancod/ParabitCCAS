@@ -6,14 +6,21 @@
 package parabitccasbharat;
 
 import ParabitModel.PbtHHModel;
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
  * @author Asus
  */
-public class PbtHHWorkDetails extends javax.swing.JDialog {
+public class PbtHHWorkDetails extends javax.swing.JDialog implements DocumentListener{
 
     /**
      * Creates new form PbtHHWorkDetails
@@ -21,13 +28,20 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
     PbtSingleMemberDashBoard dashBoard;
     PbtHHModel hhmodel;
     String modetrvldatabase;
+    Border defaultborder,errorborder;
     public PbtHHWorkDetails(PbtSingleMemberDashBoard parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.dashBoard=parent;
         this.hhmodel=parent.hhmodel;
         modeoftrvl.setEditable(false);
-        wsector.setEditable(false);
+        //wsector.setEditable(false);
+        defaultborder=icsno.getBorder();
+        lerror.setVisible(false);
+        errorborder= BorderFactory.createLineBorder(Color.red, 2);
+        workexp.getDocument().addDocumentListener(this);
+        specexp.getDocument().addDocumentListener(this);
+        income.getDocument().addDocumentListener(this);
         setData();
     }
     
@@ -119,6 +133,61 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
         modetrvldatabase=database;
         hhmodel.setModOfTravel(modetrvldatabase);
     }
+    private boolean checkNum(String str)
+    {
+        Pattern p=Pattern.compile("[a-zA-z]");
+        Matcher mat=p.matcher(str);
+        return mat.find();
+    }
+    private void setNoError(javax.swing.JTextField nob)
+    {
+        nob.setBorder(defaultborder);
+        lerror.setVisible(false);
+        savebtn.setEnabled(true);
+    }
+    private void setError(javax.swing.JTextField nob)
+    {
+        nob.setBorder(errorborder);
+        lerror.setText("Invalid data in some fields");
+        lerror.setVisible(true);
+        savebtn.setEnabled(false);
+    }
+    private void verifyData(DocumentEvent e)
+    {
+        if(e.getDocument()==workexp.getDocument())
+        {
+            String s=workexp.getText();
+            if(!checkNum(s) && s.length()==1||s.length()==2)
+            {
+                setNoError(workexp);
+            }else
+            {
+                setError(workexp);
+            }
+        }
+        else if(e.getDocument()==specexp.getDocument())
+        {
+            String s=specexp.getText();
+            if(!checkNum(s) && s.length()==1||s.length()==2)
+            {
+                setNoError(specexp);
+            }else
+            {
+                setError(specexp);
+            }
+        }
+        else if(e.getDocument()==income.getDocument())
+        {
+            String s=income.getText();
+            if(!checkNum(s))
+            {
+                setNoError(income);
+            }else
+            {
+                setError(income);
+            }
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -141,9 +210,6 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
         specexp = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        wsector = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        wnature = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         profno = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -169,13 +235,13 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
         cwstatus1 = new javax.swing.JRadioButton();
         cwstatus2 = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        savebtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         modeoftrvl = new javax.swing.JTextArea();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        lerror = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -190,8 +256,6 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
         jLabel5.setText("Specialization Experience :");
 
         jLabel6.setText("Working Sector :");
-
-        jLabel7.setText("Nature Of Work :");
 
         jLabel8.setText("Professional Licence No :");
 
@@ -245,10 +309,10 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
             }
         });
 
-        jButton2.setText("Save and Back");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        savebtn.setText("Save and Back");
+        savebtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                savebtnActionPerformed(evt);
             }
         });
 
@@ -263,17 +327,13 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
             }
         });
 
-        jButton4.setText("Select");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel17.setText("Work Details");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kilometers", "Meters", "Miles" }));
+
+        lerror.setForeground(new java.awt.Color(255, 0, 0));
+        lerror.setText("Invalid data in head registered mobile no");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -293,6 +353,7 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel12)
@@ -302,10 +363,6 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
                                         .addComponent(jLabel10)
                                         .addGap(18, 18, 18)
                                         .addComponent(icsno, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(wnature, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel13)
                                         .addGap(18, 18, 18)
@@ -321,51 +378,54 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
                                             .addComponent(wcat1)
                                             .addComponent(wcat2)
                                             .addComponent(wcat3)
-                                            .addComponent(wsector, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(jButton3))
+                                        .addGap(56, 56, 56)))
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton1)
-                                    .addComponent(jButton3)
-                                    .addComponent(jButton4))))))
+                                .addComponent(jButton1)))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(specdesc, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(specexp, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(18, 18, 18)
-                                .addComponent(profno, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(18, 18, 18)
-                                .addComponent(busslicno, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(specdesc, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(specexp, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(profno, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(busslicno, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(workexp, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel11)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(itr1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(itr2)
+                                        .addGap(97, 97, 97))
+                                    .addComponent(savebtn, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lerror, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addContainerGap(112, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jLabel14)
                                 .addGap(18, 18, 18)
                                 .addComponent(distancefromwork, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(63, 63, 63)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel2)
                                 .addGap(18, 18, 18)
-                                .addComponent(workexp, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addGap(18, 18, 18)
-                                .addComponent(itr1)
-                                .addGap(18, 18, 18)
-                                .addComponent(itr2)
-                                .addGap(97, 97, 97))
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addContainerGap(112, Short.MAX_VALUE))
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(126, 126, 126))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel16)
@@ -407,36 +467,36 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(wsector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton3))
-                        .addGap(48, 48, 48)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(wnature, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4))
-                        .addGap(49, 49, 49)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(icsno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(50, 50, 50)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel16)
-                                .addComponent(jobseek1)
-                                .addComponent(jobseek2))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel12)
-                                .addComponent(occupation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(50, 50, 50)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel13)
-                            .addComponent(income, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(49, 49, 49)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel15)
-                            .addComponent(jButton1)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(39, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(194, 194, 194)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel16)
+                                    .addComponent(jobseek1)
+                                    .addComponent(jobseek2)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(47, 47, 47)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel10)
+                                    .addComponent(icsno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(50, 50, 50)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel12)
+                                    .addComponent(occupation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(50, 50, 50)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel13)
+                                    .addComponent(income, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(49, 49, 49)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel15)
+                                    .addComponent(jButton1)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel14)
+                                    .addComponent(distancefromwork, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
@@ -458,14 +518,11 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
                             .addComponent(busslicno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(125, 125, 125)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel14)
-                            .addComponent(distancefromwork, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40))))
+                        .addComponent(savebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
+                .addComponent(lerror)
+                .addGap(6, 6, 6))
         );
 
         pack();
@@ -481,7 +538,7 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
         nob.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void savebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savebtnActionPerformed
         setModelData();
         Map<Object,Object> data=new HashMap();
        data.put("jobseek",hhmodel.getJobSeek());
@@ -503,7 +560,7 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
        hhmodel.myQuery(data);
        dashBoard.hhmodel=hhmodel;
        dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_savebtnActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
        PbtHHDialogWorkSector nob=new PbtHHDialogWorkSector(dashBoard, true);
@@ -511,13 +568,6 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
        nob.setVisible(true);
 //       wsector.setText(nob.getSector(hhmodel.getWorkingSector()));
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        PbtHHDialogNatureOfWork nob=new PbtHHDialogNatureOfWork(dashBoard, true);
-        nob.setLocationRelativeTo(null);
-        nob.setVisible(true);
-        //wnature.setText(nob.getNature(hhmodel.getNatureOfWork()));
-    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -561,9 +611,7 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
     private javax.swing.JRadioButton itr1;
     private javax.swing.JRadioButton itr2;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -579,25 +627,39 @@ public class PbtHHWorkDetails extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.ButtonGroup jobseek;
     private javax.swing.JRadioButton jobseek1;
     private javax.swing.JRadioButton jobseek2;
+    private javax.swing.JLabel lerror;
     private javax.swing.JTextArea modeoftrvl;
     private javax.swing.JTextField occupation;
     private javax.swing.JTextField profno;
+    private javax.swing.JButton savebtn;
     private javax.swing.JTextField specdesc;
     private javax.swing.JTextField specexp;
     private javax.swing.JRadioButton wcat1;
     private javax.swing.JRadioButton wcat2;
     private javax.swing.JRadioButton wcat3;
-    private javax.swing.JTextField wnature;
     private javax.swing.ButtonGroup workcat;
     private javax.swing.JTextField workexp;
     private javax.swing.ButtonGroup workstatus;
-    private javax.swing.JTextField wsector;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        verifyData(e);
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        verifyData(e);
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+        verifyData(e);
+    }
 }

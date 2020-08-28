@@ -266,7 +266,7 @@ public class PbtHHDialogModOfTrav extends javax.swing.JDialog {
         }
         if(t12.isSelected())
         {
-            text=text+t1.getText()+"\n";
+            text=text+t12.getText()+"\n";
             database=database+"12,";
         }
         this.text=text;

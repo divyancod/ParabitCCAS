@@ -60,6 +60,10 @@ public class PbtFieldSelection extends javax.swing.JDialog implements MouseListe
     {
         
     }
+    private void updateEmpDailyLog()
+    {
+        String query="";
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

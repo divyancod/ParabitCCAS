@@ -8,13 +8,17 @@ package parabitccasbharat;
 import ParabitModel.PbtHHModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Asus
  */
-public class PbtHHDialogWorkSector extends javax.swing.JDialog implements ActionListener{
+public class PbtHHDialogWorkSector extends javax.swing.JDialog implements ActionListener,MouseListener{
 
     /**
      * Creates new form PbtHHDialogWorkSector
@@ -24,6 +28,7 @@ public class PbtHHDialogWorkSector extends javax.swing.JDialog implements Action
     PbtHHModel hhmodel;
     DefaultTableModel model;
     String naturework,sector;
+    ArrayList<String> nwork,sect;
     public PbtHHDialogWorkSector(PbtSingleMemberDashBoard parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -40,11 +45,13 @@ public class PbtHHDialogWorkSector extends javax.swing.JDialog implements Action
        b9.addActionListener(this);
        b10.addActionListener(this);
        b11.addActionListener(this);
-       
+       nwork=new ArrayList<>();
+       sect=new ArrayList<>();
        naturework="";
        sector="";
        model=(DefaultTableModel)tablemodel.getModel();
        model.setRowCount(0);
+       tablemodel.addMouseListener(this);
        if(hhmodel.getWorkingSector()!=null && hhmodel.getNatureOfWork()!=null)
            setEcoTable();
            
@@ -83,6 +90,12 @@ public class PbtHHDialogWorkSector extends javax.swing.JDialog implements Action
         naturework=hhmodel.getNatureOfWork();
         String sectors[]=sector.split(",");
         String natures[]=naturework.split(",");
+        for(int i=0;i<sectors.length;i++)
+        {
+            
+            sect.add(sectors[i]);
+            nwork.add(natures[i]);
+        }
         PbtHHDialogNatureOfWork nob=new PbtHHDialogNatureOfWork(dashBoard, true);
         for(int i=0;i<sectors.length;i++)
         {
@@ -259,6 +272,13 @@ public class PbtHHDialogWorkSector extends javax.swing.JDialog implements Action
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        sector="";
+        naturework="";
+        for(int i=0;i<sect.size();i++)
+        {
+            sector=sector+sect.get(i)+",";
+            naturework=naturework+nwork.get(i)+",";
+        }
         hhmodel.setWorkingSector(sector);
         hhmodel.setNatureOfWork(naturework);
         dispose();
@@ -343,7 +363,7 @@ public class PbtHHDialogWorkSector extends javax.swing.JDialog implements Action
             activity=1;
         else
             activity=2;
-        
+    
         Object ob[]=new Object[3];
         if(activity==1)
         {
@@ -353,8 +373,10 @@ public class PbtHHDialogWorkSector extends javax.swing.JDialog implements Action
             ob[0]="Economic";
             ob[1]=getSector(cworksector);
             ob[2]=nob.getNature(nob.nature);
-            sector=sector+"1-"+cworksector+",";
-            naturework=naturework+cworksector+"-"+nob.nature+",";
+            //sector=sector+"1-"+cworksector+",";
+            //naturework=naturework+cworksector+"-"+nob.nature+",";
+            sect.add("1-"+cworksector);
+            nwork.add(cworksector+"-"+nob.nature);
             nob.dispose();
         }
         else
@@ -362,11 +384,46 @@ public class PbtHHDialogWorkSector extends javax.swing.JDialog implements Action
             ob[0]="Non - Economic";
             ob[1]=getSector(cworksector);
             ob[2]="Not Applicable";
-            sector=sector+"2-"+cworksector+",";
-            naturework=naturework+cworksector+"-0,";
+            //sector=sector+"2-"+cworksector+",";
+            //naturework=naturework+cworksector+"-0,";
+            sect.add("2-"+cworksector);
+            nwork.add(cworksector+"-0");
+            
         } 
         model.addRow(ob);
         //hhmodel.setWorkingSector(cworksector);
         //dashBoard.hhmodel=hhmodel;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int row=tablemodel.rowAtPoint(e.getPoint());
+        String msg="Are you sure to remove this from the selected Work Sector and Nature of Work?";
+        int opt=JOptionPane.showConfirmDialog(null,msg, "Confirm Remove?", JOptionPane.YES_NO_OPTION);
+        if(opt==0)
+        {
+        sect.remove(row);
+        nwork.remove(row);
+        model.removeRow(row);
+        }else
+        {
+            return;
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 }
