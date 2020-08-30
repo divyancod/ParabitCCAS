@@ -5,6 +5,8 @@
  */
 package parabitccasbharat;
 
+import parabitmodel.PbtHLModel;
+
 /**
  *
  * @author Asus
@@ -14,8 +16,10 @@ public class PbtHLDashBoard extends javax.swing.JFrame {
     /**
      * Creates new form PbtHLDashBoard
      */
+    PbtHLModel hlmodel;
     public PbtHLDashBoard() {
         initComponents();
+        hlmodel=new PbtHLModel();
     }
 
     /**
@@ -52,6 +56,11 @@ public class PbtHLDashBoard extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("Accessibility");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Infrastructure");
 
@@ -172,6 +181,11 @@ public class PbtHLDashBoard extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       PbtHLInfrastructure nob=new PbtHLInfrastructure(this, true);
+       nob.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -5,9 +5,12 @@
         <group>
             <file>file:/D:/ParabitProjectFile/ParabitCCASBharat/src/parabitccasbharat/PbtLogIN.java</file>
             <file>file:/D:/ParabitProjectFile/ParabitCCASBharat/src/parabitccasbharat/PbtHLInfrastructure.java</file>
+            <file>file:/D:/ParabitProjectFile/ParabitCCASBharat/src/parabitccasbharat/PbtHLDialogFloor.java</file>
+            <file>file:/D:/ParabitProjectFile/ParabitCCASBharat/src/parabitccasbharat/PbtHLConditionHouse.java</file>
             <file>file:/D:/ParabitProjectFile/ParabitCCASBharat/src/parabitccasbharat/PbtSingleMemberDashBoard.java</file>
-            <file>file:/D:/ParabitProjectFile/ParabitCCASBharat/src/parabitccasbharat/PbtHHDialogWorkSector.java</file>
+            <file>file:/D:/ParabitProjectFile/ParabitCCASBharat/src/parabitccasbharat/PbtHLDialogRoof.java</file>
             <file>file:/D:/ParabitProjectFile/ParabitCCASBharat/src/parabitccasbharat/PbtHLDashBoard.java</file>
+            <file>file:/D:/ParabitProjectFile/ParabitCCASBharat/src/parabitccasbharat/PbtHLDialogWall.java</file>
         </group>
     </open-files>
 </project-private>
