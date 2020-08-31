@@ -44,7 +44,7 @@ public class PbtHLModel{
   private String drainageSys;
   private String wtrHarv;
   private long bathFact;
-  private long swimmingPool;
+  private String swimmingPool;
   private long kitchen;
   private long cookFuel;
   private String radio;
@@ -61,9 +61,9 @@ public class PbtHLModel{
   private long r4Wheel;
   private long tNoCommVeh;
   private String parkingFact;
-  private long lift;
-  private long escalator;
-  private long helipad;
+  private String lift;
+  private String escalator;
+  private String helipad;
   private String genDiss;
   private String firstAidKit;
   private String hInsu;
@@ -443,11 +443,11 @@ public class PbtHLModel{
   }
 
 
-  public long getSwimmingPool() {
+  public String getSwimmingPool() {
     return swimmingPool;
   }
 
-  public void setSwimmingPool(long swimmingPool) {
+  public void setSwimmingPool(String swimmingPool) {
     this.swimmingPool = swimmingPool;
   }
 
@@ -596,29 +596,29 @@ public class PbtHLModel{
   }
 
 
-  public long getLift() {
+  public String getLift() {
     return lift;
   }
 
-  public void setLift(long lift) {
+  public void setLift(String lift) {
     this.lift = lift;
   }
 
 
-  public long getEscalator() {
+  public String getEscalator() {
     return escalator;
   }
 
-  public void setEscalator(long escalator) {
+  public void setEscalator(String escalator) {
     this.escalator = escalator;
   }
 
 
-  public long getHelipad() {
+  public String getHelipad() {
     return helipad;
   }
 
-  public void setHelipad(long helipad) {
+  public void setHelipad(String helipad) {
     this.helipad = helipad;
   }
 

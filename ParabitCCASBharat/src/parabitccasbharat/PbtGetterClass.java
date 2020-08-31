@@ -183,4 +183,91 @@ public class PbtGetterClass {
         }
         return null;  
     }
+    public static String getTV(long data)
+    {
+        switch((int)data)
+        {
+        case 1: return "LED";
+        case 2: return "LCD";
+        case 3: return "Plasma";
+        case 4: return "OLED";
+        case 5: return "QLED";
+        case 6: return "DLP";
+        case 7: return "DLD";
+        case 8: return "MICRO LED";
+        case 9: return "3DTV";
+        case 10: return "Direct View";
+        }
+        return "";
+    }
+    public static String getTvSignal(long data)
+    {
+        switch((int)data)
+        {
+        case 1: return "DDFreeDish";
+        case 2: return "Cable";
+        case 3: return "DTH";
+        case 4: return "WebTV";
+        }
+        return "";
+    }
+    public static String getCool(long data)
+    {
+        switch((int)data)
+        {
+        case 1: return "Fan";
+        case 2: return "Cooler";
+        case 3: return "Air Conditioner/AC";
+        case 4: return "Fan and Cooler";
+        case 5: return "Cooler and AC";
+        case 6: return "Fan and AC";
+        case 7: return "Fan and Cooler and AC";
+        case 8: return "Heat Pump";
+        case 9: return "Indirect Direct Evaporating Cooling System (IDEC)";
+        case 10: return "Cooling Towers";
+        case 11: return "Air Cooling Unit";
+        case 12: return "Roof Cooling";
+        case 13: return "Centralized AC";
+        case 14: return "Centralized Cooler";
+        case 15: return "Heater";
+        case 16: return "Furnace";
+        case 17: return "Centralized Heating System";
+        }
+        return "";
+    }
+    public static String getDrinkWater(long data)
+    {
+        switch((int)data)
+        {
+            case 1: return "Tap water from treated source";
+            case 2: return "Tap water from untreated source";
+            case 3: return "Well";
+            case 4: return "Hand Pump";
+            case 5: return "Tubewell/Borehole";
+            case 6: return "Spring";
+            case 7: return "River/Canal";
+            case 8: return "Tank/Pond/Lake";
+            case 9: return "Packaged/bottled water";
+            case 10: return "Machine";
+            }
+            return "";
+    }
+    public static String getLightSource(long data)
+    {
+        switch((int)data)
+        {
+        case 1: return "Solar Panels";
+        case 2: return "Wind Turbines";
+        case 3: return "Running Water";
+        case 4: return "Portable Generator";
+        case 5: return "Inverter";
+        case 6: return "Standby Generator";
+        case 7: return "Industrial Generator";
+        case 8: return "Wired Electricity";
+        case 9: return "Kerosene";
+        case 10: return "Gas";
+        case 11: return "Candle ";
+        }
+        return "";
+    }
 }

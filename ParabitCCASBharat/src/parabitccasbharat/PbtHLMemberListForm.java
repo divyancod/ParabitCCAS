@@ -35,9 +35,15 @@ public class PbtHLMemberListForm extends javax.swing.JFrame implements MouseList
         hlmodel=new PbtHLModel();
         hlmodel.setTypeOfHouse(1);
         hlmodel.setUseOfHouse("1");
+        hlmodel.setWardNo(empdata.getWardno());
+        hlmodel.setStUt(empdata.getEmpstate());
+        hlmodel.setTownVillage(empdata.getTownvill());
+        hlmodel.setTehsil(empdata.getEmpCity());
+        hlmodel.setDist(empdata.getEmpDist());
         hlmodel.setEmpEnumNo(empdata.getEmpid());
         hlmodel.firstInsert();
         hlmodel.getCurrent();
+        updateAddress();
         //hlmodel.setHlSNo(1001);
         membermodel=(DefaultTableModel)membertable.getModel();
         membertable.addMouseListener(this);
@@ -56,6 +62,18 @@ public class PbtHLMemberListForm extends javax.swing.JFrame implements MouseList
             }
         });
         nob.start();
+    }
+    private void updateAddress()
+    {
+        Map<Object,Object> data=new HashMap<>();
+        data.put("stUt",hlmodel.getStUt());
+        data.put("dist",hlmodel.getDist());
+        data.put("tehsil",hlmodel.getTehsil());
+        data.put("townVillage",hlmodel.getTownVillage());
+        data.put("wardNo",hlmodel.getWardNo());
+        data.put("hNoAdd",hlmodel.getHNoAdd());
+        data.put("pinCode",hlmodel.getPinCode());
+        hlmodel.updateQuery(data);
     }
     public void setTableData()
     {
