@@ -5,7 +5,7 @@ import parabitccasbharat.ParabitDBC;
 
 public class PbtHLModel{
 
-   private String empEnumNo;
+  private String empEnumNo;
   private long hlSNo;
   private long hhSNo;
   private long ucid;

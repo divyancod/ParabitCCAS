@@ -18,6 +18,14 @@ public class PbtUseOfHouse extends javax.swing.JDialog {
      */
     PbtEnumDashBoard dashboard;
     public PbtHLModel hlmodel;
+    PbtHLDashBoard hldashboard;
+    public PbtUseOfHouse(PbtHLDashBoard paBoard)
+    {
+        super(paBoard,true);
+        initComponents();
+        setTitle("Use of Census House");
+        hldashboard=paBoard;
+    }
     public PbtUseOfHouse(PbtEnumDashBoard parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -146,11 +154,19 @@ public class PbtUseOfHouse extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(hldashboard==null)
+        {
         setVisible(false);
         PbtTypeOfHouse nob=new PbtTypeOfHouse(dashboard, true);
         nob.setLocationRelativeTo(null);
         nob.setVisible(true);
         dashboard.dispose();
+        }
+        else
+        {
+            hldashboard.hlmodel.setUseOfHouse("1");
+            dispose();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed

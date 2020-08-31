@@ -15,7 +15,6 @@ public class PbtMasterModel {
     
     ParabitDBC db;
     PbtModelAadhar adhrmodel;
-    PbtDL dlmodel;
     PbtModelPan panmodel;
     PbtHHModel hhmodel;
     
@@ -24,9 +23,6 @@ public class PbtMasterModel {
         return adhrmodel;
     }
 
-    public PbtDL getDlmodel() {
-        return dlmodel;
-    }
 
     public PbtModelPan getPanmodel() {
         return panmodel;
@@ -62,24 +58,7 @@ public class PbtMasterModel {
         }
         System.out.println(""+adhrmodel.getEmail());
     }
-    private void fetchDL(String adhrno)
-    {
-        String query="select * from pbtdl where adhrno='"+adhrno+"'";
-        int i=1;
-        try
-        {
-            db.rs1=db.stm.executeQuery(query);
-            while(db.rs1.next())
-            {
-                dlmodel=new PbtDL(db.rs1.getString(i++),db.rs1.getString(i++),db.rs1.getString(i++),db.rs1.getString(i++),
-                                db.rs1.getString(i++),db.rs1.getString(i++),db.rs1.getDate(i++),db.rs1.getString(i++));
-            }
-        }catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-        
-    }
+
     private void fetchPan(String adhrno)
     {
         String query="select * from pbtpan where adhrno='"+adhrno+"'";
