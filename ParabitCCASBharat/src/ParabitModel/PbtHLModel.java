@@ -902,5 +902,17 @@ public class PbtHLModel{
              e.printStackTrace();
          }
   }
+  public void finalQuery()
+  {
+      ParabitDBC db=new ParabitDBC();
+        String query="update pbtcensus_houselisting set filldate=curdate(),timeout=curtime() where hl_sno='"+hlSNo+"'";
+        try
+        {
+            db.stm.execute(query);
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+  }
 
 }

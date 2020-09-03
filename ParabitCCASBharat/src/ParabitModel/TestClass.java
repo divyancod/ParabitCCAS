@@ -22,7 +22,7 @@ public class TestClass {
     {
         try
         {
-            String query="select * from light_source";
+            String query="select * from typesofbicycle";
             db.rs1=db.stm.executeQuery(query);               
             System.out.println("switch((int)data)");
             System.out.println("{");
@@ -30,7 +30,7 @@ public class TestClass {
             {
                 System.out.print("case "+db.rs1.getString(1)+": ");
                 System.out.println("return \""+db.rs1.getString(2)+"\";");
-                //System.out.println("\""+db.rs1.getString(2)+"\",");
+                //System.out.println("nob.add(\""+db.rs1.getString(2)+"\");");
             }
             System.out.println("}");
             System.out.println("return \"\";");

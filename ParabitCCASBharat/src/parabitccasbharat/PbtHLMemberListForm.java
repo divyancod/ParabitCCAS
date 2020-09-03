@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import javax.swing.table.DefaultTableModel;
 import parabitmodel.PbtHLModel;
 
@@ -73,6 +74,11 @@ public class PbtHLMemberListForm extends javax.swing.JFrame implements MouseList
         data.put("wardNo",hlmodel.getWardNo());
         data.put("hNoAdd",hlmodel.getHNoAdd());
         data.put("pinCode",hlmodel.getPinCode());
+        long hlsno=hlmodel.getHlSNo();
+        Random rand=new Random();
+        String ucid=hlsno+""+rand.nextInt(999);
+        data.put("ucid",ucid);
+        data.put("fsno","1");
         hlmodel.updateQuery(data);
     }
     public void setTableData()

@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JOptionPane;
 import parabitmodel.PbtHLModel;
 
 /**
@@ -48,6 +49,19 @@ public class PbtHLDashBoard extends javax.swing.JFrame {
         this.hLMemberListForm=hLMemberListForm;
         this.hlmodel=hlmodel;
         setShowData();
+        Thread nob=new Thread(new Runnable(){
+        @Override
+        public void run()
+        {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");  
+            while(true)
+            {
+                dclock.setText(formatter.format(new Date())); 
+                try{Thread.sleep(1000);}catch(Exception e){}
+            }
+        }
+        });
+        nob.start(); 
     }
     public void setShowData()
     {
@@ -56,9 +70,12 @@ public class PbtHLDashBoard extends javax.swing.JFrame {
         tehsil.setText(hlmodel.getTehsil());
         state.setText(hlmodel.getStUt());
         String lati=hlmodel.getLatiLongi();
-        String loc[]=lati.split(",");
-        lat.setText(loc[0]);
-        longitutde.setText(loc[1]);
+        if(lati!=null && !lati.isEmpty())
+        {
+            String loc[]=lati.split(",");
+            lat.setText(loc[0]);
+            longitutde.setText(loc[1]);
+        }
         ownername.setText(hlmodel.getOwnerName());
         ownerphone.setText(hlmodel.getOwnerPhnNo());
         ownership.setText(PbtGetterClass.getOwnership(hlmodel.getOwspOfHouse()));
@@ -72,6 +89,7 @@ public class PbtHLDashBoard extends javax.swing.JFrame {
         hlmodel.setOwnerName(ownername.getText());
         hlmodel.setOwnerPhnNo(ownerphone.getText());
         hlmodel.setHNoAdd(hadd.getText());
+        hlmodel.setPinCode(pincode.getText());
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -390,7 +408,31 @@ public class PbtHLDashBoard extends javax.swing.JFrame {
          data.put("ownerPhnNo",hlmodel.getOwnerPhnNo());
          data.put("owspOfHouse",hlmodel.getOwspOfHouse());
          data.put("hNoAdd",hlmodel.getHNoAdd());
+         String[] listoptions = {"Form Complete", "Form Incomplete","Cancel"};
+        String msg="Are you sure want to final save the form and its data.\nPlease note this will reflect in the main dashboard.Kindly Check all the field filled properly.";
+            int option = JOptionPane.showOptionDialog(this,msg,
+               "Confirm Final Save",            
+               JOptionPane.YES_NO_OPTION,
+               JOptionPane.QUESTION_MESSAGE,
+               null,     
+               listoptions,
+              null
+            );
+        if(option==0)
+        {
+            data.put("status","1");//--------- changing status accordingly
+        }else if(option==1)
+        {
+            data.put("status","7");//--------- changing status accordingly
+        }
+        else if(option==2)
+        {
+            return;// ----------------- accidentally pressed save
+        }
          hlmodel.updateQuery(data);
+         hlmodel.finalQuery();
+         this.dispose();
+         hLMemberListForm.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     /**

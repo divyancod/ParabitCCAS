@@ -5,6 +5,9 @@
  */
 package parabitccasbharat;
 
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.JRadioButton;
 import parabitmodel.PbtHLModel;
 
 /**
@@ -24,7 +27,52 @@ public class PbtHLOtherDetails extends javax.swing.JDialog {
         dashBoard=parent;
         this.hlmodel=parent.hlmodel;
     }
+    private void setSelect(String val,JRadioButton r1,JRadioButton r2)
+    {
+        if(val!=null)
+        {
+            if(val.equals("y")||val.equals("Y"))
+                r1.setSelected(true);
+            else if(val.equals("n")||val.equals("N"))
+                r2.setSelected(true);
+        }
+    }
+    private String tf(JRadioButton r1,JRadioButton r2)
+    {
+        String flag="N";
+        if(r1.isSelected())
+            flag="Y";
+        return flag;
+    }
+    private void setShowData()
+    {
+        bicycle.setText(PbtGetterClass.getBicycle(hlmodel.getBicycle()));
+        mob.setText(PbtGetterClass.getMobile(hlmodel.getMob()));
+        tele.setText(PbtGetterClass.getTeleBroad(hlmodel.getTeleBroadBand()));
+        pc.setText(PbtGetterClass.getPC(hlmodel.getPc()));
+        tvsignal.setText(PbtGetterClass.getTvSignal(hlmodel.getTvSig()));
+        tv.setText(PbtGetterClass.getTV(hlmodel.getTv()));
+        coolheat.setText(PbtGetterClass.getCool(hlmodel.getCoolHeatFact()));
+        r2wheel.setText(hlmodel.getR2Wheel()+"");
+        r4wheel.setText(hlmodel.getR4Wheel()+"");
+        twheel.setText(hlmodel.getTNoCommVeh()+"");
+        setSelect(hlmodel.getFm(), fm1, fm2);
+        setSelect(hlmodel.getRadio(), radio1, radio2);
+        setSelect(hlmodel.getRefrigerator(), fridge1, fridge2);
+    }
 
+    private void setModel()
+    {
+        if(!r2wheel.getText().isEmpty())
+            hlmodel.setR2Wheel(Long.parseLong(r2wheel.getText()));
+        if(!r4wheel.getText().isEmpty())
+            hlmodel.setR4Wheel(Long.parseLong(r4wheel.getText()));
+        if(!twheel.getText().isEmpty())
+            hlmodel.setTNoCommVeh(Long.parseLong(twheel.getText()));
+        hlmodel.setFm(tf(fm1,fm2));
+        hlmodel.setRadio(tf(radio1,radio2));
+        hlmodel.setRefrigerator(tf(fridge1,fridge2));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,24 +106,26 @@ public class PbtHLOtherDetails extends javax.swing.JDialog {
         coolheat = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        pc = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
-        jTextField5 = new javax.swing.JTextField();
+        tele = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
-        jTextField6 = new javax.swing.JTextField();
+        mob = new javax.swing.JTextField();
         jButton7 = new javax.swing.JButton();
         jLabel20 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        bicycle = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        r2wheel = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
+        r4wheel = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
+        twheel = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
         jButton9 = new javax.swing.JButton();
+        jLabel25 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -109,6 +159,8 @@ public class PbtHLOtherDetails extends javax.swing.JDialog {
 
         jLabel15.setText("Type of Television :");
 
+        tv.setEditable(false);
+
         jButton2.setText("Select");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,6 +169,8 @@ public class PbtHLOtherDetails extends javax.swing.JDialog {
         });
 
         jLabel16.setText("Type of TV Signal :");
+
+        tvsignal.setEditable(false);
 
         jButton3.setText("Select");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -127,6 +181,8 @@ public class PbtHLOtherDetails extends javax.swing.JDialog {
 
         jLabel17.setText("Cooling/Heating Facility :");
 
+        coolheat.setEditable(false);
+
         jButton4.setText("Select");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,17 +192,45 @@ public class PbtHLOtherDetails extends javax.swing.JDialog {
 
         jLabel18.setText("Personal Computer Details :");
 
+        pc.setEditable(false);
+
         jButton5.setText("Select");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        tele.setEditable(false);
 
         jLabel19.setText("Telephone/ Broadband Details :");
 
         jButton6.setText("Select");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        mob.setEditable(false);
 
         jButton7.setText("Select");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jLabel20.setText("Mobile Phone Details :");
 
+        bicycle.setEditable(false);
+
         jButton8.setText("Select");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jLabel21.setText("Bicycle Details :");
 
@@ -157,6 +241,14 @@ public class PbtHLOtherDetails extends javax.swing.JDialog {
         jLabel24.setText("Total no of Common Vechiles :");
 
         jButton9.setText("Save and Back");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jLabel25.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel25.setText("Other Details");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -191,15 +283,7 @@ public class PbtHLOtherDetails extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(fridge1)
                                 .addGap(30, 30, 30)
-                                .addComponent(fridge2))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton6))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton7)))
+                                .addComponent(fridge2)))
                         .addGap(570, 570, 570))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,7 +300,7 @@ public class PbtHLOtherDetails extends javax.swing.JDialog {
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton4))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(pc, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton5)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
@@ -228,31 +312,52 @@ public class PbtHLOtherDetails extends javax.swing.JDialog {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(bicycle, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(jButton8))
-                                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(r2wheel, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel24)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(twheel, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel23)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(r4wheel, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(85, 85, 85)))
-                        .addGap(33, 33, 33))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton9)
-                .addGap(61, 61, 61))
+                        .addGap(33, 33, 33))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(tele, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton6))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(mob, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton7)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(435, 435, 435)
+                .addComponent(jLabel25)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jSeparator1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel25)
+                .addGap(21, 21, 21)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jButton1))
@@ -266,63 +371,67 @@ public class PbtHLOtherDetails extends javax.swing.JDialog {
                     .addComponent(jLabel13)
                     .addComponent(fm1)
                     .addComponent(fm2))
-                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel14)
+                                    .addComponent(fridge1)
+                                    .addComponent(fridge2))
+                                .addGap(28, 28, 28)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel15)
+                                    .addComponent(tv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton2))
+                                .addGap(28, 28, 28)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel16)
+                                    .addComponent(tvsignal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton3))
+                                .addGap(28, 28, 28)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel17)
+                                    .addComponent(coolheat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton4))
+                                .addGap(28, 28, 28)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel18)
+                                    .addComponent(pc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton5)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel21)
+                                    .addComponent(bicycle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton8))
+                                .addGap(32, 32, 32)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel22)
+                                    .addComponent(r2wheel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(32, 32, 32)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel23)
+                                    .addComponent(r4wheel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(32, 32, 32)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel24)
+                                    .addComponent(twheel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel19)
+                            .addComponent(tele, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton6))
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel20)
+                            .addComponent(mob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton7))
+                        .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel14)
-                            .addComponent(fridge1)
-                            .addComponent(fridge2))
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel15)
-                            .addComponent(tv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2))
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel16)
-                            .addComponent(tvsignal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3))
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel17)
-                            .addComponent(coolheat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4))
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel18)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton5)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel21)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton8))
-                        .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel22)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel23)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel24)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6))
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel20)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton9)
-                .addGap(79, 79, 79))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(56, 56, 56))
         );
 
         pack();
@@ -348,6 +457,54 @@ public class PbtHLOtherDetails extends javax.swing.JDialog {
        nob.setVisible(true);
        coolheat.setText(PbtGetterClass.getCool(hlmodel.getCoolHeatFact()));
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+       PbtHLDialogCommonTable nob=new PbtHLDialogCommonTable(dashBoard, true, 1);
+       nob.setLocationRelativeTo(null);
+       nob.setVisible(true);
+       pc.setText(PbtGetterClass.getPC(hlmodel.getPc()));
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        PbtHLDialogCommonTable nob=new PbtHLDialogCommonTable(dashBoard, true, 2);
+       nob.setLocationRelativeTo(null);
+       nob.setVisible(true);
+       tele.setText(PbtGetterClass.getTeleBroad(hlmodel.getTeleBroadBand()));
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        PbtHLDialogCommonTable nob=new PbtHLDialogCommonTable(dashBoard, true, 3);
+       nob.setLocationRelativeTo(null);
+       nob.setVisible(true);
+       mob.setText(PbtGetterClass.getMobile(hlmodel.getMob()));
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        PbtHLDialogCommonTable nob=new PbtHLDialogCommonTable(dashBoard, true, 4);
+       nob.setLocationRelativeTo(null);
+       nob.setVisible(true);
+       bicycle.setText(PbtGetterClass.getBicycle(hlmodel.getBicycle()));
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        setModel();
+        Map<Object,Object> data=new HashMap<>();
+        data.put("radio",hlmodel.getRadio());
+        data.put("fm",hlmodel.getFm());
+        data.put("tv",hlmodel.getTv());
+        data.put("tvSig",hlmodel.getTvSig());
+        data.put("refrigerator",hlmodel.getRefrigerator());
+        data.put("coolHeatFact",hlmodel.getCoolHeatFact());
+        data.put("pc",hlmodel.getPc());
+        data.put("teleBroadBand",hlmodel.getTeleBroadBand());
+        data.put("mob",hlmodel.getMob());
+        data.put("bicycle",hlmodel.getBicycle());
+        data.put("r2Wheel",hlmodel.getR2Wheel());
+        data.put("r4Wheel",hlmodel.getR4Wheel());
+        data.put("tNoCommVeh",hlmodel.getTNoCommVeh());
+        hlmodel.updateQuery(data);
+        dispose();
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -381,6 +538,7 @@ public class PbtHLOtherDetails extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField bicycle;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
@@ -412,16 +570,17 @@ public class PbtHLOtherDetails extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextField mob;
+    private javax.swing.JTextField pc;
+    private javax.swing.JTextField r2wheel;
+    private javax.swing.JTextField r4wheel;
     private javax.swing.JRadioButton radio1;
     private javax.swing.JRadioButton radio2;
+    private javax.swing.JTextField tele;
     private javax.swing.JTextField tv;
     private javax.swing.JTextField tvsignal;
+    private javax.swing.JTextField twheel;
     // End of variables declaration//GEN-END:variables
 }

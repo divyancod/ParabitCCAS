@@ -1,0 +1,260 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package parabitccasbharat;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author Asus
+ */
+public class PbtHLDialogCommonTable extends javax.swing.JDialog implements MouseListener{
+
+    /**
+     * Creates new form PbtHLDialogCommonTable
+     */
+    DefaultTableModel model;
+    int frame;
+    PbtHLDashBoard dashBoard;
+    public PbtHLDialogCommonTable(PbtHLDashBoard parent, boolean modal,int frame) {
+        super(parent, modal);
+        initComponents();
+        dashBoard=parent;
+        this.frame=frame;
+        model=(DefaultTableModel)tablemodel.getModel();
+        setData();
+        tablemodel.addMouseListener(this);
+    }
+    private void setData()
+    {
+        model.setRowCount(0);
+        ArrayList<String> nob=new ArrayList<>();
+        if(frame==1)
+        {
+            nob.add("Laptop");
+            nob.add("Desktop");
+            nob.add("Tablet");
+            nob.add("Pocket PC");
+            nob.add("Utra Mobile PC");
+            nob.add("Laptop,Desktop");
+            nob.add("Laptop,Tablet");
+            nob.add("Laptop,PocketPC");
+            nob.add("Laptop,Ultra mobile PC");
+            nob.add("Desktop,Tablet");
+            nob.add("Desktop,PocketPC");
+            nob.add("Desktop,Ultra Mobile PC");
+            nob.add("Tablet,Ultra Mobile PC");
+            nob.add("Tablet,Pocket PC");
+            nob.add("Pocket PC,Ultra Mobile PC");
+            nob.add("Laptop,Desktop,Tablet");
+            nob.add("Laptop,Desktop,PocketPC");
+            nob.add("Laptop,Desktop,Ultr Mobile PC");
+            nob.add("Laptop,Tablet,PocketPC");
+            nob.add("Laptop,Tablet,Ultra Mobile PC");
+            nob.add("Laptop,PocketPC,Ultra Mobile PC");
+            nob.add("Desktop,Tablet,PocketPC");
+            nob.add("Desktop,Tablet,Ultra Mobile PC");
+            nob.add("Desktop,PocketPC,Ultra Mobile PC");
+            nob.add("Tablet,PocketPC,Ultra Mobile PC");
+            nob.add("Laptop,Desktop,Tablet,PocketPC");
+            nob.add("Laptop,Desktop,Tablet,Ultra Mobile PC");
+            nob.add("Laptop,Tablet,PocketPC,Ultra Mobile PC,");
+            nob.add("Laptop,Desktop,PocketPC,Ultra Mobile PC");
+            nob.add("Desktop,Tablet,PocketPC,Ultra Mobile PC");
+            nob.add("Laptop,Desktop,Tablet,PocketPC,Ultra Mobile PC");
+        }
+        else if(frame==2)
+        {
+            nob.add("Telephone");
+            nob.add("DSL Broadband");
+            nob.add("Cable Modem");
+            nob.add("Fiber");
+            nob.add("Wireless");
+            nob.add("Satellite");
+            nob.add("Broadband over Power Lines");
+            nob.add("Telephone, DSL");
+            nob.add("Telephone,  Cable Modem");
+            nob.add("Telephone, Fiber");
+            nob.add("Telephone, Wireless");
+            nob.add("Telephone,Satellite");
+            nob.add("Telephone,Broadband over Power Line");
+        }else if(frame==3)
+        {
+            nob.add("Feature Phone");
+            nob.add("Smart Phone");
+            nob.add("Telephone");
+            nob.add("Feature Phone, Telephone");
+            nob.add("Feature Phone, Smart Phone");
+            nob.add("Smart Phone,Telephone");
+            nob.add("Feature Phone, Smart Phone, Telephone");
+        }else if(frame==4)
+        {
+            nob.add("Mountain Bike");
+            nob.add("Hybrid/Comfort Bike");
+            nob.add(" Road Bike");
+            nob.add("Electric Bike");
+            nob.add("Gravel Bike");
+            nob.add("Touring Bike");
+            nob.add("Mountain Bike,Hybrid/Comfort Bike");
+            nob.add("Mountain Bike, Road Bike");
+            nob.add("Mountain Bike,Electric Bike");
+            nob.add("Mountain Bike,Gravel Bike");
+            nob.add("Mountain Bike,Touring Bike");
+            nob.add("Hybrid/Comfort Bike,Road Bike");
+            nob.add("Hybrid/Comfort Bike,Electric Bike");
+            nob.add("Hybrid/Comfort Bike,Gravel Bike");
+            nob.add("Hybrid/Comfort Bike, Touring Bike");
+            nob.add(" Road Bike,Electric Bike");
+            nob.add(" Road Bike,Gravel Bike");
+            nob.add(" Road Bike,Touring Bike");
+            nob.add("Electric Bike,Gravel Bike");
+            nob.add("Electric Bike,Touring Bike");
+            nob.add("Gravel Bike,Touring Bike");
+        }
+        int count=1;
+        for(int i=0;i<nob.size();i++)
+        {
+            Object ob[]={count++,nob.get(i)};
+            model.addRow(ob);
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablemodel = new javax.swing.JTable();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        tablemodel.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Sno", "Item"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tablemodel);
+        if (tablemodel.getColumnModel().getColumnCount() > 0) {
+            tablemodel.getColumnModel().getColumn(0).setMinWidth(45);
+            tablemodel.getColumnModel().getColumn(0).setMaxWidth(55);
+        }
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(PbtHLDialogCommonTable.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(PbtHLDialogCommonTable.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(PbtHLDialogCommonTable.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(PbtHLDialogCommonTable.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tablemodel;
+    // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int row=tablemodel.rowAtPoint(e.getPoint());
+        switch (frame) {
+            case 1:
+                dashBoard.hlmodel.setPc(++row);
+                break;
+            case 2:
+                dashBoard.hlmodel.setTeleBroadBand(++row);
+                break;
+            case 3:
+                dashBoard.hlmodel.setMob(++row);
+                break;
+            case 4:
+                dashBoard.hlmodel.setBicycle(++row);
+                break;
+            default:
+                break;
+        }
+        dispose();
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+}

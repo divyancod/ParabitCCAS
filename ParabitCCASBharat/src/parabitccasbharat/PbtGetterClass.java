@@ -270,4 +270,104 @@ public class PbtGetterClass {
         }
         return "";
     }
+    public static String getPC(long data)
+    {
+        switch((int)data)
+        {
+        case 1: return "Laptop";
+        case 2: return "Desktop";
+        case 3: return "Tablet";
+        case 4: return "Pocket PC";
+        case 5: return "Utra Mobile PC";
+        case 6: return "Laptop,Desktop";
+        case 7: return "Laptop,Tablet";
+        case 8: return "Laptop,PocketPC";
+        case 9: return "Laptop,Ultra mobile PC";
+        case 10: return "Desktop,Tablet";
+        case 11: return "Desktop,PocketPC";
+        case 12: return "Desktop,Ultra Mobile PC";
+        case 13: return "Tablet,Ultra Mobile PC";
+        case 14: return "Tablet,Pocket PC";
+        case 15: return "Pocket PC,Ultra Mobile PC";
+        case 16: return "Laptop,Desktop,Tablet";
+        case 17: return "Laptop,Desktop,PocketPC";
+        case 18: return "Laptop,Desktop,Ultr Mobile PC";
+        case 19: return "Laptop,Tablet,PocketPC";
+        case 20: return "Laptop,Tablet,Ultra Mobile PC";
+        case 21: return "Laptop,PocketPC,Ultra Mobile PC";
+        case 22: return "Desktop,Tablet,PocketPC";
+        case 23: return "Desktop,Tablet,Ultra Mobile PC";
+        case 24: return "Desktop,PocketPC,Ultra Mobile PC";
+        case 25: return "Tablet,PocketPC,Ultra Mobile PC";
+        case 26: return "Laptop,Desktop,Tablet,PocketPC";
+        case 27: return "Laptop,Desktop,Tablet,Ultra Mobile PC";
+        case 28: return "Laptop,Tablet,PocketPC,Ultra Mobile PC,";
+        case 29: return "Laptop,Desktop,PocketPC,Ultra Mobile PC";
+        case 30: return "Desktop,Tablet,PocketPC,Ultra Mobile PC";
+        case 31: return "Laptop,Desktop,Tablet,PocketPC,Ultra Mobile PC";
+        }
+        return "";
+    }
+    public static String getTeleBroad(long data)
+    {
+        switch((int)data)
+        {
+        case 1: return "Telephone";
+        case 2: return "DSL Broadband";
+        case 3: return "Cable Modem";
+        case 4: return "Fiber";
+        case 5: return "Wireless";
+        case 6: return "Satellite";
+        case 7: return "Broadband over Power Lines";
+        case 8: return "Telephone, DSL";
+        case 9: return "Telephone,  Cable Modem";
+        case 10: return "Telephone, Fiber";
+        case 11: return "Telephone, Wireless";
+        case 12: return "Telephone,Satellite";
+        case 13: return "Telephone,Broadband over Power Line";
+        }
+        return "";
+    }
+    public static String getMobile(long data)
+    {
+        switch((int)data)
+        {
+        case 1: return "Feature Phone";
+        case 2: return "Smart Phone";
+        case 3: return "Telephone";
+        case 4: return "Feature Phone, Telephone";
+        case 5: return "Feature Phone, Smart Phone";
+        case 6: return "Smart Phone,Telephone";
+        case 7: return "Feature Phone, Smart Phone, Telephone";
+        }
+        return "";
+    }
+    public static String getBicycle(long data)
+    {
+        switch((int)data)
+        {
+        case 1: return "Mountain Bike";
+        case 2: return "Hybrid/Comfort Bike";
+        case 3: return " Road Bike";
+        case 4: return "Electric Bike";
+        case 5: return "Gravel Bike";
+        case 6: return "Touring Bike";
+        case 7: return "Mountain Bike,Hybrid/Comfort Bike";
+        case 8: return "Mountain Bike, Road Bike";
+        case 9: return "Mountain Bike,Electric Bike";
+        case 10: return "Mountain Bike,Gravel Bike";
+        case 11: return "Mountain Bike,Touring Bike";
+        case 12: return "Hybrid/Comfort Bike,Road Bike";
+        case 13: return "Hybrid/Comfort Bike,Electric Bike";
+        case 14: return "Hybrid/Comfort Bike,Gravel Bike";
+        case 15: return "Hybrid/Comfort Bike, Touring Bike";
+        case 16: return " Road Bike,Electric Bike";
+        case 17: return " Road Bike,Gravel Bike";
+        case 18: return " Road Bike,Touring Bike";
+        case 19: return "Electric Bike,Gravel Bike";
+        case 20: return "Electric Bike,Touring Bike";
+        case 21: return "Gravel Bike,Touring Bike";
+        }
+        return "";
+    }
 }
