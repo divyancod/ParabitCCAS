@@ -81,7 +81,7 @@ public class PbtNewCensus extends javax.swing.JDialog {
         nob.setLocationRelativeTo(null);
         nob.setVisible(true);
         //setVisible(true);
-        dashboard.dispose();
+        this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

@@ -160,12 +160,12 @@ public class PbtUseOfHouse extends javax.swing.JDialog {
         PbtTypeOfHouse nob=new PbtTypeOfHouse(dashboard, true);
         nob.setLocationRelativeTo(null);
         nob.setVisible(true);
-        dashboard.dispose();
+        this.dispose();
         }
         else
         {
             hldashboard.hlmodel.setUseOfHouse("1");
-            dispose();
+            this.dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

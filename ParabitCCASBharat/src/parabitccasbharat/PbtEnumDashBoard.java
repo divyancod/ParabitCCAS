@@ -25,6 +25,7 @@ public class PbtEnumDashBoard extends javax.swing.JFrame {
         this.empdata=empdata;
         workareamtablemodel=(DefaultTableModel)workareatable.getModel();
         workTable();
+        dailyLog(1);
     }
 
     private void workTable()
@@ -32,6 +33,21 @@ public class PbtEnumDashBoard extends javax.swing.JFrame {
         workareamtablemodel.setRowCount(0);
         Object ob[]={empdata.getTownvill(),1000,0,0,0,0,0,0};
         workareamtablemodel.addRow(ob);
+    }
+    private void dailyLog(int x)
+    {
+        String query="";
+        if(x==1)
+            query="insert into pbtempdailylog(sno,ceid,logindate,logintime,status) values(null,'"+empdata.getEmpid()+"',curdate(),curtime(),'9')";
+        else
+            query="update pbtempdailylog set logouttime=curtime(),status='1' where ceid='"+empdata.getEmpid()+"' and status='9'";
+        try
+        {
+            db.stm.execute(query);
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -178,6 +194,7 @@ public class PbtEnumDashBoard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        dailyLog(2);
         dispose();
         PbtLogIN nob=new PbtLogIN();
         nob.setVisible(true);
@@ -188,8 +205,8 @@ public class PbtEnumDashBoard extends javax.swing.JFrame {
         PbtNewCensus nob=new PbtNewCensus(this, true);
         nob.setLocationRelativeTo(null);
         nob.setVisible(true);
-        this.setVisible(true);
-        dispose();
+        //this.setVisible(true);
+        //dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

@@ -29,8 +29,13 @@ public class PbtHLMemberListForm extends javax.swing.JFrame implements MouseList
     DefaultTableModel membermodel;
     ParabitDBC db;
     boolean tlive;
-    public PbtHLMemberListForm(PbtEmpData empdata) {
+    PbtEmpData empdata;
+    PbtEnumDashBoard enumDashBoard;
+    boolean flag;
+    public PbtHLMemberListForm(PbtEnumDashBoard enumDashBoard) {
         initComponents();
+        this.enumDashBoard=enumDashBoard;
+        empdata=enumDashBoard.empdata;
         setTitle("CENSUS FORM HOUSELISTING - "+empdata.getEmpid());
         db=new ParabitDBC();
         hlmodel=new PbtHLModel();
@@ -83,6 +88,7 @@ public class PbtHLMemberListForm extends javax.swing.JFrame implements MouseList
     }
     public void setTableData()
     {
+        flag=false;
         membermodel.setRowCount(0);
         int i=1;
         String query="select * from pbtcensus_household where hl_sno='"+hlmodel.getHlSNo()+"'";
@@ -100,9 +106,11 @@ public class PbtHLMemberListForm extends javax.swing.JFrame implements MouseList
                         status="OnGoing";
                         break;
                     case "8":
+                        flag=true;
                         status="Pending";
                         break;
                     case "7":
+                        flag=true;
                         status="Incomplete";
                         break;
                     default:
@@ -251,7 +259,9 @@ public class PbtHLMemberListForm extends javax.swing.JFrame implements MouseList
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
+    
+        enumDashBoard.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

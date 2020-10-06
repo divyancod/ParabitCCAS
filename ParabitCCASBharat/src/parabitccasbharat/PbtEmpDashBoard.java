@@ -42,8 +42,24 @@ public class PbtEmpDashBoard extends javax.swing.JFrame implements MouseListener
         db=new ParabitDBC();
         getNotifications();
         notification.addMouseListener(this);
+        dailyLog(1);
     }
 
+    private void dailyLog(int x)
+    {
+        String query="";
+        if(x==1)
+            query="insert into pbtempdailylog(sno,ceid,logindate,logintime,status) values(null,'"+empdata.getEmpid()+"',curdate(),curtime(),'9')";
+        else
+            query="update pbtempdailylog set logouttime=curtime(),status='1' where ceid='"+empdata.getEmpid()+"' and status='9'";
+        try
+        {
+            db.stm.execute(query);
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
         private void getNotifications()
     {
         ob.setRowCount(0);
@@ -292,6 +308,7 @@ public class PbtEmpDashBoard extends javax.swing.JFrame implements MouseListener
 
     private void btnlogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlogoutActionPerformed
 
+        dailyLog(2);
         PbtLogIN ob=new PbtLogIN();
         ob.setVisible(true);
         dispose();

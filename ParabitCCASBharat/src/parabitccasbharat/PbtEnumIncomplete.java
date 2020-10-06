@@ -31,13 +31,19 @@ public class PbtEnumIncomplete extends javax.swing.JDialog {
         tablemodel.setRowCount(0);
         ParabitDBC db=new ParabitDBC();
         int i=1;
-        String query="select * from pbtcensus_household where empenumno='"+dashBoard.empdata.getEmpid()+"' and status='7'";
+        String query="select * from pbtcensus_houselisting where empenumno='"+dashBoard.empdata.getEmpid()+"' and status='7'";
         try
         {
             db.rs1=db.stm.executeQuery(query);
             while(db.rs1.next())
             {
-                Object ob[]={i++,db.rs1.getString("HH_sno"),db.rs1.getString("Name"),db.rs1.getString("MobNo"),db.rs1.getString("filldate")};
+                String use="";
+                if(db.rs1.getString("useofhouse")!=null &&!db.rs1.getString("useofhouse").isEmpty() )
+                {
+                long s=Long.parseLong(db.rs1.getString("useofhouse"));
+                use=PbtGetterClass.getUseOfHouse(s);
+                }
+                Object ob[]={i++,db.rs1.getString("ucid"),db.rs1.getString("stut"),db.rs1.getString("dist"),db.rs1.getString("tehsil"),db.rs1.getString("townvillage"),db.rs1.getString("hnoadd"),use,db.rs1.getString("filldate")};
                 tablemodel.addRow(ob);
             }
         }catch(Exception e)
@@ -62,13 +68,13 @@ public class PbtEnumIncomplete extends javax.swing.JDialog {
 
         incomptable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Sno", "HHSno", "Name", "Phone", "Last Record date"
+                "Sno", "UCID", "State/UT", "District", "Tehsil", "Town/Village", "House Add", "Use of House", "Last Record Date"
             }
         ));
         jScrollPane1.setViewportView(incomptable);
@@ -79,7 +85,7 @@ public class PbtEnumIncomplete extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1454, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -87,7 +93,7 @@ public class PbtEnumIncomplete extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
