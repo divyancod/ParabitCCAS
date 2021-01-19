@@ -103,8 +103,8 @@ public class PbtMessageFrame extends javax.swing.JDialog {
         namelabel = new javax.swing.JLabel();
         sendbtn = new javax.swing.JButton();
         clearbtn = new javax.swing.JButton();
-        datechooser = new com.toedter.calendar.JDateChooser();
         datechooserlabel = new javax.swing.JLabel();
+        datechooser = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -128,8 +128,6 @@ public class PbtMessageFrame extends javax.swing.JDialog {
             }
         });
 
-        datechooser.setMinSelectableDate(new Date(System.currentTimeMillis()));
-
         datechooserlabel.setText("Select End Date :");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -144,8 +142,9 @@ public class PbtMessageFrame extends javax.swing.JDialog {
                         .addComponent(namelabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(datechooserlabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(datechooser, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(datechooser, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(83, 83, 83)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(596, Short.MAX_VALUE)
@@ -157,7 +156,7 @@ public class PbtMessageFrame extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(namelabel)

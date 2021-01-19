@@ -31,7 +31,7 @@ public class PbtEnumDashBoard extends javax.swing.JFrame {
     private void workTable()
     {
         workareamtablemodel.setRowCount(0);
-        Object ob[]={empdata.getTownvill(),1000,0,0,0,0,0,0};
+        Object ob[]={empdata.getTownvill(),1000,0,0,0,0,0,0}; 
         workareamtablemodel.addRow(ob);
     }
     private void dailyLog(int x)
@@ -222,7 +222,6 @@ public class PbtEnumDashBoard extends javax.swing.JFrame {
         PbtEnumIncomplete nob=new PbtEnumIncomplete(this, true);
         nob.setLocationRelativeTo(null);
         nob.setVisible(true);
-        setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**

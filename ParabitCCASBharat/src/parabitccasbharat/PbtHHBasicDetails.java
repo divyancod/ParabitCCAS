@@ -182,6 +182,14 @@ public class PbtHHBasicDetails extends javax.swing.JDialog implements ItemListen
             hhmodel.setDob(dobsql);
         }
         hhmodel.setAltPhoneNo(altphoneno.getText());
+        hhmodel.setCategoryname(categoryname.getText());
+        if(catverify.isSelected())
+        {
+            hhmodel.setCategoryverified("Y");
+        }else
+        {
+            hhmodel.setCategoryverified("N");
+        }
     }
     
     private void vOn()
@@ -340,6 +348,9 @@ public class PbtHHBasicDetails extends javax.swing.JDialog implements ItemListen
         jButton4 = new javax.swing.JButton();
         selfhead = new javax.swing.JCheckBox();
         lerror = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        categoryname = new javax.swing.JTextField();
+        catverify = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -434,6 +445,10 @@ public class PbtHHBasicDetails extends javax.swing.JDialog implements ItemListen
         lerror.setForeground(new java.awt.Color(255, 0, 0));
         lerror.setText("Invalid data in head registered mobile no");
 
+        jLabel9.setText("Category Name :");
+
+        catverify.setText("Verified ?");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -457,7 +472,8 @@ public class PbtHHBasicDetails extends javax.swing.JDialog implements ItemListen
                             .addComponent(jLabel14)
                             .addComponent(jLabel13)
                             .addComponent(aprxage)
-                            .addComponent(mstatus))
+                            .addComponent(mstatus)
+                            .addComponent(jLabel9))
                         .addGap(37, 37, 37)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -466,11 +482,7 @@ public class PbtHHBasicDetails extends javax.swing.JDialog implements ItemListen
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(m1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(lsurvive))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -512,7 +524,19 @@ public class PbtHHBasicDetails extends javax.swing.JDialog implements ItemListen
                                                     .addComponent(jLabel15)
                                                     .addComponent(jLabel16)
                                                     .addComponent(jLabel17)
-                                                    .addComponent(lborn))))
+                                                    .addComponent(lborn)))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(m1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                                                    .addComponent(categoryname))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addGap(0, 0, Short.MAX_VALUE)
+                                                        .addComponent(lsurvive))
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(catverify)
+                                                        .addGap(0, 0, Short.MAX_VALUE)))))
                                         .addGap(37, 37, 37)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(cast)
@@ -640,8 +664,16 @@ public class PbtHHBasicDetails extends javax.swing.JDialog implements ItemListen
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lsurvive)
                             .addComponent(chdnsurv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(4, 4, 4)
-                .addComponent(savebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(savebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(categoryname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(catverify))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lerror)
                 .addGap(14, 14, 14))
@@ -677,6 +709,8 @@ public class PbtHHBasicDetails extends javax.swing.JDialog implements ItemListen
         data.put("chdnevenborn",hhmodel.getChdnEvenBorn());
         data.put("chdnsurv",hhmodel.getChdnSurv());
         data.put("dob",hhmodel.getDob());
+        data.put("CategoryTypeName",hhmodel.getCategoryname());
+        data.put("CategoryVerified",hhmodel.getCategoryverified());
         hhmodel.myQuery(data);
         dashboard.hhmodel=hhmodel;
         dispose();
@@ -745,6 +779,8 @@ public class PbtHHBasicDetails extends javax.swing.JDialog implements ItemListen
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JTextField cast;
     private javax.swing.JTextField category;
+    private javax.swing.JTextField categoryname;
+    private javax.swing.JCheckBox catverify;
     private javax.swing.JTextField chdnevenborn;
     private javax.swing.JTextField chdnsurv;
     private javax.swing.JTextField community;
@@ -775,6 +811,7 @@ public class PbtHHBasicDetails extends javax.swing.JDialog implements ItemListen
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lborn;
     private javax.swing.JLabel lerror;

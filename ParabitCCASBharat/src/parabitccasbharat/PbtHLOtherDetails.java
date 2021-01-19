@@ -238,7 +238,7 @@ public class PbtHLOtherDetails extends javax.swing.JDialog {
 
         jLabel23.setText("Registered 4 Wheelers :");
 
-        jLabel24.setText("Total no of Common Vechiles :");
+        jLabel24.setText("Total no of commercial Vechiles :");
 
         jButton9.setText("Save and Back");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
@@ -303,7 +303,7 @@ public class PbtHLOtherDetails extends javax.swing.JDialog {
                                 .addComponent(pc, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton5)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)

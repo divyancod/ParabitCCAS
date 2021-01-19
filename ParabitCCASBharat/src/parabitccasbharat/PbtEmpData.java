@@ -24,6 +24,42 @@ public class PbtEmpData {
     private String wardno;
     private String townvillname;
     private String townvillno;
+    private String statecode;
+    private String distcode;
+    private String tehsilcode;
+
+    public String getTownvillname() {
+        return townvillname;
+    }
+
+    public void setTownvillname(String townvillname) {
+        this.townvillname = townvillname;
+    }
+
+    public String getStatecode() {
+        return statecode;
+    }
+
+    public void setStatecode(String statecode) {
+        this.statecode = statecode;
+    }
+
+    public String getDistcode() {
+        return distcode;
+    }
+
+    public void setDistcode(String distcode) {
+        this.distcode = distcode;
+    }
+
+    public String getTehsilcode() {
+        return tehsilcode;
+    }
+
+    public void setTehsilcode(String tehsilcode) {
+        this.tehsilcode = tehsilcode;
+    }
+    
 
     public String getTownvillno() {
         return townvillno;

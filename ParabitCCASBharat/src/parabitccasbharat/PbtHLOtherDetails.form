@@ -91,7 +91,7 @@
                               <Component id="jButton5" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="80" max="32767" attributes="0"/>
+                      <EmptySpace pref="65" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
@@ -481,7 +481,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel24">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Total no of Common Vechiles :"/>
+        <Property name="text" type="java.lang.String" value="Total no of commercial Vechiles :"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jButton9">

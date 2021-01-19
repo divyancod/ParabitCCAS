@@ -55,7 +55,7 @@ public class PbtTypeOfHouse extends javax.swing.JDialog implements ActionListene
            else if(opt==1)
            {
                setVisible(false);
-               PbtHLTempData nob=new PbtHLTempData(dashboard, true);
+               PbtHLTempData nob=new PbtHLTempData(dashboard);
                nob.setLocationRelativeTo(null);
                nob.setVisible(true);
                dispose();

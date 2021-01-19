@@ -914,5 +914,103 @@ public class PbtHLModel{
             e.printStackTrace();
         }
   }
+  public void callAllData(String hlno)
+  {
+      ParabitDBC db=new ParabitDBC();
+      try
+      {
+          String query="select * from pbtcensus_houselisting where hl_sno='"+hlno+"'";
+          db.rs1=db.stm.executeQuery(query);
+          if(db.rs1.next())
+          {
+              empEnumNo=db.rs1.getString("empEnumNo");
+                hlSNo=db.rs1.getLong("HL_SNo");
+                hhSNo=db.rs1.getLong("HH_SNo");
+                ucid=db.rs1.getLong("ucid");
+                fsNo=db.rs1.getLong("fsNo");
+                stUt=db.rs1.getString("stUt");
+                dist=db.rs1.getString("dist");
+                tehsil=db.rs1.getString("tehsil");
+                townVillage=db.rs1.getString("townVillage");
+                wardNo=db.rs1.getString("wardNo");
+                hNoAdd=db.rs1.getString("hNoAdd");
+                pinCode=db.rs1.getString("pinCode");
+                owspOfHouse=db.rs1.getLong("owspOfHouse");
+                typeOfHouse=db.rs1.getLong("typeOfHouse");
+                roof=db.rs1.getLong("roof");
+                floor=db.rs1.getLong("floor");
+                wall=db.rs1.getLong("wall");
+                dwellingRoom=db.rs1.getString("dwellingRoom");
+                fndYrOfHouse=db.rs1.getString("fndYrOfHouse");
+                cndtOfHouse=db.rs1.getString("cndtOfHouse");
+                useOfHouse=db.rs1.getString("useOfHouse");
+                plotArea=db.rs1.getString("plotArea");
+                builtUpArea=db.rs1.getString("builtUpArea");
+                noOfTrees=db.rs1.getString("noOfTrees");
+                noOfProtTrees=db.rs1.getString("noOfProtTrees");
+                typeOfDomAnimalWithNo=db.rs1.getString("typeOfDomAnimalWithNo");
+                typeOfPetAnimalWithNo=db.rs1.getString("typeOfPetAnimalWithNo");
+                latiLongi=db.rs1.getString("latiLongi");
+                ownerName=db.rs1.getString("ownerName");
+                ownerPhnNo=db.rs1.getString("ownerPhnNo");
+                noMarrCoup=db.rs1.getString("noMarrCoup");
+                mainSrcDrWater=db.rs1.getLong("mainSrcDrWater");
+                mainSrcLight=db.rs1.getLong("mainSrcLight");
+                altSrcOfLight=db.rs1.getLong("altSrcOfLight");
+                accessOfL=db.rs1.getLong("accessOf_L");
+                typeOfL=db.rs1.getLong("typeOf_L");
+                drainageSys=db.rs1.getString("drainageSys");
+                wtrHarv=db.rs1.getString("wtrHarv");
+                bathFact=db.rs1.getLong("bathFact");
+                swimmingPool=db.rs1.getString("swimmingPool");
+                kitchen=db.rs1.getLong("kitchen");
+                cookFuel=db.rs1.getLong("cookFuel");
+                radio=db.rs1.getString("radio");
+                fm=db.rs1.getString("fm");
+                tv=db.rs1.getLong("tv");
+                tvSig=db.rs1.getLong("tvSig");
+                refrigerator=db.rs1.getString("refrigerator");
+                coolHeatFact=db.rs1.getLong("coolHeatFact");
+                pc=db.rs1.getLong("pc");
+                teleBroadBand=db.rs1.getLong("teleBroadBand");
+                mob=db.rs1.getLong("mob");
+                bicycle=db.rs1.getLong("bicycle");
+                r2Wheel=db.rs1.getLong("r2Wheel");
+                r4Wheel=db.rs1.getLong("r4Wheel");
+                tNoCommVeh=db.rs1.getLong("tNoCommVeh");
+                parkingFact=db.rs1.getString("parkingFact");
+                lift=db.rs1.getString("lift");
+                escalator=db.rs1.getString("escalator");
+                helipad=db.rs1.getString("helipad");
+                genDiss=db.rs1.getString("genDiss");
+                firstAidKit=db.rs1.getString("firstAidKit");
+                hInsu=db.rs1.getString("h_Insu");
+                lInsu=db.rs1.getString("l_Insu");
+                gInsu=db.rs1.getString("g_Insu");
+                nHospDist=db.rs1.getString("nHospDist");
+                deathin10Years=db.rs1.getLong("deathin10Years");
+                reasonOfDeath=db.rs1.getString("reasonOfDeath");
+                deathAgeGroup=db.rs1.getString("deathAgeGroup");
+                courtCase=db.rs1.getString("courtCase");
+                finCase=db.rs1.getString("finCase");
+                foreignDispute=db.rs1.getString("foreignDispute");
+                smartSecuritySystem=db.rs1.getString("smartSecuritySystem");
+                cctvipAdress=db.rs1.getString("cctvipAdress");
+                fireExtinguisher=db.rs1.getLong("fireExtinguisher");
+                fireAlarm=db.rs1.getLong("fireAlarm");
+                //=db.rs1.getLong("SecurityGuard");
+                //=db.rs1.getLong("LicenseArms");
+                burglarAlarm=db.rs1.getLong("burglarAlarm");
+                expectation=db.rs1.getString("expectation");
+                //fillDate=db.rs1.getjava.sql.Date("fillDate");
+                //timeIn=db.rs1.getjava.sql.Timestamp("timeIn");
+                //timeOut=db.rs1.getjava.sql.Timestamp("timeOut");
+                note=db.rs1.getString("note");
+                comment=db.rs1.getString("comment");
+                status=db.rs1.getString("status");
+          }
+      }catch(Exception e)
+      {e.printStackTrace();}
+  }
 
 }

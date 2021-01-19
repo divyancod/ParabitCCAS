@@ -74,14 +74,24 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
         int counter=1;
         secondtablemodel.setRowCount(0);
         juniorceid.clear();
-        String query="select * from pbtemployeetable where crepempid='"+ceid.get(id)+"' and status='1'";
+        String query="";
+        if(pbtempdashboard.empdata.getEmpgrade()==3)
+        {
+           query = "select * from pbtempschecdule where CRepEmpID='"+ceid.get(id)+"'";
+        }else
+        {
+         query="select * from pbtemployeetable where crepempid='"+ceid.get(id)+"' and status='1'";
+        }
         try
         {
             db.rs2=db.stm.executeQuery(query);
             while(db.rs2.next())
             {
-                Object ob[]={counter++,db.rs2.getString("areastate"),db.rs2.getString("areadist"),db.rs2.getString("areacity"),db.rs2.getString("empname"),
-                           db.rs2.getString("empmob"),0,0,0};
+                String totalRes=db.rs2.getString("TotalRes");
+                String formfilled=db.rs2.getString("FormFilled");
+                int pending = Integer.parseInt(totalRes)-Integer.parseInt(formfilled);
+                Object ob[]={counter++,db.rs2.getString("State"),db.rs2.getString("Dist"),db.rs2.getString("City_Vill"),db.rs2.getString("CEID"),
+                           db.rs2.getString("DateOfWorkStart"),db.rs2.getString("TotalRes"),db.rs2.getString("FormFilled"),pending};
                 juniorceid.add(db.rs2.getString("ceid"));
                 secondtablemodel.addRow(ob);
             }

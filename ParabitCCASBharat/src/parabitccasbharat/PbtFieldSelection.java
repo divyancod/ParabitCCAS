@@ -41,14 +41,20 @@ public class PbtFieldSelection extends javax.swing.JDialog implements MouseListe
         areatablemodel.setRowCount(0);
         int sno=1;
         String query="SELECT * FROM `pbtempschecdule` LEFT join pbtenum on pbtenum.Ward=(SELECT WardNo pbtempschecdule where ceid='"+empdata.getEmpid()+"') and pbtenum.Town_Vill=(select City_Vill pbtempschecdule where ceid='"+empdata.getEmpid()+"') where pbtempschecdule.CEID='"+empdata.getEmpid()+"'";
+        System.err.println(query);
         try
         {
             db.rs1=db.stm.executeQuery(query);
             while(db.rs1.next())
             {
+                int alloted,pending,done;
+                alloted=Integer.parseInt(db.rs1.getString("totalres"));
+                done=Integer.parseInt(db.rs1.getString("formfilled"));
+                pending=alloted-done;
+                float remainper=((float)done/(float)alloted)*100;
                 towv_vill.add(db.rs1.getString("city_vill"));
                 Object ob[]={sno++,db.rs1.getString("wardno"),db.rs1.getString("name"),db.rs1.getString("dateofworkstart"),
-                             db.rs1.getString("totalres"),0,0,"100%"};
+                             alloted,pending,done,remainper};
                 areatablemodel.addRow(ob);
             }
         }catch(Exception e)
@@ -211,6 +217,19 @@ public class PbtFieldSelection extends javax.swing.JDialog implements MouseListe
             empdata.setWardno(areatablemodel.getValueAt(row,1).toString());
             empdata.setTownvill(areatablemodel.getValueAt(row,2).toString());
             empdata.setTownvillno(towv_vill.get(row));
+            System.err.println(""+empdata.getTownvillno());
+            try
+            {
+                String query="select * from pbtempschecdule where ceid='"+empdata.getEmpid()+"' and City_Vill='"+empdata.getTownvillno()+"'";
+                db.rs1=db.stm.executeQuery(query);
+                if(db.rs1.next())
+                {
+                    
+                }
+            }catch(Exception ex)
+            {
+                ex.printStackTrace();
+            }
             PbtEnumDashBoard nob=new PbtEnumDashBoard(empdata);
             setVisible(false);
             nob.setLocationRelativeTo(null);

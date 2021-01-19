@@ -725,6 +725,7 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
         if(option==0)
         {
             data.put("status","1");//--------- changing status accordingly
+            PbtHapinessQuestions nob=new PbtHapinessQuestions(this,this.hhmodel);
         }else if(option==1)
         {
             data.put("status","7");//--------- changing status accordingly
@@ -737,7 +738,7 @@ public class PbtSingleMemberDashBoard extends javax.swing.JFrame {
        if(hLMemberListForm!=null)
        {
            dispose();
-           hLMemberListForm.hlmodel=hlmodel;
+           hLMemberListForm.hlmodel=hlmodel;          
            hLMemberListForm.setTableData();
            hLMemberListForm.setVisible(true);
        }

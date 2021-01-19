@@ -401,13 +401,14 @@ public class PbtHLDashBoard extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
        //update query here
-       setModel();
+        setModel();
          Map<Object,Object> data=new HashMap<>();
          data.put("latiLongi",hlmodel.getLatiLongi());
          data.put("ownerName",hlmodel.getOwnerName());
          data.put("ownerPhnNo",hlmodel.getOwnerPhnNo());
          data.put("owspOfHouse",hlmodel.getOwspOfHouse());
          data.put("hNoAdd",hlmodel.getHNoAdd());
+         data.put("pincode",hlmodel.getPinCode());
          String[] listoptions = {"Form Complete", "Form Incomplete","Cancel"};
         String msg="Are you sure want to final save the form and its data.\nPlease note this will reflect in the main dashboard.Kindly Check all the field filled properly.";
             int option = JOptionPane.showOptionDialog(this,msg,

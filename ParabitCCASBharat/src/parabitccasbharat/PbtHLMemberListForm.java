@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import parabitmodel.PbtHLModel;
 
@@ -31,7 +32,7 @@ public class PbtHLMemberListForm extends javax.swing.JFrame implements MouseList
     boolean tlive;
     PbtEmpData empdata;
     PbtEnumDashBoard enumDashBoard;
-    boolean flag;
+    boolean censuscomplete;
     public PbtHLMemberListForm(PbtEnumDashBoard enumDashBoard) {
         initComponents();
         this.enumDashBoard=enumDashBoard;
@@ -47,13 +48,42 @@ public class PbtHLMemberListForm extends javax.swing.JFrame implements MouseList
         hlmodel.setTehsil(empdata.getEmpCity());
         hlmodel.setDist(empdata.getEmpDist());
         hlmodel.setEmpEnumNo(empdata.getEmpid());
+        //do not change the below sequence
         hlmodel.firstInsert();
         hlmodel.getCurrent();
         updateAddress();
+        //do not change above sequence
         //hlmodel.setHlSNo(1001);
         membermodel=(DefaultTableModel)membertable.getModel();
         membertable.addMouseListener(this);
         //setTableData();
+        tlive=true;
+        Thread nob=new Thread(new Runnable(){
+            @Override
+            public void run()
+            {
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");  
+            while(true)
+            {
+                live.setText(formatter.format(new Date())); 
+                try{Thread.sleep(1000);}catch(Exception e){}
+            }
+            }
+        });
+        nob.start();
+    }
+    //constrcutor from incomplete part 
+    public PbtHLMemberListForm(PbtEnumDashBoard enumDashBoard,PbtHLModel hlmodel)
+    {
+        initComponents();
+        this.enumDashBoard=enumDashBoard;
+        empdata=enumDashBoard.empdata;
+        this.hlmodel=hlmodel;
+        setTitle("CENSUS FORM HOUSELISTING - "+empdata.getEmpid());
+        db=new ParabitDBC();
+        membermodel=(DefaultTableModel)membertable.getModel();
+        membertable.addMouseListener(this);
+        setTableData();
         tlive=true;
         Thread nob=new Thread(new Runnable(){
             @Override
@@ -85,10 +115,11 @@ public class PbtHLMemberListForm extends javax.swing.JFrame implements MouseList
         data.put("ucid",ucid);
         data.put("fsno","1");
         hlmodel.updateQuery(data);
+        
     }
     public void setTableData()
     {
-        flag=false;
+        censuscomplete=false;
         membermodel.setRowCount(0);
         int i=1;
         String query="select * from pbtcensus_household where hl_sno='"+hlmodel.getHlSNo()+"'";
@@ -106,11 +137,11 @@ public class PbtHLMemberListForm extends javax.swing.JFrame implements MouseList
                         status="OnGoing";
                         break;
                     case "8":
-                        flag=true;
+                        censuscomplete=true;
                         status="Pending";
                         break;
                     case "7":
-                        flag=true;
+                        censuscomplete=true;
                         status="Incomplete";
                         break;
                     default:
@@ -118,6 +149,10 @@ public class PbtHLMemberListForm extends javax.swing.JFrame implements MouseList
                 }
                 Object nob[]={i++,db.rs1.getString("uid"),db.rs1.getString("name"),db.rs1.getString("mobno"),db.rs1.getString("gender"),db.rs1.getString("dob"),status};
                 membermodel.addRow(nob);
+                if(db.rs1.getString("UID").equals(db.rs1.getString("HeadUID")))
+                {
+                    hlmodel.setHhSNo(Long.parseLong(db.rs1.getString("HH_SNo")));
+                }
             }
         }catch(Exception e)
         {
@@ -259,11 +294,35 @@ public class PbtHLMemberListForm extends javax.swing.JFrame implements MouseList
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-    
+
+        String msg="Final lock the census of that household.\nThis will be marks based on the final entry of the census.";
+        int opt= JOptionPane.showConfirmDialog(null,msg,"Please Confirm",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+        if(opt==1)
+            return;
+        if(!censuscomplete)
+        {
+            Map<Object,Object> data=new HashMap<>();
+            data.put("status","1");
+            data.put("HH_SNo",hlmodel.getHhSNo());
+            hlmodel.updateQuery(data);
+            oneCompleteCensus();
+        }
         enumDashBoard.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void oneCompleteCensus()
+    {
+        String query="update pbtempschecdule set formfilled=formfilled+1 where city_vill='"+empdata.getTownvillno()+"'";
+        try
+        {
+            System.err.println(query);
+            db.stm.execute(query);
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
     /**
      * @param args the command line arguments
      */

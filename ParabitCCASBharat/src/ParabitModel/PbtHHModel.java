@@ -127,6 +127,8 @@ public class PbtHHModel{
   private String note;
   private String comment;
   private String status;
+  private String categoryname;
+  private String categoryverified;
 
 
   public long getHhSNo() {
@@ -1135,6 +1137,24 @@ public class PbtHHModel{
   public void setStatus(String status) {
     this.status = status;
   }
+
+    public String getCategoryname() {
+        return categoryname;
+    }
+
+    public void setCategoryname(String categoryname) {
+        this.categoryname = categoryname;
+    }
+
+    public String getCategoryverified() {
+        return categoryverified;
+    }
+
+    public void setCategoryverified(String categoryverified) {
+        this.categoryverified = categoryverified;
+    }
+  
+  
      public void fetchAllData(String adhrno)
     {
         ParabitDBC db=new ParabitDBC("util");
