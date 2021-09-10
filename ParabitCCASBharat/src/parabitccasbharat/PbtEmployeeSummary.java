@@ -56,7 +56,7 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
             while(db.rs1.next())
             {
                 Object ob[]={i++,db.rs1.getString("areastate"),db.rs1.getString("areadist"),db.rs1.getString("areacity"),db.rs1.getString("empname"),
-                            db.rs1.getString("empmob"),0,0,0};
+                            db.rs1.getString("empmob"),"-","-","-"};
                 te1=db.rs1.getString("areastate")+"-"+db.rs1.getString("areadist")+"-"+db.rs1.getString("areacity");
                 ceid.add(db.rs1.getString("ceid"));
                 maintablemodel.addRow(ob);
@@ -77,23 +77,36 @@ public class PbtEmployeeSummary extends javax.swing.JDialog implements MouseList
         String query="";
         if(pbtempdashboard.empdata.getEmpgrade()==3)
         {
-           query = "select * from pbtempschecdule where CRepEmpID='"+ceid.get(id)+"'";
+  //select pbtempschecdule.*,pbtenum.* from pbtempschecdule INNER JOIN pbtenum ON pbtempschecdule.City_Vill=pbtenum.Town_Vill and pbtempschecdule.WardNo = pbtenum.Ward where CRepEmpID='41690'
+           query = "select pbtempschecdule.*,pbtenum.* from pbtempschecdule INNER JOIN pbtenum ON pbtempschecdule.City_Vill=pbtenum.Town_Vill and pbtempschecdule.WardNo = pbtenum.Ward";
+            query +=" where CRepEmpID='"+ceid.get(id)+"'";
         }else
         {
          query="select * from pbtemployeetable where crepempid='"+ceid.get(id)+"' and status='1'";
         }
         try
         {
+            System.err.println(query);
             db.rs2=db.stm.executeQuery(query);
             while(db.rs2.next())
             {
-                String totalRes=db.rs2.getString("TotalRes");
+                if(pbtempdashboard.empdata.getEmpgrade()==3)
+                {
+                    String totalRes=db.rs2.getString("TotalRes");
                 String formfilled=db.rs2.getString("FormFilled");
                 int pending = Integer.parseInt(totalRes)-Integer.parseInt(formfilled);
-                Object ob[]={counter++,db.rs2.getString("State"),db.rs2.getString("Dist"),db.rs2.getString("City_Vill"),db.rs2.getString("CEID"),
+                Object ob[]={counter++,db.rs2.getString("State"),db.rs2.getString("Dist"),db.rs2.getString("Name"),db.rs2.getString("CEID"),
                            db.rs2.getString("DateOfWorkStart"),db.rs2.getString("TotalRes"),db.rs2.getString("FormFilled"),pending};
                 juniorceid.add(db.rs2.getString("ceid"));
                 secondtablemodel.addRow(ob);
+                }else
+                {
+                    Object ob[]={counter++,db.rs2.getString("areastate"),db.rs2.getString("areadist"),db.rs2.getString("areacity"),db.rs2.getString("empname"),
+                            db.rs2.getString("empmob"),"-","-","-"};
+                juniorceid.add(db.rs2.getString("ceid"));
+                secondtablemodel.addRow(ob);
+                }
+                
             }
         }catch(Exception e)
         {

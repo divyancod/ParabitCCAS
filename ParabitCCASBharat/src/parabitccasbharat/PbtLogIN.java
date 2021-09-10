@@ -240,6 +240,7 @@ public class PbtLogIN extends javax.swing.JFrame {
         }catch(Exception e)
         {
             System.out.println("Error on otp disp "+e);
+            db1.onError();
         }
         System.out.println(query);
         // TODO add your handling code here:

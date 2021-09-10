@@ -35,9 +35,10 @@ public class PbtEnumIncomplete extends javax.swing.JDialog implements MouseListe
         tablemodel.setRowCount(0);
         ParabitDBC db=new ParabitDBC();
         int i=1;
-        String query="select * from pbtcensus_houselisting where empenumno='"+dashBoard.empdata.getEmpid()+"' and status='7'";
+        String query="select * from pbtcensus_houselisting where empenumno='"+dashBoard.empdata.getEmpid()+"' and (status='7' or status='8')";
         try
         {
+            System.out.println(query);
             db.rs1=db.stm.executeQuery(query);
             while(db.rs1.next())
             {

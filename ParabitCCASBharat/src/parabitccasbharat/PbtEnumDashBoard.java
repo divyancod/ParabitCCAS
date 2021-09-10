@@ -5,6 +5,7 @@
  */
 package parabitccasbharat;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,6 +18,7 @@ public class PbtEnumDashBoard extends javax.swing.JFrame {
     ParabitDBC db;
     PbtEmpData empdata;
     DefaultTableModel workareamtablemodel;
+    boolean canWork;
     public PbtEnumDashBoard(PbtEmpData empdata) {
         initComponents();
         username.setText(empdata.getEmpname());
@@ -103,6 +105,11 @@ public class PbtEnumDashBoard extends javax.swing.JFrame {
         });
 
         jButton5.setText("Notifications");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         notificationtable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -194,6 +201,7 @@ public class PbtEnumDashBoard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
         dailyLog(2);
         dispose();
         PbtLogIN nob=new PbtLogIN();
@@ -201,6 +209,11 @@ public class PbtEnumDashBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if(canWork)
+        {
+            JOptionPane.showMessageDialog(null,"You don't have authority for this functionality.","Access Denied",JOptionPane.ERROR_MESSAGE,null);
+            return;
+        }
         this.setVisible(false);
         PbtNewCensus nob=new PbtNewCensus(this, true);
         nob.setLocationRelativeTo(null);
@@ -218,11 +231,25 @@ public class PbtEnumDashBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if(canWork)
+        {
+            JOptionPane.showMessageDialog(null,"You don't have authority for this functionality.","Access Denied",JOptionPane.ERROR_MESSAGE,null);
+            return;
+        }
         setVisible(false);
         PbtEnumIncomplete nob=new PbtEnumIncomplete(this, true);
         nob.setLocationRelativeTo(null);
         nob.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        if(canWork)
+        {
+            JOptionPane.showMessageDialog(null,"You don't have authority for this functionality.","Access Denied",JOptionPane.ERROR_MESSAGE,null);
+            return;
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments

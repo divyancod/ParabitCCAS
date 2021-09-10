@@ -34,6 +34,10 @@ public class ParabitDBC {
             System.out.println("Error in Database Connection"+e);
         }
     }
+    public void onError()
+    {
+        javax.swing.JOptionPane.showMessageDialog(null,"Seems like connection to server is lost","Database Error",javax.swing.JOptionPane.ERROR_MESSAGE);
+    }
     public ParabitDBC(String util)
     {
         try
